@@ -1,3 +1,3 @@
-## Serial45d 0.1.0-4
+## Serial45d 1.0.0-1
 
-* updated architecture
+* first release of serial45d
