@@ -1,3 +1,9 @@
+serial45d (1.0.0-13focal) focal; urgency=medium
+
+  * made version output in welcome message conditional
+
+ -- Mark Hooper <mhooper@45drives.com>  Wed, 25 Aug 2021 10:33:13 -0300
+
 serial45d (1.0.0-12focal) focal; urgency=medium
 
   * updated serial version welcome text

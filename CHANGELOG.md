@@ -1,3 +1,3 @@
-## Serial45d 1.0.0-12
+## Serial45d 1.0.0-13
 
-* updated serial version welcome text
+* made version output in welcome message conditional

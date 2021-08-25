@@ -4,7 +4,7 @@
     "title": "Serial45d",
     "prerelease": true,
     "version": "1.0.0",
-    "buildVersion": "12",
+    "buildVersion": "13",
     "author": "Mark Hooper <mhooper@45drives.com>",
     "url": "https://github.com/45Drives/serial45d",
     "category": "utils",
@@ -49,7 +49,7 @@
     "changelog": {
         "urgency": "medium",
         "version": "1.0.0",
-        "buildVersion": "12",
+        "buildVersion": "13",
         "ignore": [],
         "date": null,
         "packager": "Mark Hooper <mhooper@45drives.com>",
