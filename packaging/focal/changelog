@@ -1,3 +1,9 @@
+serial45d (0.1.0-3focal) focal; urgency=medium
+
+  * updated .gitignore
+
+ -- Mark Hooper <mhooper@45drives.com>  Wed, 25 Aug 2021 07:46:57 -0300
+
 serial45d (0.1.0-2focal) focal; urgency=medium
 
   * updated makefile

@@ -1,3 +1,3 @@
-## Serial45d 0.1.0-2
+## Serial45d 0.1.0-3
 
-* updated makefile
+* updated .gitignore
