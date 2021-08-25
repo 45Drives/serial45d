@@ -1,3 +1,3 @@
-## Serial45d 1.0.0-9
+## Serial45d 1.0.0-10
 
-* fixed indentation
+* added skip dialogue

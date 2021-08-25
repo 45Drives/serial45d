@@ -541,6 +541,7 @@ def storePrevIpmitoolOutput():
 		b_file.close()
 		print("Output stored successfully ({bfn})".format(bfn=backup_file_name))
 	else:
+		print("skipping...")
 
 def check_root():
 	root_test = subprocess.run(["ls","/root"],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode
