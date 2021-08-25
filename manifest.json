@@ -2,7 +2,7 @@
     "__version": "45D-R1",
     "name": "serial45d",
     "title": "Serial45d",
-    "prerelease": true,
+    "prerelease": false,
     "version": "1.0.0",
     "buildVersion": "13",
     "author": "Mark Hooper <mhooper@45drives.com>",
@@ -48,11 +48,13 @@
     ],
     "changelog": {
         "urgency": "medium",
-        "version": "1.0.0",
-        "buildVersion": "13",
+        "version": "1.0.1",
+        "buildVersion": "1",
         "ignore": [],
-        "date": null,
+        "date": "2021-08-25T13:42:15.408611",
         "packager": "Mark Hooper <mhooper@45drives.com>",
-        "changes": []
+        "changes": [
+            "First stable release"
+        ]
     }
 }
