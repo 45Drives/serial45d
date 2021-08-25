@@ -537,7 +537,8 @@ def storePrevIpmitoolOutput():
 
 		b_file = open(backup_file_name,"w")
 		for line in ipmitool_fru_output:
-			b_file.write(line + "\n")
+			b_file.write(line)
+		b_file.write("\n")
 		b_file.close()
 		print("Output stored successfully ({bfn})".format(bfn=backup_file_name))
 	else:

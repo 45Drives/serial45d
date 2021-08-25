@@ -1,3 +1,3 @@
-## Serial45d 1.0.0-10
+## Serial45d 1.0.0-11
 
-* added skip dialogue
+* removed extra newline characters in backup files
