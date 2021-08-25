@@ -1,3 +1,9 @@
+serial45d (1.0.0-12focal) focal; urgency=medium
+
+  * updated serial version welcome text
+
+ -- Mark Hooper <mhooper@45drives.com>  Wed, 25 Aug 2021 10:28:13 -0300
+
 serial45d (1.0.0-11focal) focal; urgency=medium
 
   * removed extra newline characters in backup files

@@ -42,6 +42,8 @@ fi
 %{_bindir}/*
 
 %changelog
+* Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.0-12
+- updated serial version welcome text
 * Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.0-11
 - removed extra newline characters in backup files
 * Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.0-10

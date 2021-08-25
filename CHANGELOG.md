@@ -1,3 +1,3 @@
-## Serial45d 1.0.0-11
+## Serial45d 1.0.0-12
 
-* removed extra newline characters in backup files
+* updated serial version welcome text
