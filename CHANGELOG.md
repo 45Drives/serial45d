@@ -1,3 +1,3 @@
-## Serial45d 1.0.1-2
+## Serial45d 1.0.1-3
 
-* second stable build of serial45d
+* updated welcome message

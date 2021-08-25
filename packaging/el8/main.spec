@@ -42,6 +42,8 @@ fi
 %{_bindir}/*
 
 %changelog
+* Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.1-3
+- updated welcome message
 * Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.1-2
 - second stable build of serial45d
 * Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.1-1
