@@ -39,6 +39,8 @@ fi
 %{_bindir}/*
 
 %changelog
+* Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.0-5
+- updated copyright file
 * Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.0-4
 - updated the package dependencies in manifest
 * Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.0-3

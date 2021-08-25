@@ -1,3 +1,3 @@
-## Serial45d 1.0.0-4
+## Serial45d 1.0.0-5
 
-* updated the package dependencies in manifest
+* updated copyright file

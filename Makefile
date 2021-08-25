@@ -11,4 +11,4 @@ endif
 
 uninstall:
 	rm -rf $(DESTDIR)/opt/45drives/serial45d
-	rmdir /opt/45drives --ignore-fail-on-non-empty
+	rmdir $(DESTDIR)/opt/45drives --ignore-fail-on-non-empty

@@ -1,3 +1,9 @@
+serial45d (1.0.0-5focal) focal; urgency=medium
+
+  * updated copyright file
+
+ -- Mark Hooper <mhooper@45drives.com>  Wed, 25 Aug 2021 09:07:30 -0300
+
 serial45d (1.0.0-4focal) focal; urgency=medium
 
   * updated the package dependencies in manifest
