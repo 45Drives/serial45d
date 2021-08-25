@@ -1,3 +1,3 @@
-## Serial45d 0.1.0-1
+## Serial45d 0.1.0-2
 
-* first build of serial45d
+* updated makefile
