@@ -1,3 +1,3 @@
-## Serial45d 0.1.0-3
+## Serial45d 0.1.0-4
 
-* updated .gitignore
+* updated architecture

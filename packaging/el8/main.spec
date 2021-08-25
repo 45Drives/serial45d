@@ -39,6 +39,8 @@ fi
 %{_bindir}/*
 
 %changelog
+* Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 0.1.0-4
+- updated architecture
 * Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 0.1.0-3
 - updated .gitignore
 * Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 0.1.0-2

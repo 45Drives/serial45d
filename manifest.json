@@ -4,15 +4,15 @@
     "title": "Serial45d",
     "prerelease": true,
     "version": "0.1.0",
-    "buildVersion": "3",
+    "buildVersion": "4",
     "author": "Mark Hooper <mhooper@45drives.com>",
     "url": "https://github.com/45Drives/serial45d",
     "category": "utils",
     "priority": "optional",
     "licence": "GPL-3.0+",
     "architecture": {
-        "deb": "all",
-        "el": "noarch"
+        "deb": "amd64",
+        "el": "x86_64"
     },
     "description": {
         "long": "A package for re-serializing 45Drives server products",
@@ -44,7 +44,7 @@
     "changelog": {
         "urgency": "medium",
         "version": "0.1.0",
-        "buildVersion": "3",
+        "buildVersion": "4",
         "ignore": [],
         "date": null,
         "packager": "Mark Hooper <mhooper@45drives.com>",

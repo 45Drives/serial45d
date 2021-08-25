@@ -1,3 +1,9 @@
+serial45d (0.1.0-4focal) focal; urgency=medium
+
+  * updated architecture
+
+ -- Mark Hooper <mhooper@45drives.com>  Wed, 25 Aug 2021 07:50:55 -0300
+
 serial45d (0.1.0-3focal) focal; urgency=medium
 
   * updated .gitignore
