@@ -39,6 +39,8 @@ fi
 %{_bindir}/*
 
 %changelog
+* Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.0-4
+- updated the package dependencies in manifest
 * Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.0-3
 - added required entries to manifest for el7 packaging
 * Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.0-2
