@@ -1,0 +1,140 @@
+
+Motherboard:H11SSL-i
+Motherboard:X11DPH-T
+Motherboard:X11DPL-i
+Motherboard:X11SPL-F
+Motherboard:X11SSH-CTF
+Motherboard:X11SSM-F
+CPU:Intel(R) Xeon(R) Silver 4210 CPU @ 2.20GHz
+CPU:Intel(R) Xeon(R) CPU E3-1220 v5 @ 3.00GHz
+CPU:Intel(R) Xeon(R) Bronze 3204 CPU @ 1.90GHz
+CPU:Intel(R) Xeon(R) Silver 4110 CPU @ 2.10GHz
+CPU:Intel(R) Xeon(R) Gold 6230R CPU @ 2.10GHz
+CPU:Intel(R) Xeon(R) CPU E3-1220 v6 @ 3.00GHz
+CPU:AMD EPYC 7281 16-Core Processor
+CPU:Intel(R) Xeon(R) Silver 4216 CPU @ 2.10GHz
+Chassis Type:2UGW
+Chassis Type:AV15
+Chassis Type:C8
+Chassis Type:MI4
+Chassis Type:Q30
+Chassis Type:S45
+Chassis Type:XL60
+Product Type:Archivinator
+Product Type:Destroyinator
+Product Type:Gateway
+Product Type:Storinator
+Product Type:Stornado
+Product Name:Archivinator-Q30-Base
+Product Name:Archivinator-Q30-Base-B
+Product Name:Archivinator-S45-Base
+Product Name:Archivinator-S45-Base-B
+Product Name:Archivinator-XL60-Base
+Product Name:Archivinator-XL60-Base-B
+Product Name:Destroyinator-Q30-Enhanced
+Product Name:Destroyinator-Q30-Enhanced-S
+Product Name:Destroyinator-S45-Enhanced
+Product Name:Destroyinator-S45-Enhanced-S
+Product Name:Destroyinator-XL60-Enhanced
+Product Name:Destroyinator-XL60-Enhanced-S
+Product Name:Gateway-2UGW-Enhanced
+Product Name:Gateway-2UGW-Enhanced-S
+Product Name:Storinator-AV15-Base
+Product Name:Storinator-AV15-Base-B
+Product Name:Storinator-AV15-Enhanced
+Product Name:Storinator-AV15-Enhanced-AMD
+Product Name:Storinator-AV15-Enhanced-S
+Product Name:Storinator-AV15-Turbo
+Product Name:Storinator-AV15-Turbo-G
+Product Name:Storinator-C8-Base
+Product Name:Storinator-C8-Base-B
+Product Name:Storinator-C8-Enhanced
+Product Name:Storinator-C8-Enhanced-AMD
+Product Name:Storinator-C8-Enhanced-S
+Product Name:Storinator-C8-Turbo
+Product Name:Storinator-C8-Turbo-G
+Product Name:Storinator-H16-Q30-Enhanced
+Product Name:Storinator-H16-Q30-Enhanced-AMD
+Product Name:Storinator-H16-Q30-Enhanced-S
+Product Name:Storinator-H16-Q30-Turbo
+Product Name:Storinator-H16-Q30-Turbo-G
+Product Name:Storinator-H16-S45-Enhanced
+Product Name:Storinator-H16-S45-Enhanced-AMD
+Product Name:Storinator-H16-S45-Enhanced-S
+Product Name:Storinator-H16-S45-Turbo
+Product Name:Storinator-H16-S45-Turbo-G
+Product Name:Storinator-H16-XL60-Enhanced
+Product Name:Storinator-H16-XL60-Enhanced-AMD
+Product Name:Storinator-H16-XL60-Enhanced-S
+Product Name:Storinator-H16-XL60-Turbo
+Product Name:Storinator-H16-XL60-Turbo-G
+Product Name:Storinator-H32-Q30-Enhanced
+Product Name:Storinator-H32-Q30-Enhanced-AMD
+Product Name:Storinator-H32-Q30-Enhanced-S
+Product Name:Storinator-H32-Q30-Turbo
+Product Name:Storinator-H32-Q30-Turbo-G
+Product Name:Storinator-H32-S45-Enhanced
+Product Name:Storinator-H32-S45-Enhanced-AMD
+Product Name:Storinator-H32-S45-Enhanced-S
+Product Name:Storinator-H32-S45-Turbo
+Product Name:Storinator-H32-S45-Turbo-G
+Product Name:Storinator-H32-XL60-Enhanced
+Product Name:Storinator-H32-XL60-Enhanced-AMD
+Product Name:Storinator-H32-XL60-Enhanced-S
+Product Name:Storinator-H32-XL60-Turbo
+Product Name:Storinator-H32-XL60-Turbo-G
+Product Name:Storinator-H8-AV15-Enhanced
+Product Name:Storinator-H8-AV15-Enhanced-AMD
+Product Name:Storinator-H8-AV15-Enhanced-S
+Product Name:Storinator-H8-AV15-Turbo
+Product Name:Storinator-H8-AV15-Turbo-G
+Product Name:Storinator-H8-Q30-Base
+Product Name:Storinator-H8-Q30-Base-B
+Product Name:Storinator-H8-Q30-Enhanced
+Product Name:Storinator-H8-Q30-Enhanced-AMD
+Product Name:Storinator-H8-Q30-Enhanced-S
+Product Name:Storinator-H8-Q30-Turbo
+Product Name:Storinator-H8-Q30-Turbo-G
+Product Name:Storinator-H8-S45-Base
+Product Name:Storinator-H8-S45-Base-B
+Product Name:Storinator-H8-S45-Enhanced
+Product Name:Storinator-H8-S45-Enhanced-AMD
+Product Name:Storinator-H8-S45-Enhanced-S
+Product Name:Storinator-H8-S45-Turbo
+Product Name:Storinator-H8-S45-Turbo-G
+Product Name:Storinator-H8-XL60-Enhanced
+Product Name:Storinator-H8-XL60-Enhanced-AMD
+Product Name:Storinator-H8-XL60-Enhanced-S
+Product Name:Storinator-H8-XL60-Turbo
+Product Name:Storinator-H8-XL60-Turbo-G
+Product Name:Storinator-MI4-Base
+Product Name:Storinator-MI4-Base-B
+Product Name:Storinator-MI4-Enhanced
+Product Name:Storinator-MI4-Enhanced-AMD
+Product Name:Storinator-MI4-Enhanced-S
+Product Name:Storinator-MI4-Turbo
+Product Name:Storinator-MI4-Turbo-G
+Product Name:Storinator-Q30-Base
+Product Name:Storinator-Q30-Base-B
+Product Name:Storinator-Q30-Enhanced
+Product Name:Storinator-Q30-Enhanced-AMD
+Product Name:Storinator-Q30-Enhanced-S
+Product Name:Storinator-Q30-Turbo
+Product Name:Storinator-Q30-Turbo-G
+Product Name:Storinator-S45-Base
+Product Name:Storinator-S45-Base-B
+Product Name:Storinator-S45-Enhanced
+Product Name:Storinator-S45-Enhanced-AMD
+Product Name:Storinator-S45-Enhanced-S
+Product Name:Storinator-S45-Turbo
+Product Name:Storinator-S45-Turbo-G
+Product Name:Storinator-XL60-Enhanced
+Product Name:Storinator-XL60-Enhanced-AMD
+Product Name:Storinator-XL60-Enhanced-S
+Product Name:Storinator-XL60-Turbo
+Product Name:Storinator-XL60-Turbo-G
+Product Name:Stornado-AV15-Enhanced
+Product Name:Stornado-AV15-Enhanced-AMD
+Product Name:Stornado-AV15-Enhanced-S
+Product Name:Stornado-AV15-Turbo
+Product Name:Stornado-AV15-Turbo-G
