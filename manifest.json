@@ -46,10 +46,8 @@
         "version": "0.1.0",
         "buildVersion": "1",
         "ignore": [],
-        "date": "2021-08-25T10:36:07.236695",
+        "date": null,
         "packager": "Mark Hooper <mhooper@45drives.com>",
-        "changes": [
-            "first build of serial45d"
-        ]
+        "changes": []
     }
 }
