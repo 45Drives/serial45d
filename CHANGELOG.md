@@ -1,3 +1,3 @@
-## Serial45d 1.0.0-5
+## Serial45d 1.0.0-6
 
-* updated copyright file
+* added _datadir definition in .spec files

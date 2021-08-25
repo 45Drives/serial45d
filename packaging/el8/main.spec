@@ -1,4 +1,5 @@
 %global debug_package %{nil}
+%define _datadir /opt/45drives
 
 Name: ::package_name::
 Version: ::package_version::
@@ -22,6 +23,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 %build
 
 %install
+rm -rf %{buildroot}
 make DESTDIR=%{buildroot} SERIAL_VERSION="%{version}-::package_build_version::" install
 
 
@@ -33,12 +35,14 @@ if [ $1 == 0 ];then
 fi
 
 %files
-%dir /opt/45drives/serial45d
+%dir %{_datadir}/serial45d
 %defattr(-,root,root,-)
-/opt/45drives/serial45d/*
+%{_datadir}/serial45d/*
 %{_bindir}/*
 
 %changelog
+* Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.0-6
+- added _datadir definition in .spec files
 * Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.0-5
 - updated copyright file
 * Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.0-4

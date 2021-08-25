@@ -1,3 +1,9 @@
+serial45d (1.0.0-6focal) focal; urgency=medium
+
+  * added _datadir definition in .spec files
+
+ -- Mark Hooper <mhooper@45drives.com>  Wed, 25 Aug 2021 09:29:53 -0300
+
 serial45d (1.0.0-5focal) focal; urgency=medium
 
   * updated copyright file
