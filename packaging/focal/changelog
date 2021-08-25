@@ -1,3 +1,9 @@
+serial45d (1.0.0-2focal) focal; urgency=medium
+
+  * added el7 packaging
+
+ -- Mark Hooper <mhooper@45drives.com>  Wed, 25 Aug 2021 08:01:50 -0300
+
 serial45d (1.0.0-1focal) focal; urgency=medium
 
   * first release of serial45d

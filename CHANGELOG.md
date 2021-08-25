@@ -1,3 +1,3 @@
-## Serial45d 1.0.0-1
+## Serial45d 1.0.0-2
 
-* first release of serial45d
+* added el7 packaging
