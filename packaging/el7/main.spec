@@ -39,6 +39,8 @@ fi
 %{_bindir}/*
 
 %changelog
+* Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.0-3
+- added required entries to manifest for el7 packaging
 * Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.0-1
 - first release of serial45d
 * Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 0.1.0-4

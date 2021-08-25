@@ -4,7 +4,7 @@
     "title": "Serial45d",
     "prerelease": true,
     "version": "1.0.0",
-    "buildVersion": "2",
+    "buildVersion": "3",
     "author": "Mark Hooper <mhooper@45drives.com>",
     "url": "https://github.com/45Drives/serial45d",
     "category": "utils",
@@ -42,12 +42,17 @@
             "image": "rocky-el8-builder",
             "codeName": "el8",
             "type": "el"
+        },
+        {
+            "image": "centos-el7-builder",
+            "codeName": "el7",
+            "type": "el"
         }
     ],
     "changelog": {
         "urgency": "medium",
         "version": "1.0.0",
-        "buildVersion": "2",
+        "buildVersion": "3",
         "ignore": [],
         "date": null,
         "packager": "Mark Hooper <mhooper@45drives.com>",
