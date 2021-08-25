@@ -42,6 +42,8 @@ fi
 %{_bindir}/*
 
 %changelog
+* Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.0-9
+- fixed indentation
 * Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.0-8
 - removed build id links in .spec file
 * Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.0-7

@@ -1,3 +1,3 @@
-## Serial45d 1.0.0-8
+## Serial45d 1.0.0-9
 
-* removed build id links in .spec file
+* fixed indentation

@@ -1,3 +1,9 @@
+serial45d (1.0.0-9focal) focal; urgency=medium
+
+  * fixed indentation
+
+ -- Mark Hooper <mhooper@45drives.com>  Wed, 25 Aug 2021 09:59:16 -0300
+
 serial45d (1.0.0-8focal) focal; urgency=medium
 
   * removed build id links in .spec file
