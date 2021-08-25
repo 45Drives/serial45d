@@ -1,5 +1,6 @@
 %global debug_package %{nil}
 %define _datadir /opt/45drives
+%define _build_id_links none
 
 Name: ::package_name::
 Version: ::package_version::
@@ -41,6 +42,10 @@ fi
 %{_bindir}/*
 
 %changelog
+* Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.0-8
+- removed build id links in .spec file
+* Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.0-7
+- removed build id links in .spec file
 * Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.0-6
 - added _datadir definition in .spec files
 * Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.0-5

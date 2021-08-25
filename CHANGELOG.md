@@ -1,3 +1,3 @@
-## Serial45d 1.0.0-6
+## Serial45d 1.0.0-8
 
-* added _datadir definition in .spec files
+* removed build id links in .spec file

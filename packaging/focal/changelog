@@ -1,3 +1,15 @@
+serial45d (1.0.0-8focal) focal; urgency=medium
+
+  * removed build id links in .spec file
+
+ -- Mark Hooper <mhooper@45drives.com>  Wed, 25 Aug 2021 09:45:08 -0300
+
+serial45d (1.0.0-7focal) focal; urgency=medium
+
+  * removed build id links in .spec file
+
+ -- Mark Hooper <mhooper@45drives.com>  Wed, 25 Aug 2021 09:44:35 -0300
+
 serial45d (1.0.0-6focal) focal; urgency=medium
 
   * added _datadir definition in .spec files
