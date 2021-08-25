@@ -3,8 +3,8 @@
     "name": "serial45d",
     "title": "Serial45d",
     "prerelease": false,
-    "version": "1.0.0",
-    "buildVersion": "13",
+    "version": "1.0.1",
+    "buildVersion": "2",
     "author": "Mark Hooper <mhooper@45drives.com>",
     "url": "https://github.com/45Drives/serial45d",
     "category": "utils",
@@ -49,12 +49,10 @@
     "changelog": {
         "urgency": "medium",
         "version": "1.0.1",
-        "buildVersion": "1",
+        "buildVersion": "2",
         "ignore": [],
-        "date": "2021-08-25T13:42:15.408611",
+        "date": null,
         "packager": "Mark Hooper <mhooper@45drives.com>",
-        "changes": [
-            "First stable release"
-        ]
+        "changes": []
     }
 }

@@ -1,3 +1,3 @@
-## Serial45d 1.0.0-13
+## Serial45d 1.0.1-2
 
-* made version output in welcome message conditional
+* second stable build of serial45d
