@@ -1,3 +1,9 @@
+serial45d (1.0.1-4focal) focal; urgency=medium
+
+  * added 45drives-tools > 2.0.1 as a dependency
+
+ -- Mark Hooper <mhooper@45drives.com>  Mon, 30 Aug 2021 05:28:26 -0300
+
 serial45d (1.0.1-3focal) focal; urgency=medium
 
   * updated welcome message

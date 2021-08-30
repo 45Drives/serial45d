@@ -1,3 +1,3 @@
-## Serial45d 1.0.1-3
+## Serial45d 1.0.1-4
 
-* updated welcome message
+* added 45drives-tools > 2.0.1 as a dependency

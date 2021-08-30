@@ -42,6 +42,8 @@ fi
 %{_bindir}/*
 
 %changelog
+* Mon Aug 30 2021 Mark Hooper <mhooper@45drives.com> 1.0.1-4
+- added 45drives-tools > 2.0.1 as a dependency
 * Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.1-3
 - updated welcome message
 * Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.1-2
