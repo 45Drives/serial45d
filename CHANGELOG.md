@@ -1,3 +1,3 @@
-## Serial45d 1.0.1-4
+## Serial45d 1.0.1-5
 
-* added 45drives-tools > 2.0.1 as a dependency
+* added support for X11SPi-TF Motherboards

@@ -1,3 +1,9 @@
+serial45d (1.0.1-5focal) focal; urgency=medium
+
+  * added support for X11SPi-TF Motherboards
+
+ -- Mark Hooper <mhooper@45drives.com>  Wed, 15 Sep 2021 06:52:23 -0300
+
 serial45d (1.0.1-4focal) focal; urgency=medium
 
   * added 45drives-tools > 2.0.1 as a dependency

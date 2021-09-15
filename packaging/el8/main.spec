@@ -42,6 +42,8 @@ fi
 %{_bindir}/*
 
 %changelog
+* Wed Sep 15 2021 Mark Hooper <mhooper@45drives.com> 1.0.1-5
+- added support for X11SPi-TF Motherboards
 * Mon Aug 30 2021 Mark Hooper <mhooper@45drives.com> 1.0.1-4
 - added 45drives-tools > 2.0.1 as a dependency
 * Wed Aug 25 2021 Mark Hooper <mhooper@45drives.com> 1.0.1-3

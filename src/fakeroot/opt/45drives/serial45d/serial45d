@@ -433,7 +433,8 @@ def manualSelect(auto_detect_fields,fru_fields):
 		"X11DPL-i": "Turbo",
 		"X11SSM-F": "Base",
 		"H11SSL-i": "Enhanced-AMD",
-		"X11DPH-T": "Turbo"
+		"X11DPH-T": "Turbo",
+		"X11SPi-TF": "Enhanced"
 	}
 
 	cpu_substr_to_version_lut = {
@@ -459,7 +460,7 @@ def manualSelect(auto_detect_fields,fru_fields):
 		#see if we can determine base, enhanced, turbo or enhanced-AMD type
 		if auto_detect_fields["board_model"] in mobo_to_version_lut.keys():
 			# we have a known motherboard model
-			if auto_detect_fields["board_model"] == "X11SPL-F":
+			if auto_detect_fields["board_model"] == "X11SPL-F" or auto_detect_fields["board_model"] == "X11SPi-TF":
 				# we need to see if the cpu is a gold, silver or bronze model
 				for substr in cpu_substr_to_version_lut.keys():
 					if substr in auto_detect_fields["cpu_model"]:

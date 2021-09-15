@@ -5,6 +5,7 @@ Motherboard:X11DPL-i
 Motherboard:X11SPL-F
 Motherboard:X11SSH-CTF
 Motherboard:X11SSM-F
+Motherboard:X11SPi-TF
 CPU:Intel(R) Xeon(R) Silver 4210 CPU @ 2.20GHz
 CPU:Intel(R) Xeon(R) CPU E3-1220 v5 @ 3.00GHz
 CPU:Intel(R) Xeon(R) Bronze 3204 CPU @ 1.90GHz
