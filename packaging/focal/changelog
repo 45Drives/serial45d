@@ -1,3 +1,9 @@
+serial45d (1.0.2-1focal) focal; urgency=medium
+
+  * added options for 2U Stornado
+
+ -- Mark Hooper <mhooper@45drives.com>  Thu, 10 Feb 2022 05:38:49 -0400
+
 serial45d (1.0.1-5focal) focal; urgency=medium
 
   * added support for X11SPi-TF Motherboards

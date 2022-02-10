@@ -42,6 +42,8 @@ fi
 %{_bindir}/*
 
 %changelog
+* Thu Feb 10 2022 Mark Hooper <mhooper@45drives.com> 1.0.2-1
+- added options for 2U Stornado
 * Wed Sep 15 2021 Mark Hooper <mhooper@45drives.com> 1.0.1-5
 - added support for X11SPi-TF Motherboards
 * Mon Aug 30 2021 Mark Hooper <mhooper@45drives.com> 1.0.1-4

@@ -1,3 +1,3 @@
-## Serial45d 1.0.1-5
+## Serial45d 1.0.2-1
 
-* added support for X11SPi-TF Motherboards
+* added options for 2U Stornado
