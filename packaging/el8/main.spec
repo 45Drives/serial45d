@@ -42,6 +42,8 @@ fi
 %{_bindir}/*
 
 %changelog
+* Wed Feb 23 2022 Mark Hooper <mhooper@45drives.com> 1.0.2-2
+- added the ability to serialize 2U Stornado servers
 * Thu Feb 10 2022 Mark Hooper <mhooper@45drives.com> 1.0.2-1
 - added options for 2U Stornado
 * Wed Sep 15 2021 Mark Hooper <mhooper@45drives.com> 1.0.1-5

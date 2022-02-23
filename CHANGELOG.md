@@ -1,3 +1,3 @@
-## Serial45d 1.0.2-1
+## Serial45d 1.0.2-2
 
-* added options for 2U Stornado
+* added the ability to serialize 2U Stornado servers
