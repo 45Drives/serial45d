@@ -1,3 +1,3 @@
-## Serial45d 1.0.2-2
+## Serial45d 1.0.2-3
 
-* added the ability to serialize 2U Stornado servers
+* changed minimum 45Drives-tools dependency for el7 and el8 packages

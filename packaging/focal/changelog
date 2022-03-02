@@ -1,3 +1,9 @@
+serial45d (1.0.2-3focal) focal; urgency=medium
+
+  * changed minimum 45Drives-tools dependency for el7 and el8 packages
+
+ -- Mark Hooper <mhooper@45drives.com>  Wed, 02 Mar 2022 12:03:10 -0400
+
 serial45d (1.0.2-2focal) focal; urgency=medium
 
   * added the ability to serialize 2U Stornado servers
