@@ -1,3 +1,3 @@
-## Serial45d 1.0.2-3
+## Serial45d 1.0.2-4
 
-* changed minimum 45Drives-tools dependency for el7 and el8 packages
+* added the ability to serialize AV15 Destroyinators

@@ -42,6 +42,8 @@ fi
 %{_bindir}/*
 
 %changelog
+* Thu Apr 28 2022 Mark Hooper <mhooper@45drives.com> 1.0.2-4
+- added the ability to serialize AV15 Destroyinators
 * Wed Mar 02 2022 Mark Hooper <mhooper@45drives.com> 1.0.2-3
 - changed minimum 45Drives-tools dependency for el7 and el8 packages
 * Wed Feb 23 2022 Mark Hooper <mhooper@45drives.com> 1.0.2-2

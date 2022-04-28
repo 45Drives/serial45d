@@ -1,3 +1,9 @@
+serial45d (1.0.2-4focal) focal; urgency=medium
+
+  * added the ability to serialize AV15 Destroyinators
+
+ -- Mark Hooper <mhooper@45drives.com>  Thu, 28 Apr 2022 12:06:14 -0300
+
 serial45d (1.0.2-3focal) focal; urgency=medium
 
   * changed minimum 45Drives-tools dependency for el7 and el8 packages
