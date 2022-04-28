@@ -41,6 +41,8 @@ Product Name:Archivinator-S45-Base
 Product Name:Archivinator-S45-Base-B
 Product Name:Archivinator-XL60-Base
 Product Name:Archivinator-XL60-Base-B
+Product Name:Destroyinator-AV15-Enhanced
+Product Name:Destroyinator-AV15-Enhanced-S
 Product Name:Destroyinator-Q30-Enhanced
 Product Name:Destroyinator-Q30-Enhanced-S
 Product Name:Destroyinator-S45-Enhanced
