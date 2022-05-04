@@ -8,12 +8,14 @@ Motherboard:X11SSH-CTF
 Motherboard:X11SSM-F
 CPU:AMD EPYC 7281 16-Core Processor
 CPU:AMD EPYC 7302 16-Core Processor
+CPU:AMD EPYC 7443P 24-Core Processor
 CPU:AMD EPYC 7502P 32-Core Processor
 CPU:AMD EPYC 7542 32-Core Processor
 CPU:AMD EPYC 7702P 64-Core Processor
 CPU:Intel(R) Xeon(R) Bronze 3204 CPU @ 1.90GHz
 CPU:Intel(R) Xeon(R) CPU E3-1220 v5 @ 3.00GHz
 CPU:Intel(R) Xeon(R) CPU E3-1220 v6 @ 3.00GHz
+CPU:Intel(R) Xeon(R) CPU E5-2620 v3 @ 2.40GHz
 CPU:Intel(R) Xeon(R) CPU E5-2620 v4 @ 2.10GHz
 CPU:Intel(R) Xeon(R) Gold 6230R CPU @ 2.10GHz
 CPU:Intel(R) Xeon(R) Silver 4110 CPU @ 2.10GHz
@@ -49,6 +51,8 @@ Product Name:Destroyinator-S45-Enhanced
 Product Name:Destroyinator-S45-Enhanced-S
 Product Name:Destroyinator-XL60-Enhanced
 Product Name:Destroyinator-XL60-Enhanced-S
+Product Name:Gateway-2UGW-Base
+Product Name:Gateway-2UGW-Base-B
 Product Name:Gateway-2UGW-Enhanced
 Product Name:Gateway-2UGW-Enhanced-S
 Product Name:Gateway-2UGW-Turbo-G

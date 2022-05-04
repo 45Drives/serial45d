@@ -42,6 +42,8 @@ fi
 %{_bindir}/*
 
 %changelog
+* Wed May 04 2022 Mark Hooper <mhooper@45drives.com> 1.0.2-5
+- updated config file to include more cpu strings
 * Thu Apr 28 2022 Mark Hooper <mhooper@45drives.com> 1.0.2-4
 - added the ability to serialize AV15 Destroyinators
 * Wed Mar 02 2022 Mark Hooper <mhooper@45drives.com> 1.0.2-3

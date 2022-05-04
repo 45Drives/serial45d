@@ -1,3 +1,3 @@
-## Serial45d 1.0.2-4
+## Serial45d 1.0.2-5
 
-* added the ability to serialize AV15 Destroyinators
+* updated config file to include more cpu strings

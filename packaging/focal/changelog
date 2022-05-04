@@ -1,3 +1,9 @@
+serial45d (1.0.2-5focal) focal; urgency=medium
+
+  * updated config file to include more cpu strings
+
+ -- Mark Hooper <mhooper@45drives.com>  Wed, 04 May 2022 09:09:40 -0300
+
 serial45d (1.0.2-4focal) focal; urgency=medium
 
   * added the ability to serialize AV15 Destroyinators
