@@ -42,6 +42,9 @@ fi
 %{_bindir}/*
 
 %changelog
+* Mon Aug 08 2022 Mark Hooper <mhooper@45drives.com> 1.0.2-7
+- added Stornado-2U-Turbo product name to config.txt
+- updated motherboard entries in config.txt
 * Thu Jul 21 2022 Mark Hooper <mhooper@45drives.com> 1.0.2-6
 - updated config file to include Stornado-2U-Turbo as a valid product
 * Wed May 04 2022 Mark Hooper <mhooper@45drives.com> 1.0.2-5

@@ -1,3 +1,10 @@
+serial45d (1.0.2-7focal) focal; urgency=medium
+
+  * added Stornado-2U-Turbo product name to config.txt
+  * updated motherboard entries in config.txt
+
+ -- Mark Hooper <mhooper@45drives.com>  Mon, 08 Aug 2022 11:58:07 -0300
+
 serial45d (1.0.2-6focal) focal; urgency=medium
 
   * updated config file to include Stornado-2U-Turbo as a valid product

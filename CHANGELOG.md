@@ -1,3 +1,4 @@
-## Serial45d 1.0.2-6
+## Serial45d 1.0.2-7
 
-* updated config file to include Stornado-2U-Turbo as a valid product
+* added Stornado-2U-Turbo product name to config.txt
+* updated motherboard entries in config.txt
