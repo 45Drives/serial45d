@@ -1,3 +1,9 @@
+serial45d (1.0.3-1focal) focal; urgency=medium
+
+  * added fx series chassis sizes and product names for testing
+
+ -- Mark Hooper <mhooper@45drives.com>  Mon, 08 Aug 2022 12:08:59 -0300
+
 serial45d (1.0.2-7focal) focal; urgency=medium
 
   * added Stornado-2U-Turbo product name to config.txt

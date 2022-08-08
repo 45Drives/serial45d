@@ -1,4 +1,3 @@
-## Serial45d 1.0.2-7
+## Serial45d 1.0.3-1
 
-* added Stornado-2U-Turbo product name to config.txt
-* updated motherboard entries in config.txt
+* added fx series chassis sizes and product names for testing

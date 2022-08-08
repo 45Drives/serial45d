@@ -42,6 +42,8 @@ fi
 %{_bindir}/*
 
 %changelog
+* Mon Aug 08 2022 Mark Hooper <mhooper@45drives.com> 1.0.3-1
+- added fx series chassis sizes and product names for testing
 * Mon Aug 08 2022 Mark Hooper <mhooper@45drives.com> 1.0.2-7
 - added Stornado-2U-Turbo product name to config.txt
 - updated motherboard entries in config.txt
