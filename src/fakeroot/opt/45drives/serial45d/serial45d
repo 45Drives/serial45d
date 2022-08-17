@@ -176,7 +176,7 @@ def loadSystemConfigs():
 def performFRUWrite(fru_fields):
 	print("\n")
 	print("+----------------------------------------------------------------+")
-	print("| Step 7: Perform Final Write Operation                          |")
+	print("| Step 6: Perform Final Write Operation                          |")
 	print("+----------------------------------------------------------------+")
 
 	# get the current date for the manufacturing date
@@ -200,64 +200,117 @@ def performFRUWrite(fru_fields):
 	fru_fields["part_number"] = fru_fields["chassis_type"]
 	fru_fields["chassis_type"] = "17h"
 
-	# prepare arguments for function call
-	fru_args = [
-		f"{g_current_dir}/dependencies/ipmi_linux/IPMICFG-Linux.x86_64",
-		"-fru",
-		"dmi",
-		fru_fields["manufacturer_name"],
-		fru_fields["product_name"],
-		fru_fields["part_number"],
-		fru_fields["version"],
-		fru_fields["serial"],
-		fru_fields["asset_tag"],
-		fru_fields["board_manufacturing_date"],
-		fru_fields["board_manufacturer"],
-		fru_fields["board_model"],
-		fru_fields["board_model"],
-		fru_fields["board_serial"],
-		fru_fields["chassis_type"],
-		fru_fields["chassis_part_number"],
-		fru_fields["chassis_serial"]
-	]
+	ipmitool_fru_output = get_ipmitool_information(fru_fields["serial"])
 
-	# perform the function call
+	fru_structure = {
+		'common': {
+			'version': 1,
+			'size': ipmitool_fru_output["FRU Size"],
+			'internal': 0,
+			'chassis': 1,
+			'board': 1,
+			'product': 1,
+			'multirecord': 1,
+		},
+		'chassis': {
+			'type': 17,
+			'part': fru_fields["chassis_part_number"],
+			'serial': fru_fields["chassis_serial"],
+		},
+		'board': {
+			'language': 0,
+			'date': ipmitool_fru_output["Board Mfg Date Hex"],
+			'manufacturer': ipmitool_fru_output["Board Mfg"] or "",
+			'product': ipmitool_fru_output["Board Product"] or "",
+			'serial': ipmitool_fru_output["Board Serial"] or "",
+			'part': ipmitool_fru_output["Board Part Number"] or "",
+			'fileid': '',
+		},
+		'product': {
+			'language': 0,
+			'manufacturer': fru_fields["manufacturer_name"],
+			'product': fru_fields["product_name"],
+			'part': fru_fields["part_number"],
+			'version': fru_fields["version"],
+			'serial': fru_fields["serial"],
+			'asset': fru_fields["asset_tag"],
+			'fileid': '',
+		},
+	}
+
+	date = datetime.datetime.now()
+	timestamp = date.strftime("%Y-%m-%d_%H-%M-%S")
+	product_serial = fru_fields["serial"]
+
+	ini_dir = f"{g_current_dir}/fru_ini"
+	if not os.path.exists(ini_dir):
+		print(f"making directory to store fru config files in {ini_dir}")
+		os.makedirs(ini_dir)
+
+	ini_name = f"{ini_dir}/fru-{product_serial}-{timestamp}.ini".replace(" ", "")
+
+	bin_dir = f"{g_current_dir}/fru_bin"
+	if not os.path.exists(bin_dir):
+		print(f"making directory to store fru-tool generated bin files in {bin_dir}")
+		os.makedirs(bin_dir)
+
+	bin_name = f"{bin_dir}/fru-{product_serial}-{timestamp}.bin".replace(" ", "")
+
+	fru_ini_lines = []
+
+	for section in fru_structure.keys():
+		fru_ini_lines.append(f"[{section}]")
+
+		for field in fru_structure[section].keys():
+			value = fru_structure[section][field]
+			fru_ini_lines.append(f"{field} = {value}")
+		
+		fru_ini_lines.append('')
+
+	ini_file = open(ini_name, "w")
+	for line in fru_ini_lines:
+		ini_file.write(f"{line}\n")
+	ini_file.close()
+
+	bin_generate_result = None
+
 	try:
-		ipmi_result = subprocess.Popen(
-			fru_args,stdout=subprocess.PIPE,universal_newlines=True)
+		bin_generate_result = subprocess.Popen([f"{g_current_dir}/fru-tool", ini_name, bin_name],stdout=subprocess.PIPE,universal_newlines=True)
 	except:
-		print("!!!! Error performing write !!!!")
-		for i in range(0,len(fru_args)):
-			print(fru_args[i],end=" ")
+		print("!!!! Error performing bin file generation !!!!")
+		print(bin_generate_result.stdout.read())
+		print(bin_generate_result.stderr.read())
 		exit(1)
 
-	# output the result of the write operation
-	print("\n!!!!   Performing Write  !!!!\n")
-	print("\n Output from ipmicfg: ")
-	for line in ipmi_result.stdout:
-		print("\t" + line,end="")
+	ipmitool_fru_write_result = None
 
 	try:
-		ipmitool_result = subprocess.Popen(
+		ipmitool_fru_write_result = subprocess.Popen(["ipmitool", "fru", "write", "0", x],stdout=subprocess.PIPE,universal_newlines=True)
+	except:
+		print("!!!! Error performing write !!!!")
+		print(ipmitool_fru_write_result.stdout.read())
+		print(ipmitool_fru_write_result.stderr.read())
+		exit(1)
+
+	ipmitool_fru_result = None
+
+	try:
+		ipmitool_fru_result = subprocess.Popen(
 			["ipmitool","fru"],stdout=subprocess.PIPE,universal_newlines=True)
 	except:
 		print("Error executing \"ipmitool fru\"")
 		exit(1)	
 
-	ipmitool_fru_output = []
 	# output the result of the write operation
 	print("\n")
 	print("+----------------------------------------------------------------+")
-	print("| Step 8: Verify Output                                          |")
+	print("| Step 7: Verify Output                                          |")
 	print("+----------------------------------------------------------------+")
 	print("\nOutput from ipmitool fru: ")
-	for line in ipmitool_result.stdout:
-		print("\t" + line,end="")
-		ipmitool_fru_output.append(line)
+	print(ipmitool_fru_result.stdout.read())
 	print("Setup Complete. If the results shown above appear incorrect") 
 	print("run this program again, or contact 45Drives Support.")
 	input("Press Enter to end program.") 
-	return ipmitool_fru_output
 
 ##################################################################################
 # countDrives()
@@ -429,12 +482,10 @@ def getUserInput(auto_detect_fields,fru_fields):
 def manualSelect(auto_detect_fields,fru_fields):
 	mobo_to_version_lut = {
 		"X11SSH-CTF":"Base",
-		"X11SPL-F": "Enhanced",
-		"X11DPL-i": "Turbo",
 		"X11SSM-F": "Base",
-		"H11SSL-i": "Enhanced-AMD",
+		"X11DPL-i": "Turbo",
 		"X11DPH-T": "Turbo",
-		"X11SPi-TF": "Enhanced"
+		"H11SSL-i": "Enhanced-AMD",
 	}
 
 	cpu_substr_to_version_lut = {
@@ -443,18 +494,21 @@ def manualSelect(auto_detect_fields,fru_fields):
 		"Gold":"Turbo-G"
 	}
 
-	done = False
-	while not done:
+	while True:
 		print("\n")
 		print("+----------------------------------------------------------------+")
 		print("| Step 5: Determine Unique Server Type                           |")
 		print("+----------------------------------------------------------------+")
+		
 		final_product_str = "unknown"
+		unique_product_str_tmp = None
 
 		# build the product string using the input provided by the user.
 		unique_product_str = auto_detect_fields["product_type"] + "-"
+
 		if auto_detect_fields["hybrid_type"] != "":
 			unique_product_str += auto_detect_fields["hybrid_type"] + "-"
+
 		unique_product_str += auto_detect_fields["chassis_type"] + "-"
 
 		#see if we can determine base, enhanced, turbo or enhanced-AMD type
@@ -466,30 +520,42 @@ def manualSelect(auto_detect_fields,fru_fields):
 					if substr in auto_detect_fields["cpu_model"]:
 						# gold silver or bronze was found, we need to set the base, enhanced, and turbo accordingly
 						unique_product_str_tmp = unique_product_str + cpu_substr_to_version_lut[substr]
-						break
 			else:
 				unique_product_str_tmp = unique_product_str + mobo_to_version_lut[auto_detect_fields["board_model"]]
-			if unique_product_str_tmp in g_config_file_content["Product Name"]:
-				final_product_str = unique_product_str_tmp
-			else:
-				print("Product Configuration of \"{ps}\" is INVALID. \nRun Program again or contact Mark Hooper if issue persists.".format(ps=unique_product_str_tmp))
-				print("Valid Product Configurations: ")
-				for valid_product in g_config_file_content["Product Name"]:
-					print("\t{vp}".format(vp=valid_product))
-				input("Press ENTER to End Program.")
-				exit(0)
-			if final_product_str != "unknown":
-				# we got valid input from user and assigned a value to final product string.
-				auto_detect_fields["unique_product_str"] = final_product_str
-				confirm = input("\nAuto-Detect determined that the product is a \"{pr}\", is this correct? (y/n):".format(pr=auto_detect_fields["unique_product_str"]))
-				if confirm == "y":
-					# user confirmed final product string to be correct. We're all done.
-					fru_fields["product_name"] = auto_detect_fields["unique_product_str"]
-					fru_fields["version"] = auto_detect_fields["unique_product_str"].split("-")[-1]
-					return
-				else:
-					final_product_str = "unknown"
+
+		cpu_substr_present = False
+		cpu_substr_version = None
+
+		for substr in cpu_substr_to_version_lut.keys():
+			if substr in auto_detect_fields["cpu_model"] and not cpu_substr_present:
+				cpu_substr_present = True
+				cpu_substr_version = cpu_substr_to_version_lut[substr]
+
+		if cpu_substr_present:
+			unique_product_str_tmp = unique_product_str + cpu_substr_version
+
+		if unique_product_str_tmp in g_config_file_content["Product Name"]:
+			final_product_str = unique_product_str_tmp
+		else:
+			print("Product Configuration of \"{ps}\" is INVALID. \nRun Program again or contact Mark Hooper if issue persists.".format(ps=unique_product_str_tmp))
+			print("Valid Product Configurations: ")
+			for valid_product in g_config_file_content["Product Name"]:
+				print("\t{vp}".format(vp=valid_product))
+			input("Press ENTER to End Program.")
+			exit(0)
 		
+		if final_product_str != "unknown":
+			# we got valid input from user and assigned a value to final product string.
+			auto_detect_fields["unique_product_str"] = final_product_str
+			confirm = input("\nAuto-Detect determined that the product is a \"{pr}\", is this correct? (y/n):".format(pr=auto_detect_fields["unique_product_str"]))
+			if confirm == "y":
+				# user confirmed final product string to be correct. We're all done.
+				fru_fields["product_name"] = auto_detect_fields["unique_product_str"]
+				fru_fields["version"] = auto_detect_fields["unique_product_str"].split("-")[-1]
+				return
+			else:
+				final_product_str = "unknown"
+			
 		# Unable to automatically determine product version, get 
 		# this information from user. 
 		versions = ["Base","Base-B","Enhanced","Enhanced-S","Turbo","Turbo-G","Enhanced-AMD"]
@@ -499,7 +565,7 @@ def manualSelect(auto_detect_fields,fru_fields):
 			option += 1
 			print("\t" + str(option) + ": " + version)
 		selection = input("Select an option (1 - " + str(option) + "): ")
-		if int(selection) <= option and int(selection) > 0:
+		if selection.isnumeric() and int(selection) <= option and int(selection) > 0:
 			unique_product_str += versions[int(selection)-1]
 			if unique_product_str in g_config_file_content["Product Name"]:
 				final_product_str = unique_product_str
@@ -510,6 +576,7 @@ def manualSelect(auto_detect_fields,fru_fields):
 					print("\t{vp}".format(vp=valid_product))
 				input("Press ENTER to End Program.")
 				exit(0)
+
 		if final_product_str != "unknown":
 			# we got valid input from user and assigned a value to final product string.
 			auto_detect_fields["unique_product_str"] = final_product_str
@@ -522,6 +589,79 @@ def manualSelect(auto_detect_fields,fru_fields):
 
 		# We need to try to get user unput again. Something was entered incorrectly. 
 		print("Invalid information entered, Trying Again.\n")
+
+def get_ipmitool_information(product_serial):
+	ipmitool_fru_output = {}
+
+	# Get current FRU fields
+	ipmitool_fru_result = None
+
+	try:
+		ipmitool_fru_result = subprocess.Popen(["ipmitool", "fru"],stdout=subprocess.PIPE,universal_newlines=True)
+	except:
+		print("Error executing \"ipmitool fru\"")
+		exit(1)
+
+	# Create binary data export of fru as backup and get the size of the fru
+
+	backup_dir = f"{g_current_dir}/fru_bin_backups"
+	if not os.path.exists(backup_dir):
+		print(f"making directory to store fru bin backups in {backup_dir}")
+		os.makedirs(backup_dir)
+
+	date = datetime.datetime.now()
+	timestamp = date.strftime("%Y-%m-%d_%H-%M-%S")
+	backup_name = f"{backup_dir}/fru-{product_serial}-{timestamp}.bin".replace(" ", "")
+
+	ipmitool_fru_read_result = None
+
+	try:
+		ipmitool_fru_read_result = subprocess.Popen(["ipmitool", "fru", "read", "0", backup_name],stdout=subprocess.PIPE,universal_newlines=True).stdout.read()
+	except:
+		print("Error executing \"ipmitool fru read\"")
+		exit(1)
+
+	match = re.search(r"(?:fru\ssize\s+):\s+(\d+)\s+([^\n]+)", ipmitool_fru_read_result, flags=re.IGNORECASE)
+
+	ipmitool_fru_output["FRU Size"] = match.group(1)
+
+	key_value_fru_regex = r"\s([\sA-Za-z]+)(?:\s+):(?:\s+)([^\n]+)"
+
+	for line in ipmitool_fru_result.stdout:
+		match = re.search(key_value_fru_regex, line)
+
+		if match != None:
+			key = match.group(1).strip()
+			value = match.group(2).strip()
+			ipmitool_fru_output[key] = value
+
+	month_lut = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
+
+	start_date = datetime.datetime(1996, 1, 1, 0, 0).timestamp()
+	end_date = None
+
+	if "Board Mfg Date" in ipmitool_fru_output:
+		date_match = re.search(r"(?:[A-Za-z]{3})\s+([A-Za-z]{3})\s+([0-9]{1,2})\s+([0-9]{1,2}):([0-9]{1,2}):(?:[0-9]{1,2})\s+([0-9]{4})", ipmitool_fru_output["Board Mfg Date"])
+
+		if date_match != None:
+			month = month_lut.index(date_match.group(1).lower()) + 1
+			day = int(date_match.group(2))
+			year = int(date_match.group(5))
+			hour = int(date_match.group(3))
+			minute = int(date_match.group(3))
+
+			end_date = datetime.datetime(year, month, day, hour, minute).timestamp()
+
+	if end_date == None:
+		end_date = datetime.datetime.now().timestamp()
+
+	minutes = int((end_date - start_date) / 60)
+	minutes_hex = hex(minutes).lstrip("0x")
+
+	ipmitool_fru_output["Board Mfg Date Hex"] = minutes_hex.upper()
+
+	return ipmitool_fru_output
+
 
 def storePrevIpmitoolOutput():
 	print("\n")
@@ -568,6 +708,7 @@ def check_root():
 
 def main():
 	check_root()
+
 	# Fields used in the IPMICFG-Linux.x86_64 write operation
 	fru_fields = {
 		"manufacturer_name":"45Drives",
@@ -599,6 +740,7 @@ def main():
 		"unique_product_str":"unknown",
 		"hybrid_type": ""
 	}
+
 	outputSerialVersion()
 	
 	# load config file information and store it in g_config_file_content
@@ -618,10 +760,10 @@ def main():
 
 	manualSelect(auto_detect_fields,fru_fields)
 
-	storePrevIpmitoolOutput()
+	# storePrevIpmitoolOutput()
 
 	# write final information using ipmicfg
-	fru_write_output = performFRUWrite(fru_fields)
+	performFRUWrite(fru_fields)
 
 	# update the config file if we have discovered new information previously unknown. 
 	if g_update_config:

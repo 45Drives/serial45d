@@ -123,3 +123,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+backup
+fru_bin_backups
+fru_ini
+fru_bin
