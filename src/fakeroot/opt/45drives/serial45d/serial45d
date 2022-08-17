@@ -285,7 +285,7 @@ def performFRUWrite(fru_fields):
 	ipmitool_fru_write_result = None
 
 	try:
-		ipmitool_fru_write_result = subprocess.Popen(["ipmitool", "fru", "write", "0", x],stdout=subprocess.PIPE,universal_newlines=True)
+		ipmitool_fru_write_result = subprocess.Popen(["ipmitool", "fru", "write", "0", bin_name],stdout=subprocess.PIPE,universal_newlines=True)
 	except:
 		print("!!!! Error performing write !!!!")
 		print(ipmitool_fru_write_result.stdout.read())
