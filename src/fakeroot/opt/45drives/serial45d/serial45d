@@ -207,7 +207,7 @@ def performFRUWrite(ipmitool_information,fru_fields):
 		'chassis': {
 			'type': 17,
 			'part': fru_fields["chassis_part_number"],
-			'serial': fru_fields["chassis_serial"],
+			'serial': f"{fru_fields['chassis_serial']}",
 		},
 		'board': {
 			'language': 0,
@@ -224,7 +224,7 @@ def performFRUWrite(ipmitool_information,fru_fields):
 			'product': fru_fields["product_name"],
 			'part': fru_fields["part_number"],
 			'version': fru_fields["version"],
-			'serial': fru_fields["serial"],
+			'serial': f"{fru_fields['serial']}",
 			'asset': fru_fields["asset_tag"],
 			'fileid': '',
 		},
@@ -257,8 +257,12 @@ def performFRUWrite(ipmitool_information,fru_fields):
 		fru_ini_lines.append(f"[{section}]")
 
 		for field in fru_structure[section].keys():
-			value = fru_structure[section][field]
-			fru_ini_lines.append(f"{field} = {value}")
+			if section in ["chassis","product"] and field in ["serial"]:
+				value = fru_structure[section][field]
+				fru_ini_lines.append(f"{field} = \"{value}\"")
+			else:
+				value = fru_structure[section][field]
+				fru_ini_lines.append(f"{field} = {value}")
 		fru_ini_lines.append('')
 
 	ini_file = open(ini_name, "w")
