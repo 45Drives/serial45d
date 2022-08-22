@@ -103,7 +103,7 @@ def getCPU():
 	cpu_model = "unknown"
 	cpu_count = 0
 	try:
-		dmi_result = subprocess.Popen([f"{g_current_dir}/dependencies/dmidecode/dmidecode","-t","4"],stdout=subprocess.PIPE,universal_newlines=True).stdout
+		dmi_result = subprocess.Popen(["dmidecode","-t","4"],stdout=subprocess.PIPE,universal_newlines=True).stdout
 	except:
 		print("Error Executing dmidecode")
 		exit(1)
@@ -549,7 +549,7 @@ def getUserInput(auto_detect_fields,fru_fields):
 	fru_fields["asset_tag"] = asset_tag
 	fru_fields["product_name"] = product_type
 
-def determine_product_name(auto_detect_fields,fru_fields):
+def assignProductName(auto_detect_fields,fru_fields):
 	mobo_to_version_lut = {
 		"X11SSH-CTF":"Base",
 		"X11SSM-F": "Base",
@@ -829,7 +829,7 @@ def main():
 
 	# gather information and perform autodetection
 	auto_detect_fields["cpu_model"], auto_detect_fields["cpu_count"] = getCPU()
-	manualSelect(auto_detect_fields,fru_fields)
+	assignProductName(auto_detect_fields,fru_fields)
 	storePrevIpmitoolOutput()
 
 	# write final information using fru-tool (added 2022-08-22)
