@@ -42,6 +42,11 @@ fi
 %{_bindir}/*
 
 %changelog
+* Mon Aug 22 2022 Mark Hooper <mhooper@45drives.com> 1.1.0-1
+- FRU data is now written using ipmitool
+- binary fru data is now generated using fru-tool, with automatic backups stored
+- plaintext backups of ipmitool fru output are now automatically stored without prompting
+  user for input
 * Mon Aug 08 2022 Mark Hooper <mhooper@45drives.com> 1.0.3-1
 - added fx series chassis sizes and product names for testing
 * Mon Aug 08 2022 Mark Hooper <mhooper@45drives.com> 1.0.2-7

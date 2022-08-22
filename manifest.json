@@ -3,7 +3,7 @@
     "name": "serial45d",
     "title": "Serial45d",
     "prerelease": true,
-    "version": "1.0.3",
+    "version": "1.1.0",
     "buildVersion": "1",
     "author": "Mark Hooper <mhooper@45drives.com>",
     "url": "https://github.com/45Drives/serial45d",
@@ -24,11 +24,13 @@
     "dependencies": {
         "deb": [
             "python3",
-            "45drives-tools (>= 2.0.6)"
+            "45drives-tools (>= 2.0.6)",
+            "dmidecode"
         ],
         "el": [
             "python3",
-            "45drives-tools > 2.0.5"
+            "45drives-tools > 2.0.5",
+            "dmidecode"
         ]
     },
     "releases": [
@@ -50,7 +52,7 @@
     ],
     "changelog": {
         "urgency": "medium",
-        "version": "1.0.3",
+        "version": "1.1.0",
         "buildVersion": "1",
         "ignore": [],
         "date": null,
