@@ -824,7 +824,7 @@ def main():
 	#update automatically detected fru fields
 	fru_fields["board_model"] = ipmitool_information["Board Product"]
 	fru_fields["board_serial"] = ipmitool_information["Board Serial"]
-	fru_fields["board_manufacturer"]= ipmitool_information["Board Mfg"]
+	fru_fields["board_manufacturer"] = ipmitool_information["Board Mfg"]
 	auto_detect_fields["board_model"] = ipmitool_information["Board Product"]
 
 	# gather information and perform autodetection
@@ -833,10 +833,10 @@ def main():
 	storePrevIpmitoolOutput()
 
 	# write final information using fru-tool (added 2022-08-22)
-	performFRUWrite(ipmitool_information,fru_fields)
-	
-	# Kept in the event that we need to revert back to using Supermicro's IPMICFG-Linux.x86_64 binary.
-	# performFRUWriteSuperMicro(fru_fields)
+	if "supermicro" in fru_fields["board_manufacturer"].lower():
+		performFRUWriteSuperMicro(fru_fields)
+	else:
+		performFRUWrite(ipmitool_information,fru_fields)
 
 
 if __name__ == "__main__":
