@@ -28,6 +28,8 @@ g_update_config = False
 
 g_current_dir = os.path.dirname(os.path.realpath(__file__))
 
+g_progress_step = 0
+
 def outputSerialVersion():
 	print("\n")
 	print("-----------------------------------------------------------------------------------")
@@ -173,10 +175,157 @@ def loadSystemConfigs():
 # the FRU encoded binary file. Then calls ipmitool fru write using that binary
 # file. 
 ##################################################################################
+def performFRUWriteCombined(ipmitool_information,fru_fields):
+	print("\n")
+	print("+----------------------------------------------------------------+")
+	print("| Step {sn}: Perform Final Write Operation                          |".format(sn=updateProgressStep()))
+	print("+----------------------------------------------------------------+")
+
+	# adjust the chassis_part_number and version fields
+	# to indicate that the system is a hybrid
+	if "H16" in fru_fields["product_name"]:
+		fru_fields["chassis_part_number"] = "H16-" + fru_fields["part_number"]
+		fru_fields["version"] = "Hybrid16(" + fru_fields["version"] + ")"
+	elif "H32" in fru_fields["product_name"]:
+		fru_fields["chassis_part_number"] = "H32-" + fru_fields["part_number"]
+		fru_fields["version"] = "Hybrid32(" + fru_fields["version"] + ")"
+	else:
+		fru_fields["chassis_part_number"] = fru_fields["part_number"]
+		fru_fields["version"] = "(" + fru_fields["version"] + ")"
+	
+	# assign the remaining fields.
+	fru_fields["chassis_serial"] = fru_fields["serial"]
+
+	fru_structure = {
+		'common': {
+			'version': 1,
+			'size': ipmitool_information["FRU Size"] or '256',
+			'internal': 0,
+			'chassis': 1,
+			'board': 1,
+			'product': 1,
+			'multirecord': 0,
+		},
+		'chassis': {
+			'type': 17,
+			'part': fru_fields["chassis_part_number"],
+			'serial': fru_fields['chassis_serial'],
+		},
+		'board': {
+			'language': 0,
+			'date': ipmitool_information["Board Mfg Date Hex"],
+			'manufacturer': ipmitool_information["Board Mfg"] or "",
+			'product': ipmitool_information["Board Product"] or "",
+			'serial': ipmitool_information["Board Serial"] or "",
+			'part': ipmitool_information["Board Part Number"] or "",
+			'fileid': '',
+		},
+		'product': {
+			'language': 0,
+			'manufacturer': fru_fields["manufacturer_name"],
+			'product': fru_fields["product_name"],
+			'part': fru_fields["part_number"],
+			'version': fru_fields["version"],
+			'serial': fru_fields['serial'],
+			'asset': fru_fields["asset_tag"],
+			'fileid': '',
+		},
+	}
+
+	# get timestamp for ini filename.
+	date = datetime.datetime.now()
+	timestamp = date.strftime("%Y-%m-%d_%H-%M-%S")
+	product_serial = fru_fields["serial"]
+
+	# create .ini input file directory 
+	ini_dir = f"{g_current_dir}/fru_ini"
+	if not os.path.exists(ini_dir):
+		print(f"making directory to store fru config files in {ini_dir}")
+		os.makedirs(ini_dir)
+
+	ini_name = f"{ini_dir}/fru-{product_serial}-{timestamp}.ini".replace(" ", "")
+
+	# create output directory 
+	bin_dir = f"{g_current_dir}/fru_bin"
+	if not os.path.exists(bin_dir):
+		print(f"making directory to store fru-tool generated bin files in {bin_dir}")
+		os.makedirs(bin_dir)
+
+	bin_name = f"{bin_dir}/fru-{product_serial}-{timestamp}.bin".replace(" ", "")
+
+	# .ini file creation
+	fru_ini_lines = []
+	for section in fru_structure.keys():
+		fru_ini_lines.append(f"[{section}]")
+
+		for field in fru_structure[section].keys():
+				value = fru_structure[section][field]
+				fru_ini_lines.append(f"{field} = {value}")
+		fru_ini_lines.append('')
+
+	ini_file = open(ini_name, "w")
+	for line in fru_ini_lines:
+		ini_file.write(f"{line}\n")
+	ini_file.close()
+
+	# binary file generation
+	bin_generate_result = None
+	try:
+		bin_generate_result = subprocess.Popen([f"{g_current_dir}/fru-tool", ini_name, bin_name],stdout=subprocess.PIPE,stderr=subprocess.STDOUT,universal_newlines=True)
+	except:
+		print(f"!!!! Error performing bin file generation ({g_current_dir}/fru-tool) !!!!")
+		print(bin_generate_result.stdout.read())
+		exit(1)
+
+	# write final information using fru-tool (added 2022-08-22)
+	arg_vector = ["ipmitool", "fru", "write", "0", bin_name]
+
+	if "supermicro" in fru_fields["board_manufacturer"].lower():
+		arg_vector = [
+			f"{g_current_dir}/dependencies/ipmi_linux/IPMICFG-Linux.x86_64",
+			"-fru",
+			"restore",
+			bin_name
+		]
+
+	ipmitool_fru_write_result = None
+	try:
+		ipmitool_fru_write_result = subprocess.Popen(arg_vector,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,universal_newlines=True)
+	except:
+		print("!!!! Error performing write !!!!")
+		print(ipmitool_fru_write_result.stdout.read())
+		exit(1)
+
+	ipmitool_fru_result = None
+
+	try:
+		ipmitool_fru_result = subprocess.Popen(
+			["ipmitool","fru"],stdout=subprocess.PIPE,universal_newlines=True)
+	except:
+		print("Error executing \"ipmitool fru\"")
+		exit(1)	
+
+	# output the result of the write operation
+	print("\n")
+	print("+----------------------------------------------------------------+")
+	print("| Step {sn}: Verify Output                                          |".format(sn=updateProgressStep()))
+	print("+----------------------------------------------------------------+")
+	print("\nOutput from ipmitool fru: ")
+	print(ipmitool_fru_result.stdout.read())
+	print("Setup Complete. If the results shown above appear incorrect") 
+	print("run this program again, or contact 45Drives Support.")
+	input("Press Enter to end program.") 
+
+##################################################################################
+# performFRUWrite()
+# This function creates the fru.ini file, and calls fru-tool to generate 
+# the FRU encoded binary file. Then calls ipmitool fru write using that binary
+# file. 
+##################################################################################
 def performFRUWrite(ipmitool_information,fru_fields):
 	print("\n")
 	print("+----------------------------------------------------------------+")
-	print("| Step 7: Perform Final Write Operation                          |")
+	print("| Step {sn}: Perform Final Write Operation                          |".format(sn=updateProgressStep()))
 	print("+----------------------------------------------------------------+")
 
 	# adjust the chassis_part_number and version fields
@@ -295,7 +444,7 @@ def performFRUWrite(ipmitool_information,fru_fields):
 	# output the result of the write operation
 	print("\n")
 	print("+----------------------------------------------------------------+")
-	print("| Step 8: Verify Output                                          |")
+	print("| Step {sn}: Verify Output                                          |".format(sn=updateProgressStep()))
 	print("+----------------------------------------------------------------+")
 	print("\nOutput from ipmitool fru: ")
 	print(ipmitool_fru_result.stdout.read())
@@ -312,7 +461,7 @@ def performFRUWrite(ipmitool_information,fru_fields):
 def performFRUWriteSuperMicro(fru_fields):
 	print("\n")
 	print("+----------------------------------------------------------------+")
-	print("| Step 7: Perform Final Write Operation                          |")
+	print("| Step {sn}: Perform Final Write Operation                          |".format(sn=updateProgressStep()))
 	print("+----------------------------------------------------------------+")
 
 	# get the current date for the manufacturing date
@@ -383,7 +532,7 @@ def performFRUWriteSuperMicro(fru_fields):
 	# output the result of the write operation
 	print("\n")
 	print("+----------------------------------------------------------------+")
-	print("| Step 8: Verify Output                                          |")
+	print("| Step {sn}: Verify Output                                          |".format(sn=updateProgressStep()))
 	print("+----------------------------------------------------------------+")
 	print("\nOutput from ipmitool fru: ")
 	for line in ipmitool_result.stdout:
@@ -430,10 +579,11 @@ def countDrives():
 ##################################################################################
 def getChassisType():
 	done = False
+	step_number = sn=updateProgressStep()
 	while not done:
 		print("\n")
 		print("+----------------------------------------------------------------+")
-		print("| Step 3: Select a Chassis Type                                  |")
+		print("| Step {sn}: Select a Chassis Type                                  |".format(sn=step_number))
 		print("+----------------------------------------------------------------+")
 		option = 0
 		for product in g_config_file_content["Chassis Type"]:
@@ -451,9 +601,10 @@ def getChassisType():
 ##################################################################################
 def getProductType():
 	done = False
+	step_number = updateProgressStep()
 	while not done:
 		print("+----------------------------------------------------------------+")
-		print("| Step 1: Select Product Type                                    |")
+		print("| Step {sn}: Select Product Type                                    |".format(sn=step_number))
 		print("+----------------------------------------------------------------+")
 		option = 0
 		for product in g_config_file_content["Product Type"]:
@@ -473,10 +624,11 @@ def getProductType():
 def getSerial():
 	done = False
 	selection = ""
+	step_number = updateProgressStep()
 	while not done:
 		print("\n")
 		print("+----------------------------------------------------------------+")
-		print("| Step 4: Enter Product Serial                                   |")
+		print("| Step {sn}: Enter Product Serial                                   |".format(sn=step_number))
 		print("+----------------------------------------------------------------+")
 		selection = input("Enter Product Serial Number (aka Job Number ex:104237-11-01): ")
 		selCopy = selection
@@ -503,10 +655,11 @@ def getSerial():
 ##################################################################################
 def getHybridType():
 	done = False
+	step_number = updateProgressStep()
 	while not done:
 		print("\n")
 		print("+----------------------------------------------------------------+")
-		print("| Step 2: Hybrid Check                                           |")
+		print("| Step {sn}: Hybrid Check                                           |".format(sn=step_number))
 		print("+----------------------------------------------------------------+")
 
 		valid_hybrid_strs = ["H32","H16","H8"]
@@ -564,10 +717,11 @@ def assignProductName(auto_detect_fields,fru_fields):
 		"AMD":"Enhanced-AMD"
 	}
 
+	step_number = updateProgressStep()
 	while True:
 		print("\n")
 		print("+----------------------------------------------------------------+")
-		print("| Step 5: Determine Unique Server Type                           |")
+		print("| Step {sn}: Determine Unique Server Type                           |".format(sn=step_number))
 		print("+----------------------------------------------------------------+")
 		
 		final_product_str = "unknown"
@@ -744,7 +898,7 @@ def get_ipmitool_information(product_serial):
 def storePrevIpmitoolOutput():
 	print("\n")
 	print("+----------------------------------------------------------------+")
-	print("| Step 6: Store backup                                           |")
+	print("| Step {sn}: Store backup                                           |".format(sn=updateProgressStep()))
 	print("+----------------------------------------------------------------+")
 	print("\nStoring plaintext output of 'ipmitool fru' command in backup file before writing.")
 	try:
@@ -779,6 +933,14 @@ def check_root():
 	if root_test:
 		print("serial45d must be run with root privileges.")
 		exit(root_test)
+
+def updateProgressStep(inc=True,stepValue=1):
+	global g_progress_step
+	if inc:
+		g_progress_step = g_progress_step + 1
+	else:
+		g_progress_step = stepValue
+	return g_progress_step
 
 def main():
 	check_root()
@@ -833,11 +995,12 @@ def main():
 	storePrevIpmitoolOutput()
 
 	# write final information using fru-tool (added 2022-08-22)
-	if "supermicro" in fru_fields["board_manufacturer"].lower():
-		performFRUWriteSuperMicro(fru_fields)
-	else:
-		performFRUWrite(ipmitool_information,fru_fields)
+	#if "supermicro" in fru_fields["board_manufacturer"].lower():
+	#	performFRUWriteSuperMicro(fru_fields)
+	#else:
+	#	performFRUWrite(ipmitool_information,fru_fields)
 
+	performFRUWriteCombined(ipmitool_information,fru_fields)
 
 if __name__ == "__main__":
 	main()
