@@ -271,10 +271,10 @@ def performFRUWriteCombined(ipmitool_information,fru_fields):
 	# binary file generation
 	bin_generate_result = None
 	try:
-		bin_generate_result = subprocess.Popen([f"{g_current_dir}/fru-tool", ini_name, bin_name],stdout=subprocess.PIPE,stderr=subprocess.STDOUT,universal_newlines=True)
+		bin_generate_result = subprocess.run([f"{g_current_dir}/fru-tool", ini_name, bin_name],stdout=subprocess.PIPE,stderr=subprocess.STDOUT,universal_newlines=True)
 	except:
 		print(f"!!!! Error performing bin file generation ({g_current_dir}/fru-tool) !!!!")
-		print(bin_generate_result.stdout.read())
+		print(bin_generate_result.stdout)
 		exit(1)
 
 	# write final information using fru-tool (added 2022-08-22)
