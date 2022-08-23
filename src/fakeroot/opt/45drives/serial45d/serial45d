@@ -318,7 +318,7 @@ def performFRUWriteCombined(ipmitool_information,fru_fields):
 	print("| Step {sn}: Verify Output                                          |".format(sn=updateProgressStep()))
 	print("+----------------------------------------------------------------+")
 	print("\nOutput from ipmitool fru: ")
-	for line in ipmitool_result.stdout:
+	for line in ipmitool_fru_result.stdout:
 		print("\t" + line,end="")
 	print("Setup Complete. If the results shown above appear incorrect") 
 	print("run this program again, or contact 45Drives Support.")
