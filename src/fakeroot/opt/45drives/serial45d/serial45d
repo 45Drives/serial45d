@@ -288,16 +288,23 @@ def performFRUWriteCombined(ipmitool_information,fru_fields):
 			bin_name
 		]
 
-	ipmitool_fru_write_result = None
+	fru_write_result = None
 	try:
-		ipmitool_fru_write_result = subprocess.Popen(arg_vector,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,universal_newlines=True)
+		fru_write_result = subprocess.Popen(arg_vector,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,universal_newlines=True)
 	except:
 		print("!!!! Error performing write !!!!")
-		print(ipmitool_fru_write_result.stdout.read())
+		for i in range(0,len(arg_vector)):
+			print(arg_vector[i],end=" ")
 		exit(1)
 
-	ipmitool_fru_result = None
+	# output the result of the write operation
+	print("\n!!!!   Performing Write  !!!!\n")
+	print("\n Output from {prg}: ".format(prg=arg_vector[0]))
+	for line in fru_write_result.stdout:
+		print("\t" + line,end="")
 
+	# run ipmitool fru again and present the output to the user.
+	ipmitool_fru_result = None
 	try:
 		ipmitool_fru_result = subprocess.Popen(
 			["ipmitool","fru"],stdout=subprocess.PIPE,universal_newlines=True)
@@ -311,7 +318,8 @@ def performFRUWriteCombined(ipmitool_information,fru_fields):
 	print("| Step {sn}: Verify Output                                          |".format(sn=updateProgressStep()))
 	print("+----------------------------------------------------------------+")
 	print("\nOutput from ipmitool fru: ")
-	print(ipmitool_fru_result.stdout.read())
+	for line in ipmitool_result.stdout:
+		print("\t" + line,end="")
 	print("Setup Complete. If the results shown above appear incorrect") 
 	print("run this program again, or contact 45Drives Support.")
 	input("Press Enter to end program.") 
@@ -433,7 +441,6 @@ def performFRUWrite(ipmitool_information,fru_fields):
 		exit(1)
 
 	ipmitool_fru_result = None
-
 	try:
 		ipmitool_fru_result = subprocess.Popen(
 			["ipmitool","fru"],stdout=subprocess.PIPE,universal_newlines=True)
