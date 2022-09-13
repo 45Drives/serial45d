@@ -199,7 +199,7 @@ def performFRUWrite(ipmitool_information,fru_fields):
 	fru_structure = {
 		'common': {
 			'version': 1,
-			'size': ipmitool_information["FRU Size"] or '256',
+			'size': ipmitool_information.get("FRU Size","256"),
 			'internal': 0,
 			'chassis': 1,
 			'board': 1,
@@ -213,11 +213,11 @@ def performFRUWrite(ipmitool_information,fru_fields):
 		},
 		'board': {
 			'language': 0,
-			'date': ipmitool_information["Board Mfg Date Hex"],
-			'manufacturer': ipmitool_information["Board Mfg"] or "",
-			'product': ipmitool_information["Board Product"] or "",
-			'serial': ipmitool_information["Board Serial"] or "",
-			'part': ipmitool_information["Board Part Number"] or "",
+			'date': ipmitool_information.get("Board Mfg Date Hex",""),
+			'manufacturer': ipmitool_information.get("Board Mfg",""),
+			'product': ipmitool_information.get("Board Product",""),
+			'serial': ipmitool_information.get("Board Serial",""),
+			'part': ipmitool_information.get("Board Part Number",ipmitool_information.get("Board Product","")),
 			'fileid': '',
 		},
 		'product': {

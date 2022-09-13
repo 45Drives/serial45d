@@ -42,6 +42,9 @@ fi
 %{_bindir}/*
 
 %changelog
+* Tue Sep 13 2022 Mark Hooper <mhooper@45drives.com> 1.1.0-4
+- improved key error checking in serial45d script when accessing fru data read from
+  board
 * Tue Aug 23 2022 Mark Hooper <mhooper@45drives.com> 1.1.0-3
 - FRU data is now dynamically generated and backed up in both plaintext and binary
   format

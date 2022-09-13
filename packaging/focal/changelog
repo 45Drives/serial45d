@@ -1,3 +1,10 @@
+serial45d (1.1.0-4focal) focal; urgency=medium
+
+  * improved key error checking in serial45d script when accessing fru data read
+    from board
+
+ -- Mark Hooper <mhooper@45drives.com>  Tue, 13 Sep 2022 11:29:47 -0300
+
 serial45d (1.1.0-3focal) focal; urgency=medium
 
   * FRU data is now dynamically generated and backed up in both plaintext and binary
