@@ -3,6 +3,7 @@ on:
   push:
     branches: 
       - build
+      - main
     tags:
       - 'v*.*.*'
 jobs:
