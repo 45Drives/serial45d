@@ -579,7 +579,8 @@ def assignProductName(auto_detect_fields,fru_fields):
 		"X11SSH-CTF":"Base",
 		"X11SSM-F": "Base",
 		"X11DPL-i": "Turbo",
-		"X11DPH-T": "Turbo"
+		"X11DPH-T": "Turbo",
+		"X10DRL-i": "Turbo"
 	}
 
 	cpu_substr_to_version_lut = {
@@ -626,13 +627,6 @@ def assignProductName(auto_detect_fields,fru_fields):
 
 		if unique_product_str_tmp in g_config_file_content["Product Name"]:
 			final_product_str = unique_product_str_tmp
-		else:
-			print("Product Configuration of \"{ps}\" is INVALID. \nRun Program again or contact Mark Hooper if issue persists.".format(ps=unique_product_str_tmp))
-			print("Valid Product Configurations: ")
-			for valid_product in g_config_file_content["Product Name"]:
-				print("\t{vp}".format(vp=valid_product))
-			input("Press ENTER to End Program.")
-			exit(0)
 		
 		if final_product_str != "unknown":
 			# we got valid input from user and assigned a value to final product string.

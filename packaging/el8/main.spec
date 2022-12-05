@@ -42,6 +42,9 @@ fi
 %{_bindir}/*
 
 %changelog
+* Mon Dec 05 2022 Mark Hooper <mhooper@45drives.com> 1.1.0-6
+- updated how system version detection is handled when cpu string doesn't have desired
+  keywords
 * Wed Sep 14 2022 Mark Hooper <mhooper@45drives.com> 1.1.0-5
 - Added support for ASRockRack EPC621D8A motherboards
 - Added the ability to serialize F8X units (naming convention subject to change)
