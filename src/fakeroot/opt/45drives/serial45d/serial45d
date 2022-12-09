@@ -855,6 +855,12 @@ def main():
 
 	ipmitool_information = get_ipmitool_information(fru_fields["serial"])
 
+	if "Product Asset Tag" in ipmitool_information:
+		fru_fields["asset_tag"] = ipmitool_information["Product Asset Tag"]
+
+		if not fru_fields["asset_tag"].startswith('SS-'):
+			fru_fields["asset_tag"] = f'SS-{fru_fields["asset_tag"]}'
+
 	#update automatically detected fru fields
 	fru_fields["board_model"] = ipmitool_information["Board Product"]
 	fru_fields["board_serial"] = ipmitool_information["Board Serial"]
