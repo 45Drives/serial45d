@@ -126,5 +126,7 @@ dmypy.json
 
 backup
 fru_bin_backups
+fru_plaintext_backups
+
 fru_ini
 fru_bin
