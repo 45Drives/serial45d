@@ -808,6 +808,120 @@ def updateProgressStep(inc=True,stepValue=1):
 		g_progress_step = stepValue
 	return g_progress_step
 
+
+
+##################################################################################
+# verifyIpmitoolFru():
+# Checks to ensure that all required fields are present from the command "ipmitool fru".
+# if they are not present it will attempt to obtain it from demidecode. 
+# if all else fails it will prompt the user for the missing information.
+##################################################################################
+def verifyIpmitoolFru(ipmitool_information):
+	print("\n")
+	print("+----------------------------------------------------------------+")
+	print("| Step {sn}: Verify FRU Data                                        |".format(sn=updateProgressStep()))
+	print("+----------------------------------------------------------------+")
+	print("\nValidating information obtained from 'ipmitool fru' command.")
+
+
+	required_fields = ["Board Product","Board Serial","Board Mfg"]
+	valid = True
+
+	# look through the required fields and flag any missing or empty fields as invalid
+	for field in required_fields:
+		if field not in ipmitool_information.keys():
+			valid = False
+			print("\tMissing Field: '{k}'".format(k=field))
+		elif not ipmitool_information[field]:
+			valid = False
+			print("\tEmpty Field: '{f}': '{v}'".format(f=field,v=ipmitool_information[field]))
+	
+	if valid:
+		print("FRU data is VALID.")
+		return
+
+	print("\tFRU data is invalid, attempting to obtain motherboard data from dmidecode.")	
+	board_product, board_serial, board_mfg = getMotherboard()
+	ipmitool_information["Board Product"] = board_product if board_product != "unknown" else ""
+	ipmitool_information["Board Serial"] = board_serial if board_serial != "unknown" else ""
+	ipmitool_information["Board Mfg"] = board_mfg if board_mfg != "unknown" else ""
+
+	# re-test fields after obtaining them from dmidecode
+	valid = True
+
+	# look through the required fields and flag any missing or empty fields as invalid
+	for field in required_fields:
+		if field not in ipmitool_information.keys():
+			valid = False
+			print("\tMissing Field: '{k}'".format(k=field))
+		elif not ipmitool_information[field]:
+			valid = False
+			print("\tEmpty Field: '{f}': '{v}'".format(f=field,v=ipmitool_information[field]))
+	
+	if valid:
+		print("\tValid FRU Data obtained from 'dmidecode -t 2'.")
+		return
+	
+	# neither ipmitool fru or dmidecode worked to automatically detect the board information. 
+	# Last resort is to prompt the user to input this information instead.
+	global g_config_file_content
+
+	# Get Motherboard Manufacturer
+	if not ipmitool_information.get("Board Mfg",""):
+		valid_selection = ["Supermicro","ASRockRack"]
+		done = False
+		step_number = updateProgressStep()
+		while not done:
+			print("+----------------------------------------------------------------+")
+			print("| Step {sn}: Select Motherboard Manufacturer                        |".format(sn=step_number))
+			print("+----------------------------------------------------------------+")
+			option = 0
+			for product in valid_selection:
+				option += 1
+				print("\t",option,": " + product)
+			selection = input("Select an option (1 - " + str(option) + "): ")
+			if selection.isnumeric() and int(selection) <= option and int(selection) > 0:
+				ipmitool_information["Board Mfg"] = valid_selection[int(selection)-1]
+				done = True
+			else:
+				print("Invalid selection")
+
+	# Get Motherboard Model
+	if not ipmitool_information.get("Board Product",""):
+		valid_selection = g_config_file_content.get("Motherboard",["UNKNOWN"])
+		done = False
+		step_number = updateProgressStep()
+		while not done:
+			print("+----------------------------------------------------------------+")
+			print("| Step {sn}: Select Motherboard Model                               |".format(sn=step_number))
+			print("+----------------------------------------------------------------+")
+			option = 0
+			for product in valid_selection:
+				option += 1
+				print("\t",option,": " + product)
+			selection = input("Select an option (1 - " + str(option) + "): ")
+			if selection.isnumeric() and int(selection) <= option and int(selection) > 0:
+				ipmitool_information["Board Product"] = valid_selection[int(selection)-1]
+				done = True
+			else:
+				print("Invalid selection")
+
+	# Get Serial Number
+	if not ipmitool_information.get("Board Serial",""):
+		done = False
+		selection = ""
+		step_number = updateProgressStep()
+		while not done:
+			print("\n")
+			print("+----------------------------------------------------------------+")
+			print("| Step {sn}: Enter Motherboard Serial Number                        |".format(sn=step_number))
+			print("+----------------------------------------------------------------+")
+			selection = input("\tEnter Motherboard Serial Number (ex:ZM228S003796): ")
+			confirm = input("\tSerial Number Entered: '{sn}' Use this serial number? (y/n): ".format(sn=selection))
+			if confirm == "y":
+				done = True
+				ipmitool_information["Board Serial"] = selection.strip()
+
 def main():
 	check_root()
 
@@ -848,6 +962,7 @@ def main():
 	getUserInput(auto_detect_fields,fru_fields)
 
 	ipmitool_information = get_ipmitool_information(fru_fields["serial"])
+	verifyIpmitoolFru(ipmitool_information)
 
 	if "Product Asset Tag" in ipmitool_information:
 		fru_fields["asset_tag"] = ipmitool_information["Product Asset Tag"]

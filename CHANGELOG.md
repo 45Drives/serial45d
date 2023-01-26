@@ -1,3 +1,3 @@
-## Serial45d 1.1.0-6
+## Serial45d 1.2.0-1
 
-* updated how system version detection is handled when cpu string doesn't have desired keywords
+* Added a contingency for missing Motherboard FRU data.

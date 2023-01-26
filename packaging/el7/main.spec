@@ -42,6 +42,8 @@ fi
 %{_bindir}/*
 
 %changelog
+* Thu Jan 26 2023 Mark Hooper <mhooper@45drives.com> 1.2.0-1
+- Added a contingency for missing Motherboard FRU data.
 * Mon Dec 05 2022 Mark Hooper <mhooper@45drives.com> 1.1.0-6
 - updated how system version detection is handled when cpu string doesn't have desired
   keywords
