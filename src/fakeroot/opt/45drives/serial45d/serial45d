@@ -15,13 +15,19 @@ import re
 import subprocess
 import os
 import datetime
+from importlib.util import spec_from_loader, module_from_spec
+from importlib.machinery import SourceFileLoader
+
+
+
+g_production_mode = False
 
 g_config_file_content = {
-	"Motherboard":[],
-	"CPU":[],
-	"Chassis Type":[],
-	"Product Type":[],
-	"Product Name":[]
+    "Motherboard":[],
+    "CPU":[],
+    "Chassis Type":[],
+    "Product Type":[],
+    "Product Name":[]
 }
 
 g_update_config = False
@@ -30,30 +36,46 @@ g_current_dir = os.path.dirname(os.path.realpath(__file__))
 
 g_progress_step = 0
 
+ANSI_colors={
+	"LGREEN":'\033[1;32m',
+	"GREEN":'\033[0;32m',
+	"YELLOW":'\033[0;33m',
+	"MAGENTA":'\033[0;35m',
+	"CYAN":'\033[0;36m',
+	"WHITE":'\033[0;37m',
+	"RED":'\033[0;31m',
+	"GREY":'\033[1;30m',
+	"END":'\033[0m'
+}
+
 def outputSerialVersion():
-	print("\n")
-	print("-----------------------------------------------------------------------------------")
-	print("                                                                                   ")
-	print("                                $$\           $$\ $$\   $$\ $$$$$$$\  $$$$$$$\     ")
-	print("                                \__|          $$ |$$ |  $$ |$$  ____| $$  __$$\    ")
-	print("   $$$$$$$\  $$$$$$\   $$$$$$\  $$\  $$$$$$\  $$ |$$ |  $$ |$$ |      $$ |  $$ |   ")
-	print("  $$  _____|$$  __$$\ $$  __$$\ $$ | \____$$\ $$ |$$$$$$$$ |$$$$$$$\  $$ |  $$ |   ")
-	print("  \$$$$$$\  $$$$$$$$ |$$ |  \__|$$ | $$$$$$$ |$$ |\_____$$ |\_____$$\ $$ |  $$ |   ")
-	print("   \____$$\ $$   ____|$$ |      $$ |$$  __$$ |$$ |      $$ |$$\   $$ |$$ |  $$ |   ")
-	print("  $$$$$$$  |\$$$$$$$\ $$ |      $$ |\$$$$$$$ |$$ |      $$ |\$$$$$$  |$$$$$$$  |   ")
-	print("  \_______/  \_______|\__|      \__| \_______|\__|      \__| \______/ \_______/    ")
-	ver_file_path = f"{g_current_dir}/configs/version"
-	if(os.path.exists(ver_file_path) and os.path.isfile(ver_file_path)):
-		ver_file = open(ver_file_path,"r")
-		version = ver_file.readline()
-		ver_file.close()
-		
-		print("\n                                                                  Version: {v}".format(v=version))
-		print("-----------------------------------------------------------------------------------\n")
-	else:
-		print("\n-----------------------------------------------------------------------------------\n")
-	
-		
+    global g_production_mode
+    print("\n-----------------------------------------------------------------------------------")
+    if g_production_mode:
+        print("{g}                     *** 45Drives PRODUCTION MODE ***              {e}".format(g=ANSI_colors["GREEN"],e=ANSI_colors["END"]))
+    print("                                                                                   ")
+    print("                                $$\           $$\ $$\   $$\ $$$$$$$\  $$$$$$$\     ")
+    print("                                \__|          $$ |$$ |  $$ |$$  ____| $$  __$$\    ")
+    print("   $$$$$$$\  $$$$$$\   $$$$$$\  $$\  $$$$$$\  $$ |$$ |  $$ |$$ |      $$ |  $$ |   ")
+    print("  $$  _____|$$  __$$\ $$  __$$\ $$ | \____$$\ $$ |$$$$$$$$ |$$$$$$$\  $$ |  $$ |   ")
+    print("  \$$$$$$\  $$$$$$$$ |$$ |  \__|$$ | $$$$$$$ |$$ |\_____$$ |\_____$$\ $$ |  $$ |   ")
+    print("   \____$$\ $$   ____|$$ |      $$ |$$  __$$ |$$ |      $$ |$$\   $$ |$$ |  $$ |   ")
+    print("  $$$$$$$  |\$$$$$$$\ $$ |      $$ |\$$$$$$$ |$$ |      $$ |\$$$$$$  |$$$$$$$  |   ")
+    print("  \_______/  \_______|\__|      \__| \_______|\__|      \__| \______/ \_______/    ")
+    ver_file_path = f"{g_current_dir}/configs/version"
+    if(os.path.exists(ver_file_path) and os.path.isfile(ver_file_path)):
+        ver_file = open(ver_file_path,"r")
+        version = ver_file.readline()
+        ver_file.close()
+        
+        print("\n                                                                  Version: {v}".format(v=version))
+        if g_production_mode:
+            print("{g}                     *** 45Drives PRODUCTION MODE ***              {e}".format(g=ANSI_colors["GREEN"],e=ANSI_colors["END"]))    
+        print("-----------------------------------------------------------------------------------\n")
+    else:
+        print("\n-----------------------------------------------------------------------------------\n")
+    
+        
 
 ##################################################################################
 # getMotherboard()
@@ -62,35 +84,35 @@ def outputSerialVersion():
 # returns them as strings.
 ##################################################################################
 def getMotherboard():
-	global g_update_config
-	global g_config_file_content
-	board_model = "unknown"
-	board_serial = "unknown"
-	board_manufacturer = "unknown"
-	try:
-		dmi_result = subprocess.Popen([f"{g_current_dir}/dependencies/dmidecode/dmidecode","-t","2"],stdout=subprocess.PIPE,universal_newlines=True).stdout
-	except:
-		print("Error Executing dmidecode")
-		exit(1)
-	for line in dmi_result:
-			regex_board_model = re.search("^\sProduct Name:\s+(.*)",line)
-			regex_board_serial = re.search("^\sSerial Number:\s+(.*)",line)
-			regex_board_manufacturer = re.search("^\sManufacturer:\s+(.*)",line)
-			if regex_board_model != None:
-				if regex_board_model.group(1) not in g_config_file_content["Motherboard"]:
-					# board was not found in the config file, add it and set the 
-					# g_update_config flag. 
-					g_config_file_content["Motherboard"].append(regex_board_model.group(1))
-					g_update_config = True
-				board_model = regex_board_model.group(1)
-			if regex_board_serial != None:
-				board_serial = regex_board_serial.group(1)
-			if regex_board_manufacturer != None:
-				board_manufacturer = regex_board_manufacturer.group(1)
-			if board_model != "unknown" and board_serial != "unknown" and board_manufacturer != "unknown":
-				# all information has been assigned, break from the loop
-				break
-	return board_model,board_serial,board_manufacturer
+    global g_update_config
+    global g_config_file_content
+    board_model = "unknown"
+    board_serial = "unknown"
+    board_manufacturer = "unknown"
+    try:
+        dmi_result = subprocess.Popen([f"{g_current_dir}/dependencies/dmidecode/dmidecode","-t","2"],stdout=subprocess.PIPE,universal_newlines=True).stdout
+    except:
+        print("Error Executing dmidecode")
+        exit(1)
+    for line in dmi_result:
+            regex_board_model = re.search("^\sProduct Name:\s+(.*)",line)
+            regex_board_serial = re.search("^\sSerial Number:\s+(.*)",line)
+            regex_board_manufacturer = re.search("^\sManufacturer:\s+(.*)",line)
+            if regex_board_model != None:
+                if regex_board_model.group(1) not in g_config_file_content["Motherboard"]:
+                    # board was not found in the config file, add it and set the 
+                    # g_update_config flag. 
+                    g_config_file_content["Motherboard"].append(regex_board_model.group(1))
+                    g_update_config = True
+                board_model = regex_board_model.group(1)
+            if regex_board_serial != None:
+                board_serial = regex_board_serial.group(1)
+            if regex_board_manufacturer != None:
+                board_manufacturer = regex_board_manufacturer.group(1)
+            if board_model != "unknown" and board_serial != "unknown" and board_manufacturer != "unknown":
+                # all information has been assigned, break from the loop
+                break
+    return board_model,board_serial,board_manufacturer
 
 ##################################################################################
 # getCPU()
@@ -100,30 +122,30 @@ def getMotherboard():
 # was not already present in the config file by setting the g_update_config flag.
 ##################################################################################
 def getCPU():
-	global g_update_config
-	global g_config_file_content
-	cpu_model = "unknown"
-	cpu_count = 0
-	try:
-		dmi_result = subprocess.Popen(["dmidecode","-t","4"],stdout=subprocess.PIPE,universal_newlines=True).stdout
-	except:
-		print("Error Executing dmidecode")
-		exit(1)
-	for line in dmi_result:
-		regex_cpu = re.search("^\sVersion:\s+(.*)$",line)
-		if regex_cpu != None:
-			regex_cpu_version = str(regex_cpu.group(1)).rstrip()
-			if regex_cpu_version not in g_config_file_content["CPU"]:
-				# board was not found in the config file, add it and set the 
-				# g_update_config flag. 
-				g_config_file_content["CPU"].append(regex_cpu_version)
-				g_update_config = True
-			cpu_model = regex_cpu_version
-			cpu_count += 1
-		if cpu_count == 2:
-			# we have found all possible entries, stop searching
-			break
-	return cpu_model, cpu_count
+    global g_update_config
+    global g_config_file_content
+    cpu_model = "unknown"
+    cpu_count = 0
+    try:
+        dmi_result = subprocess.Popen(["dmidecode","-t","4"],stdout=subprocess.PIPE,universal_newlines=True).stdout
+    except:
+        print("Error Executing dmidecode")
+        exit(1)
+    for line in dmi_result:
+        regex_cpu = re.search("^\sVersion:\s+(.*)$",line)
+        if regex_cpu != None:
+            regex_cpu_version = str(regex_cpu.group(1)).rstrip()
+            if regex_cpu_version not in g_config_file_content["CPU"]:
+                # board was not found in the config file, add it and set the 
+                # g_update_config flag. 
+                g_config_file_content["CPU"].append(regex_cpu_version)
+                g_update_config = True
+            cpu_model = regex_cpu_version
+            cpu_count += 1
+        if cpu_count == 2:
+            # we have found all possible entries, stop searching
+            break
+    return cpu_model, cpu_count
 
 ##################################################################################
 # getHBA()
@@ -132,26 +154,26 @@ def getCPU():
 ##################################################################################
 def getHBA():
 
-	hba_models = {
-		"SAS9305-16i":0,
-		"SAS9305-24i":0
-	}
+    hba_models = {
+        "SAS9305-16i":0,
+        "SAS9305-24i":0
+    }
 
-	try:
-		storcli64_result = subprocess.Popen(
-			[f"{g_current_dir}/dependencies/storcli64/storcli64","show","all"],stdout=subprocess.PIPE,universal_newlines=True)
-	except:
-		print("Error running storcli64")
-		exit(1)
-	card_count = 0
-	for line in storcli64_result.stdout:
-		for model in hba_models.keys():
-			# Model AdapterType VendId DevId SubVendId SubDevId PCIAddress 	
-			regex = re.search("({mdl}).*00:\w\w:\w\w:\w\w\s+$".format(mdl=model),line)
-			if regex != None:
-				hba_models[model] += 1
-				
-	return hba_models["SAS9305-16i"], hba_models["SAS9305-24i"]
+    try:
+        storcli64_result = subprocess.Popen(
+            [f"{g_current_dir}/dependencies/storcli64/storcli64","show","all"],stdout=subprocess.PIPE,universal_newlines=True)
+    except:
+        print("Error running storcli64")
+        exit(1)
+    card_count = 0
+    for line in storcli64_result.stdout:
+        for model in hba_models.keys():
+            # Model AdapterType VendId DevId SubVendId SubDevId PCIAddress 	
+            regex = re.search("({mdl}).*00:\w\w:\w\w:\w\w\s+$".format(mdl=model),line)
+            if regex != None:
+                hba_models[model] += 1
+                
+    return hba_models["SAS9305-16i"], hba_models["SAS9305-24i"]
 
 
 ##################################################################################
@@ -162,12 +184,12 @@ def getHBA():
 # the config files.
 ##################################################################################
 def loadSystemConfigs():
-	config_file = open(f"{g_current_dir}/configs/config.txt","r")
-	for line in config_file:
-		for key in g_config_file_content.keys():
-			regex = re.search("({k}):(.*)$".format(k=key),line)
-			if regex != None:
-				g_config_file_content[regex.group(1)].append(regex.group(2))
+    config_file = open(f"{g_current_dir}/configs/config.txt","r")
+    for line in config_file:
+        for key in g_config_file_content.keys():
+            regex = re.search("({k}):(.*)$".format(k=key),line)
+            if regex != None:
+                g_config_file_content[regex.group(1)].append(regex.group(2))
 
 ##################################################################################
 # performFRUWrite()
@@ -176,153 +198,153 @@ def loadSystemConfigs():
 # file. 
 ##################################################################################
 def performFRUWrite(ipmitool_information,fru_fields):
-	print("\n")
-	print("+----------------------------------------------------------------+")
-	print("| Step {sn}: Perform Final Write Operation                          |".format(sn=updateProgressStep()))
-	print("+----------------------------------------------------------------+")
+    print("\n")
+    print("+----------------------------------------------------------------+")
+    print("| Step {sn}: Perform Final Write Operation                          |".format(sn=updateProgressStep()))
+    print("+----------------------------------------------------------------+")
 
-	# adjust the chassis_part_number and version fields
-	# to indicate that the system is a hybrid
-	if "H16" in fru_fields["product_name"]:
-		fru_fields["chassis_part_number"] = "H16-" + fru_fields["part_number"]
-		fru_fields["version"] = "Hybrid16(" + fru_fields["version"] + ")"
-	elif "H32" in fru_fields["product_name"]:
-		fru_fields["chassis_part_number"] = "H32-" + fru_fields["part_number"]
-		fru_fields["version"] = "Hybrid32(" + fru_fields["version"] + ")"
-	else:
-		fru_fields["chassis_part_number"] = fru_fields["part_number"]
-		fru_fields["version"] = "(" + fru_fields["version"] + ")"
-	
-	# assign the remaining fields.
-	fru_fields["chassis_serial"] = fru_fields["serial"]
+    # adjust the chassis_part_number and version fields
+    # to indicate that the system is a hybrid
+    if "H16" in fru_fields["product_name"]:
+        fru_fields["chassis_part_number"] = "H16-" + fru_fields["part_number"]
+        fru_fields["version"] = "Hybrid16(" + fru_fields["version"] + ")"
+    elif "H32" in fru_fields["product_name"]:
+        fru_fields["chassis_part_number"] = "H32-" + fru_fields["part_number"]
+        fru_fields["version"] = "Hybrid32(" + fru_fields["version"] + ")"
+    else:
+        fru_fields["chassis_part_number"] = fru_fields["part_number"]
+        fru_fields["version"] = "(" + fru_fields["version"] + ")"
+    
+    # assign the remaining fields.
+    fru_fields["chassis_serial"] = fru_fields["serial"]
 
-	fru_structure = {
-		'common': {
-			'version': 1,
-			'size': ipmitool_information.get("FRU Size","256"),
-			'internal': 0,
-			'chassis': 1,
-			'board': 1,
-			'product': 1,
-			'multirecord': 0,
-		},
-		'chassis': {
-			'type': 17,
-			'part': fru_fields["chassis_part_number"],
-			'serial': fru_fields['chassis_serial'],
-		},
-		'board': {
-			'language': 0,
-			'date': ipmitool_information.get("Board Mfg Date Hex",""),
-			'manufacturer': ipmitool_information.get("Board Mfg",""),
-			'product': ipmitool_information.get("Board Product",""),
-			'serial': ipmitool_information.get("Board Serial",""),
-			'part': ipmitool_information.get("Board Part Number",ipmitool_information.get("Board Product","")),
-			'fileid': '',
-		},
-		'product': {
-			'language': 0,
-			'manufacturer': fru_fields["manufacturer_name"],
-			'product': fru_fields["product_name"],
-			'part': fru_fields["part_number"],
-			'version': fru_fields["version"],
-			'serial': fru_fields['serial'],
-			'asset': fru_fields["asset_tag"],
-			'fileid': '',
-		},
-	}
+    fru_structure = {
+        'common': {
+            'version': 1,
+            'size': ipmitool_information.get("FRU Size","256"),
+            'internal': 0,
+            'chassis': 1,
+            'board': 1,
+            'product': 1,
+            'multirecord': 0,
+        },
+        'chassis': {
+            'type': 17,
+            'part': fru_fields["chassis_part_number"],
+            'serial': fru_fields['chassis_serial'],
+        },
+        'board': {
+            'language': 0,
+            'date': ipmitool_information.get("Board Mfg Date Hex",""),
+            'manufacturer': ipmitool_information.get("Board Mfg",""),
+            'product': ipmitool_information.get("Board Product",""),
+            'serial': ipmitool_information.get("Board Serial",""),
+            'part': ipmitool_information.get("Board Part Number",ipmitool_information.get("Board Product","")),
+            'fileid': '',
+        },
+        'product': {
+            'language': 0,
+            'manufacturer': fru_fields["manufacturer_name"],
+            'product': fru_fields["product_name"],
+            'part': fru_fields["part_number"],
+            'version': fru_fields["version"],
+            'serial': fru_fields['serial'],
+            'asset': fru_fields["asset_tag"],
+            'fileid': '',
+        },
+    }
 
-	# get timestamp for ini filename.
-	date = datetime.datetime.now()
-	timestamp = date.strftime("%Y-%m-%d_%H-%M-%S")
-	product_serial = fru_fields["serial"]
+    # get timestamp for ini filename.
+    date = datetime.datetime.now()
+    timestamp = date.strftime("%Y-%m-%d_%H-%M-%S")
+    product_serial = fru_fields["serial"]
 
-	# create .ini input file directory 
-	ini_dir = f"{g_current_dir}/fru_ini"
-	if not os.path.exists(ini_dir):
-		print(f"making directory to store fru config files in {ini_dir}")
-		os.makedirs(ini_dir)
+    # create .ini input file directory 
+    ini_dir = f"{g_current_dir}/fru_ini"
+    if not os.path.exists(ini_dir):
+        print(f"making directory to store fru config files in {ini_dir}")
+        os.makedirs(ini_dir)
 
-	ini_name = f"{ini_dir}/fru-{product_serial}-{timestamp}.ini".replace(" ", "")
+    ini_name = f"{ini_dir}/fru-{product_serial}-{timestamp}.ini".replace(" ", "")
 
-	# create output directory 
-	bin_dir = f"{g_current_dir}/fru_bin"
-	if not os.path.exists(bin_dir):
-		print(f"making directory to store fru-tool generated bin files in {bin_dir}")
-		os.makedirs(bin_dir)
+    # create output directory 
+    bin_dir = f"{g_current_dir}/fru_bin"
+    if not os.path.exists(bin_dir):
+        print(f"making directory to store fru-tool generated bin files in {bin_dir}")
+        os.makedirs(bin_dir)
 
-	bin_name = f"{bin_dir}/fru-{product_serial}-{timestamp}.bin".replace(" ", "")
+    bin_name = f"{bin_dir}/fru-{product_serial}-{timestamp}.bin".replace(" ", "")
 
-	# .ini file creation
-	fru_ini_lines = []
-	for section in fru_structure.keys():
-		fru_ini_lines.append(f"[{section}]")
+    # .ini file creation
+    fru_ini_lines = []
+    for section in fru_structure.keys():
+        fru_ini_lines.append(f"[{section}]")
 
-		for field in fru_structure[section].keys():
-				value = fru_structure[section][field]
-				fru_ini_lines.append(f"{field} = {value}")
-		fru_ini_lines.append('')
+        for field in fru_structure[section].keys():
+                value = fru_structure[section][field]
+                fru_ini_lines.append(f"{field} = {value}")
+        fru_ini_lines.append('')
 
-	ini_file = open(ini_name, "w")
-	for line in fru_ini_lines:
-		ini_file.write(f"{line}\n")
-	ini_file.close()
+    ini_file = open(ini_name, "w")
+    for line in fru_ini_lines:
+        ini_file.write(f"{line}\n")
+    ini_file.close()
 
-	# binary file generation
-	bin_generate_result = None
-	try:
-		bin_generate_result = subprocess.run([f"{g_current_dir}/fru-tool", ini_name, bin_name],stdout=subprocess.PIPE,stderr=subprocess.STDOUT,universal_newlines=True)
-	except:
-		print(f"!!!! Error performing bin file generation ({g_current_dir}/fru-tool) !!!!")
-		print(bin_generate_result.stdout)
-		exit(1)
+    # binary file generation
+    bin_generate_result = None
+    try:
+        bin_generate_result = subprocess.run([f"{g_current_dir}/fru-tool", ini_name, bin_name],stdout=subprocess.PIPE,stderr=subprocess.STDOUT,universal_newlines=True)
+    except:
+        print(f"!!!! Error performing bin file generation ({g_current_dir}/fru-tool) !!!!")
+        print(bin_generate_result.stdout)
+        exit(1)
 
-	# write final information using fru-tool (added 2022-08-22)
-	arg_vector = ["ipmitool", "fru", "write", "0", bin_name]
+    # write final information using fru-tool (added 2022-08-22)
+    arg_vector = ["ipmitool", "fru", "write", "0", bin_name]
 
-	if "supermicro" in fru_fields["board_manufacturer"].lower():
-		arg_vector = [
-			f"{g_current_dir}/dependencies/ipmi_linux/IPMICFG-Linux.x86_64",
-			"-fru",
-			"restore",
-			bin_name
-		]
+    if "supermicro" in fru_fields["board_manufacturer"].lower():
+        arg_vector = [
+            f"{g_current_dir}/dependencies/ipmi_linux/IPMICFG-Linux.x86_64",
+            "-fru",
+            "restore",
+            bin_name
+        ]
 
-	fru_write_result = None
-	try:
-		fru_write_result = subprocess.Popen(arg_vector,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,universal_newlines=True)
-	except:
-		print("!!!! Error performing write !!!!")
-		for i in range(0,len(arg_vector)):
-			print(arg_vector[i],end=" ")
-		exit(1)
+    fru_write_result = None
+    try:
+        fru_write_result = subprocess.Popen(arg_vector,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,universal_newlines=True)
+    except:
+        print("!!!! Error performing write !!!!")
+        for i in range(0,len(arg_vector)):
+            print(arg_vector[i],end=" ")
+        exit(1)
 
-	# output the result of the write operation
-	print("\n!!!!   Performing Write  !!!!\n")
-	print("\n Output from {prg}: ".format(prg=arg_vector[0]))
-	for line in fru_write_result.stdout:
-		print("\t" + line,end="")
+    # output the result of the write operation
+    print("\n!!!!   Performing Write  !!!!\n")
+    print("\n Output from {prg}: ".format(prg=arg_vector[0]))
+    for line in fru_write_result.stdout:
+        print("\t" + line,end="")
 
-	# run ipmitool fru again and present the output to the user.
-	ipmitool_fru_result = None
-	try:
-		ipmitool_fru_result = subprocess.Popen(
-			["ipmitool","fru"],stdout=subprocess.PIPE,universal_newlines=True)
-	except:
-		print("Error executing \"ipmitool fru\"")
-		exit(1)	
+    # run ipmitool fru again and present the output to the user.
+    ipmitool_fru_result = None
+    try:
+        ipmitool_fru_result = subprocess.Popen(
+            ["ipmitool","fru"],stdout=subprocess.PIPE,universal_newlines=True)
+    except:
+        print("Error executing \"ipmitool fru\"")
+        exit(1)	
 
-	# output the result of the write operation
-	print("\n")
-	print("+----------------------------------------------------------------+")
-	print("| Step {sn}: Verify Output                                          |".format(sn=updateProgressStep()))
-	print("+----------------------------------------------------------------+")
-	print("\nOutput from ipmitool fru: ")
-	for line in ipmitool_fru_result.stdout:
-		print("\t" + line,end="")
-	print("Setup Complete. If the results shown above appear incorrect") 
-	print("run this program again, or contact 45Drives Support.")
-	input("Press Enter to end program.") 
+    # output the result of the write operation
+    print("\n")
+    print("+----------------------------------------------------------------+")
+    print("| Step {sn}: Verify Output                                          |".format(sn=updateProgressStep()))
+    print("+----------------------------------------------------------------+")
+    print("\nOutput from ipmitool fru: ")
+    for line in ipmitool_fru_result.stdout:
+        print("\t" + line,end="")
+    print("Setup Complete. If the results shown above appear incorrect") 
+    print("run this program again, or contact 45Drives Support.")
+    input("Press Enter to end program.") 
 
 ##################################################################################
 # performFRUWriteSuperMicro()
@@ -331,89 +353,89 @@ def performFRUWrite(ipmitool_information,fru_fields):
 # ./dependencies/ipmi_linux/IPMICFG-Linux.x86_64 from supermicro.
 ##################################################################################
 def performFRUWriteSuperMicro(fru_fields):
-	print("\n")
-	print("+----------------------------------------------------------------+")
-	print("| Step {sn}: Perform Final Write Operation                          |".format(sn=updateProgressStep()))
-	print("+----------------------------------------------------------------+")
+    print("\n")
+    print("+----------------------------------------------------------------+")
+    print("| Step {sn}: Perform Final Write Operation                          |".format(sn=updateProgressStep()))
+    print("+----------------------------------------------------------------+")
 
-	# get the current date for the manufacturing date
-	date = datetime.datetime.now()
-	fru_fields["board_manufacturing_date"] = date.strftime("%Y%m%d%H%M")
+    # get the current date for the manufacturing date
+    date = datetime.datetime.now()
+    fru_fields["board_manufacturing_date"] = date.strftime("%Y%m%d%H%M")
 
-	# adjust the chassis_part_number and version fields
-	# to indicate that the system is a hybrid
-	if "H16" in fru_fields["product_name"]:
-		fru_fields["chassis_part_number"] = "H16-" + fru_fields["part_number"]
-		fru_fields["version"] = "Hybrid16(" + fru_fields["version"] + ")"
-	elif "H32" in fru_fields["product_name"]:
-		fru_fields["chassis_part_number"] = "H32-" + fru_fields["part_number"]
-		fru_fields["version"] = "Hybrid32(" + fru_fields["version"] + ")"
-	else:
-		fru_fields["chassis_part_number"] = fru_fields["part_number"]
-		fru_fields["version"] = "(" + fru_fields["version"] + ")"
-	
-	# assign the remaining fields.
-	fru_fields["chassis_serial"] = fru_fields["serial"]
-	fru_fields["chassis_type"] = "17h"
+    # adjust the chassis_part_number and version fields
+    # to indicate that the system is a hybrid
+    if "H16" in fru_fields["product_name"]:
+        fru_fields["chassis_part_number"] = "H16-" + fru_fields["part_number"]
+        fru_fields["version"] = "Hybrid16(" + fru_fields["version"] + ")"
+    elif "H32" in fru_fields["product_name"]:
+        fru_fields["chassis_part_number"] = "H32-" + fru_fields["part_number"]
+        fru_fields["version"] = "Hybrid32(" + fru_fields["version"] + ")"
+    else:
+        fru_fields["chassis_part_number"] = fru_fields["part_number"]
+        fru_fields["version"] = "(" + fru_fields["version"] + ")"
+    
+    # assign the remaining fields.
+    fru_fields["chassis_serial"] = fru_fields["serial"]
+    fru_fields["chassis_type"] = "17h"
 
-	# prepare arguments for function call
-	fru_args = [
-		f"{g_current_dir}/dependencies/ipmi_linux/IPMICFG-Linux.x86_64",
-		"-fru",
-		"dmi",
-		fru_fields["manufacturer_name"],
-		fru_fields["product_name"],
-		fru_fields["part_number"],
-		fru_fields["version"],
-		fru_fields["serial"],
-		fru_fields["asset_tag"],
-		fru_fields["board_manufacturing_date"],
-		fru_fields["board_manufacturer"],
-		fru_fields["board_model"],
-		fru_fields["board_model"],
-		fru_fields["board_serial"],
-		fru_fields["chassis_type"],
-		fru_fields["chassis_part_number"],
-		fru_fields["chassis_serial"]
-	]
+    # prepare arguments for function call
+    fru_args = [
+        f"{g_current_dir}/dependencies/ipmi_linux/IPMICFG-Linux.x86_64",
+        "-fru",
+        "dmi",
+        fru_fields["manufacturer_name"],
+        fru_fields["product_name"],
+        fru_fields["part_number"],
+        fru_fields["version"],
+        fru_fields["serial"],
+        fru_fields["asset_tag"],
+        fru_fields["board_manufacturing_date"],
+        fru_fields["board_manufacturer"],
+        fru_fields["board_model"],
+        fru_fields["board_model"],
+        fru_fields["board_serial"],
+        fru_fields["chassis_type"],
+        fru_fields["chassis_part_number"],
+        fru_fields["chassis_serial"]
+    ]
 
-	# perform the function call
-	try:
-		ipmi_result = subprocess.Popen(
-			fru_args,stdout=subprocess.PIPE,universal_newlines=True)
-	except:
-		print("!!!! Error performing write !!!!")
-		for i in range(0,len(fru_args)):
-			print(fru_args[i],end=" ")
-		exit(1)
+    # perform the function call
+    try:
+        ipmi_result = subprocess.Popen(
+            fru_args,stdout=subprocess.PIPE,universal_newlines=True)
+    except:
+        print("!!!! Error performing write !!!!")
+        for i in range(0,len(fru_args)):
+            print(fru_args[i],end=" ")
+        exit(1)
 
-	# output the result of the write operation
-	print("\n!!!!   Performing Write  !!!!\n")
-	print("\n Output from ipmicfg: ")
-	for line in ipmi_result.stdout:
-		print("\t" + line,end="")
+    # output the result of the write operation
+    print("\n!!!!   Performing Write  !!!!\n")
+    print("\n Output from ipmicfg: ")
+    for line in ipmi_result.stdout:
+        print("\t" + line,end="")
 
-	try:
-		ipmitool_result = subprocess.Popen(
-			["ipmitool","fru"],stdout=subprocess.PIPE,universal_newlines=True)
-	except:
-		print("Error executing \"ipmitool fru\"")
-		exit(1)	
+    try:
+        ipmitool_result = subprocess.Popen(
+            ["ipmitool","fru"],stdout=subprocess.PIPE,universal_newlines=True)
+    except:
+        print("Error executing \"ipmitool fru\"")
+        exit(1)	
 
-	ipmitool_fru_output = []
-	# output the result of the write operation
-	print("\n")
-	print("+----------------------------------------------------------------+")
-	print("| Step {sn}: Verify Output                                          |".format(sn=updateProgressStep()))
-	print("+----------------------------------------------------------------+")
-	print("\nOutput from ipmitool fru: ")
-	for line in ipmitool_result.stdout:
-		print("\t" + line,end="")
-		ipmitool_fru_output.append(line)
-	print("Setup Complete. If the results shown above appear incorrect") 
-	print("run this program again, or contact 45Drives Support.")
-	input("Press Enter to end program.") 
-	return ipmitool_fru_output
+    ipmitool_fru_output = []
+    # output the result of the write operation
+    print("\n")
+    print("+----------------------------------------------------------------+")
+    print("| Step {sn}: Verify Output                                          |".format(sn=updateProgressStep()))
+    print("+----------------------------------------------------------------+")
+    print("\nOutput from ipmitool fru: ")
+    for line in ipmitool_result.stdout:
+        print("\t" + line,end="")
+        ipmitool_fru_output.append(line)
+    print("Setup Complete. If the results shown above appear incorrect") 
+    print("run this program again, or contact 45Drives Support.")
+    input("Press Enter to end program.") 
+    return ipmitool_fru_output
 
 ##################################################################################
 # countDrives()
@@ -421,72 +443,72 @@ def performFRUWriteSuperMicro(fru_fields):
 # and returns the count of HDD and SSD drives.
 ##################################################################################
 def countDrives():
-	ssd_count = 0
-	hdd_count = 0
-	devices = []
-	try:
-		ls_result = subprocess.Popen(
-			["ls","-w","1","/sys/block/"],stdout=subprocess.PIPE,universal_newlines=True)
-	except:
-		print("Error Counting Drives")
-		exit(1)
-	for line in ls_result.stdout:
-		regex_drive_count = re.search("^(sd.*)$",line)
-		if regex_drive_count != None:
-			devices.append(regex_drive_count.group(1))
-	
-	for dev in devices:
-		rotational_path = "/sys/block/" + dev + "/queue/rotational"
-		if os.path.isfile(rotational_path):
-			rotational = open(rotational_path, mode='r')
-			if bool(int(rotational.read(1))):
-				hdd_count += 1
-			else:
-				ssd_count += 1
-	return hdd_count, ssd_count
+    ssd_count = 0
+    hdd_count = 0
+    devices = []
+    try:
+        ls_result = subprocess.Popen(
+            ["ls","-w","1","/sys/block/"],stdout=subprocess.PIPE,universal_newlines=True)
+    except:
+        print("Error Counting Drives")
+        exit(1)
+    for line in ls_result.stdout:
+        regex_drive_count = re.search("^(sd.*)$",line)
+        if regex_drive_count != None:
+            devices.append(regex_drive_count.group(1))
+    
+    for dev in devices:
+        rotational_path = "/sys/block/" + dev + "/queue/rotational"
+        if os.path.isfile(rotational_path):
+            rotational = open(rotational_path, mode='r')
+            if bool(int(rotational.read(1))):
+                hdd_count += 1
+            else:
+                ssd_count += 1
+    return hdd_count, ssd_count
 
 ##################################################################################
 # getChassisType()
 # gets the chassis type based on user input. returns a string. 
 ##################################################################################
 def getChassisType():
-	done = False
-	step_number = sn=updateProgressStep()
-	while not done:
-		print("\n")
-		print("+----------------------------------------------------------------+")
-		print("| Step {sn}: Select a Chassis Type                                  |".format(sn=step_number))
-		print("+----------------------------------------------------------------+")
-		option = 0
-		for product in g_config_file_content["Chassis Type"]:
-			option += 1
-			print("\t",option,": " + product)
-		selection = input("Select an option (1 - " + str(option) + "): ")
-		if selection.isnumeric() and int(selection) <= option and int(selection) > 0:
-			return g_config_file_content["Chassis Type"][int(selection)-1]
-		else:
-			print("Invalid selection")
+    done = False
+    step_number = sn=updateProgressStep()
+    while not done:
+        print("\n")
+        print("+----------------------------------------------------------------+")
+        print("| Step {sn}: Select a Chassis Type                                  |".format(sn=step_number))
+        print("+----------------------------------------------------------------+")
+        option = 0
+        for product in g_config_file_content["Chassis Type"]:
+            option += 1
+            print("\t",option,": " + product)
+        selection = input("Select an option (1 - " + str(option) + "): ")
+        if selection.isnumeric() and int(selection) <= option and int(selection) > 0:
+            return g_config_file_content["Chassis Type"][int(selection)-1]
+        else:
+            print("Invalid selection")
 
 ##################################################################################
 # getProductType()
 # Gets the product type selection from the user. Returns a string.
 ##################################################################################
 def getProductType():
-	done = False
-	step_number = updateProgressStep()
-	while not done:
-		print("+----------------------------------------------------------------+")
-		print("| Step {sn}: Select Product Type                                    |".format(sn=step_number))
-		print("+----------------------------------------------------------------+")
-		option = 0
-		for product in g_config_file_content["Product Type"]:
-			option += 1
-			print("\t",option,": " + product)
-		selection = input("Select an option (1 - " + str(option) + "): ")
-		if selection.isnumeric() and int(selection) <= option and int(selection) > 0:
-			return g_config_file_content["Product Type"][int(selection)-1]
-		else:
-			print("Invalid selection")
+    done = False
+    step_number = updateProgressStep()
+    while not done:
+        print("+----------------------------------------------------------------+")
+        print("| Step {sn}: Select Product Type                                    |".format(sn=step_number))
+        print("+----------------------------------------------------------------+")
+        option = 0
+        for product in g_config_file_content["Product Type"]:
+            option += 1
+            print("\t",option,": " + product)
+        selection = input("Select an option (1 - " + str(option) + "): ")
+        if selection.isnumeric() and int(selection) <= option and int(selection) > 0:
+            return g_config_file_content["Product Type"][int(selection)-1]
+        else:
+            print("Invalid selection")
 
 ##################################################################################
 # getSerial()
@@ -494,31 +516,31 @@ def getProductType():
 # numbers and hyphens are used. Typical job number is of format XXXXXXXX-YY-ZZ
 ##################################################################################
 def getSerial():
-	done = False
-	selection = ""
-	step_number = updateProgressStep()
-	while not done:
-		print("\n")
-		print("+----------------------------------------------------------------+")
-		print("| Step {sn}: Enter Product Serial                                   |".format(sn=step_number))
-		print("+----------------------------------------------------------------+")
-		selection = input("Enter Product Serial Number (aka Job Number ex:104237-11-01): ")
-		selCopy = selection
-		selCopy = selCopy.split("-")
-		if len(selCopy) == 3:
-			#serial is of proper length
-			if selCopy[0].isnumeric() and selCopy[2].isnumeric():
-				# the first and last tokens are of proper format
-				done = True
-		elif len(selCopy) == 2:
-			#serial is of improper length
-			if selCopy[0].isnumeric():
-				print("Serial number entered ("+selection+") doesn't match a full serial number format (ex. 123456-10-01).")
-			if input("Are you sure that you want to use an incomplete serial number for this system? It can make support's job harder if you do.. (y/n):") == "y":
-				done = True
-		else:
-			print("Invalid format used, try again")
-	return selection
+    done = False
+    selection = ""
+    step_number = updateProgressStep()
+    while not done:
+        print("\n")
+        print("+----------------------------------------------------------------+")
+        print("| Step {sn}: Enter Product Serial                                   |".format(sn=step_number))
+        print("+----------------------------------------------------------------+")
+        selection = input("Enter Product Serial Number (aka Job Number ex:104237-11-01): ")
+        selCopy = selection
+        selCopy = selCopy.split("-")
+        if len(selCopy) == 3:
+            #serial is of proper length
+            if selCopy[0].isnumeric() and selCopy[2].isnumeric():
+                # the first and last tokens are of proper format
+                done = True
+        elif len(selCopy) == 2:
+            #serial is of improper length
+            if selCopy[0].isnumeric():
+                print("Serial number entered ("+selection+") doesn't match a full serial number format (ex. 123456-10-01).")
+            if input("Are you sure that you want to use an incomplete serial number for this system? It can make support's job harder if you do.. (y/n):") == "y":
+                done = True
+        else:
+            print("Invalid format used, try again")
+    return selection
 
 
 ##################################################################################
@@ -526,32 +548,32 @@ def getSerial():
 # Lets the user specify if the product is a hybrid or not. 
 ##################################################################################
 def getHybridType():
-	done = False
-	step_number = updateProgressStep()
-	while not done:
-		print("\n")
-		print("+----------------------------------------------------------------+")
-		print("| Step {sn}: Hybrid Check                                           |".format(sn=step_number))
-		print("+----------------------------------------------------------------+")
+    done = False
+    step_number = updateProgressStep()
+    while not done:
+        print("\n")
+        print("+----------------------------------------------------------------+")
+        print("| Step {sn}: Hybrid Check                                           |".format(sn=step_number))
+        print("+----------------------------------------------------------------+")
 
-		valid_hybrid_strs = ["H32","H16","H8"]
-		hybrid_str = ""
-		# prompt user to see if system is a hybrid system.
-		hybrid = input("Is this a hybrid machine? (y/n): ")
-		if hybrid == "y":
-			# we have a hybrid system, append an H to string
-			hybrid_str += "H"
-			# get type of hybrid from user.
-			hybridCount = input("which kind of hybrid? (8/16/32): ")
-			hybrid_str += hybridCount
-			if hybrid_str in valid_hybrid_strs:
-				return hybrid_str
-			else:
-				print("Invalid hybrid type \"{h}\". Try Again.".format(h=hybrid_str))
-		elif hybrid == "n":
-			return ""
-		else:
-			print("Invalid Selection")
+        valid_hybrid_strs = ["H32","H16","H8"]
+        hybrid_str = ""
+        # prompt user to see if system is a hybrid system.
+        hybrid = input("Is this a hybrid machine? (y/n): ")
+        if hybrid == "y":
+            # we have a hybrid system, append an H to string
+            hybrid_str += "H"
+            # get type of hybrid from user.
+            hybridCount = input("which kind of hybrid? (8/16/32): ")
+            hybrid_str += hybridCount
+            if hybrid_str in valid_hybrid_strs:
+                return hybrid_str
+            else:
+                print("Invalid hybrid type \"{h}\". Try Again.".format(h=hybrid_str))
+        elif hybrid == "n":
+            return ""
+        else:
+            print("Invalid Selection")
 
 
 ##################################################################################
@@ -560,119 +582,119 @@ def getHybridType():
 # updates auto_detect_fields and fru_fields (declared in main()).
 ##################################################################################
 def getUserInput(auto_detect_fields,fru_fields):
-	product_type = getProductType()
-	hybrid_type = getHybridType()
-	chassis_type = getChassisType()
-	serial = getSerial()
-	asset_tag = "SELFSERIALIZED"
+    product_type = getProductType()
+    hybrid_type = getHybridType()
+    chassis_type = getChassisType()
+    serial = getSerial()
+    asset_tag = "SELFSERIALIZED"
 
-	auto_detect_fields["product_type"] = product_type
-	auto_detect_fields["part_number"] = chassis_type
-	auto_detect_fields["hybrid_type"] = hybrid_type
-	fru_fields["part_number"] = chassis_type
-	fru_fields["serial"] = serial
-	fru_fields["asset_tag"] = asset_tag
-	fru_fields["product_name"] = product_type
+    auto_detect_fields["product_type"] = product_type
+    auto_detect_fields["part_number"] = chassis_type
+    auto_detect_fields["hybrid_type"] = hybrid_type
+    fru_fields["part_number"] = chassis_type
+    fru_fields["serial"] = serial
+    fru_fields["asset_tag"] = asset_tag
+    fru_fields["product_name"] = product_type
 
 def assignProductName(auto_detect_fields,fru_fields):
-	mobo_to_version_lut = {
-		"X11SSH-CTF":"Base",
-		"X11SSM-F": "Base",
-		"X11DPL-i": "Turbo",
-		"X11DPH-T": "Turbo",
-		"X10DRL-i": "Turbo"
-	}
+    mobo_to_version_lut = {
+        "X11SSH-CTF":"Base",
+        "X11SSM-F": "Base",
+        "X11DPL-i": "Turbo",
+        "X11DPH-T": "Turbo",
+        "X10DRL-i": "Turbo"
+    }
 
-	cpu_substr_to_version_lut = {
-		"Bronze":"Base-B",
-		"Silver":"Enhanced-S",
-		"Gold":"Turbo-G",
-		"AMD":"Enhanced-AMD"
-	}
+    cpu_substr_to_version_lut = {
+        "Bronze":"Base-B",
+        "Silver":"Enhanced-S",
+        "Gold":"Turbo-G",
+        "AMD":"Enhanced-AMD"
+    }
 
-	step_number = updateProgressStep()
-	while True:
-		print("\n")
-		print("+----------------------------------------------------------------+")
-		print("| Step {sn}: Determine Unique Server Type                           |".format(sn=step_number))
-		print("+----------------------------------------------------------------+")
-		
-		final_product_str = "unknown"
-		unique_product_str_tmp = None
+    step_number = updateProgressStep()
+    while True:
+        print("\n")
+        print("+----------------------------------------------------------------+")
+        print("| Step {sn}: Determine Unique Server Type                           |".format(sn=step_number))
+        print("+----------------------------------------------------------------+")
+        
+        final_product_str = "unknown"
+        unique_product_str_tmp = None
 
-		# build the product string using the input provided by the user.
-		unique_product_str = auto_detect_fields["product_type"] + "-"
+        # build the product string using the input provided by the user.
+        unique_product_str = auto_detect_fields["product_type"] + "-"
 
-		if auto_detect_fields["hybrid_type"] != "":
-			unique_product_str += auto_detect_fields["hybrid_type"] + "-"
+        if auto_detect_fields["hybrid_type"] != "":
+            unique_product_str += auto_detect_fields["hybrid_type"] + "-"
 
-		unique_product_str += auto_detect_fields["part_number"] + "-"
+        unique_product_str += auto_detect_fields["part_number"] + "-"
 
-		#see if we can determine base, enhanced, turbo or enhanced-AMD type
-		if auto_detect_fields["board_model"] in mobo_to_version_lut.keys():
-			unique_product_str_tmp = unique_product_str + mobo_to_version_lut[auto_detect_fields["board_model"]]
+        #see if we can determine base, enhanced, turbo or enhanced-AMD type
+        if auto_detect_fields["board_model"] in mobo_to_version_lut.keys():
+            unique_product_str_tmp = unique_product_str + mobo_to_version_lut[auto_detect_fields["board_model"]]
 
-		else:
-			# determine model based on cpu present
-			cpu_substr_present = False
-			cpu_substr_version = None
+        else:
+            # determine model based on cpu present
+            cpu_substr_present = False
+            cpu_substr_version = None
 
-			for substr in cpu_substr_to_version_lut.keys():
-				if substr in auto_detect_fields["cpu_model"] and not cpu_substr_present:
-					cpu_substr_present = True
-					cpu_substr_version = cpu_substr_to_version_lut[substr]
+            for substr in cpu_substr_to_version_lut.keys():
+                if substr in auto_detect_fields["cpu_model"] and not cpu_substr_present:
+                    cpu_substr_present = True
+                    cpu_substr_version = cpu_substr_to_version_lut[substr]
 
-			if cpu_substr_present:
-				unique_product_str_tmp = unique_product_str + cpu_substr_version
+            if cpu_substr_present:
+                unique_product_str_tmp = unique_product_str + cpu_substr_version
 
-		if unique_product_str_tmp in g_config_file_content["Product Name"]:
-			final_product_str = unique_product_str_tmp
-		
-		if final_product_str != "unknown":
-			# we got valid input from user and assigned a value to final product string.
-			auto_detect_fields["unique_product_str"] = final_product_str
-			confirm = input("\nAuto-Detect determined that the product is a \"{pr}\", is this correct? (y/n):".format(pr=auto_detect_fields["unique_product_str"]))
-			if confirm == "y":
-				# user confirmed final product string to be correct. We're all done.
-				fru_fields["product_name"] = auto_detect_fields["unique_product_str"]
-				fru_fields["version"] = auto_detect_fields["unique_product_str"].split("-")[-1]
-				return
-			else:
-				final_product_str = "unknown"
-			
-		# Unable to automatically determine product version, get 
-		# this information from user. 
-		versions = ["Base","Base-B","Enhanced","Enhanced-S","Turbo","Turbo-G","Enhanced-AMD"]
-		print("Select a system version:")
-		option = 0
-		for version in versions:
-			option += 1
-			print("\t" + str(option) + ": " + version)
-		selection = input("Select an option (1 - " + str(option) + "): ")
-		if selection.isnumeric() and int(selection) <= option and int(selection) > 0:
-			unique_product_str += versions[int(selection)-1]
-			if unique_product_str in g_config_file_content["Product Name"]:
-				final_product_str = unique_product_str
-			else:
-				print("Product Configuration of \"{ps}\" is INVALID. \nRun Program again or contact 45Drives Support if issue persists.".format(ps=unique_product_str))
-				print("Valid Product Configurations: ")
-				for valid_product in g_config_file_content["Product Name"]:
-					print("\t{vp}".format(vp=valid_product))
-				input("Press ENTER to End Program.")
-				exit(0)
+        if unique_product_str_tmp in g_config_file_content["Product Name"]:
+            final_product_str = unique_product_str_tmp
+        
+        if final_product_str != "unknown":
+            # we got valid input from user and assigned a value to final product string.
+            auto_detect_fields["unique_product_str"] = final_product_str
+            confirm = input("\nAuto-Detect determined that the product is a \"{pr}\", is this correct? (y/n):".format(pr=auto_detect_fields["unique_product_str"]))
+            if confirm == "y":
+                # user confirmed final product string to be correct. We're all done.
+                fru_fields["product_name"] = auto_detect_fields["unique_product_str"]
+                fru_fields["version"] = auto_detect_fields["unique_product_str"].split("-")[-1]
+                return
+            else:
+                final_product_str = "unknown"
+            
+        # Unable to automatically determine product version, get 
+        # this information from user. 
+        versions = ["Base","Base-B","Enhanced","Enhanced-S","Turbo","Turbo-G","Enhanced-AMD"]
+        print("Select a system version:")
+        option = 0
+        for version in versions:
+            option += 1
+            print("\t" + str(option) + ": " + version)
+        selection = input("Select an option (1 - " + str(option) + "): ")
+        if selection.isnumeric() and int(selection) <= option and int(selection) > 0:
+            unique_product_str += versions[int(selection)-1]
+            if unique_product_str in g_config_file_content["Product Name"]:
+                final_product_str = unique_product_str
+            else:
+                print("Product Configuration of \"{ps}\" is INVALID. \nRun Program again or contact 45Drives Support if issue persists.".format(ps=unique_product_str))
+                print("Valid Product Configurations: ")
+                for valid_product in g_config_file_content["Product Name"]:
+                    print("\t{vp}".format(vp=valid_product))
+                input("Press ENTER to End Program.")
+                exit(0)
 
-		if final_product_str != "unknown":
-			# we got valid input from user and assigned a value to final product string.
-			auto_detect_fields["unique_product_str"] = final_product_str
-			confirm = input("\nAuto-Detect determined that the product is a \"{pr}\", is this correct? (y/n):".format(pr=auto_detect_fields["unique_product_str"]))
-			if confirm == "y":
-				# user confirmed final product string to be correct. We're all done.
-				fru_fields["product_name"] = auto_detect_fields["unique_product_str"]
-				fru_fields["version"] = auto_detect_fields["unique_product_str"].split("-")[-1]
-				return
+        if final_product_str != "unknown":
+            # we got valid input from user and assigned a value to final product string.
+            auto_detect_fields["unique_product_str"] = final_product_str
+            confirm = input("\nAuto-Detect determined that the product is a \"{pr}\", is this correct? (y/n):".format(pr=auto_detect_fields["unique_product_str"]))
+            if confirm == "y":
+                # user confirmed final product string to be correct. We're all done.
+                fru_fields["product_name"] = auto_detect_fields["unique_product_str"]
+                fru_fields["version"] = auto_detect_fields["unique_product_str"].split("-")[-1]
+                return
 
-		# We need to try to get user unput again. Something was entered incorrectly. 
-		print("Invalid information entered, Trying Again.\n")
+        # We need to try to get user unput again. Something was entered incorrectly. 
+        print("Invalid information entered, Trying Again.\n")
 
 
 ##################################################################################
@@ -682,78 +704,78 @@ def assignProductName(auto_detect_fields,fru_fields):
 #  the existing fru data as a binary file. 
 ##################################################################################
 def get_ipmitool_information(product_serial):
-	ipmitool_fru_output = {}
+    ipmitool_fru_output = {}
 
-	# Get current FRU fields in plain text
-	ipmitool_fru_result = None
-	try:
-		ipmitool_fru_result = subprocess.Popen(["ipmitool", "fru"],stdout=subprocess.PIPE,universal_newlines=True)
-	except:
-		print("Error executing \"ipmitool fru\"")
-		exit(1)
+    # Get current FRU fields in plain text
+    ipmitool_fru_result = None
+    try:
+        ipmitool_fru_result = subprocess.Popen(["ipmitool", "fru"],stdout=subprocess.PIPE,universal_newlines=True)
+    except:
+        print("Error executing \"ipmitool fru\"")
+        exit(1)
 
-	# read in all key value pairs from ipmitool fru plain text output.
-	key_value_fru_regex = r"\s([\sA-Za-z]+)(?:\s+):(?:\s+)([^\n]+)"
-	for line in ipmitool_fru_result.stdout:
-		match = re.search(key_value_fru_regex, line)
+    # read in all key value pairs from ipmitool fru plain text output.
+    key_value_fru_regex = r"\s([\sA-Za-z]+)(?:\s+):(?:\s+)([^\n]+)"
+    for line in ipmitool_fru_result.stdout:
+        match = re.search(key_value_fru_regex, line)
 
-		if match != None:
-			key = match.group(1).strip()
-			value = match.group(2).strip()
-			ipmitool_fru_output[key] = value
+        if match != None:
+            key = match.group(1).strip()
+            value = match.group(2).strip()
+            ipmitool_fru_output[key] = value
 
-	# create a backup directory for the existing fru binary data.
-	backup_dir = f"{g_current_dir}/fru_bin_backups"
-	if not os.path.exists(backup_dir):
-		print(f"making directory to store fru bin backups in {backup_dir}")
-		os.makedirs(backup_dir)
-	# create filename for existing fru binary data
-	date = datetime.datetime.now()
-	timestamp = date.strftime("%Y-%m-%d_%H-%M-%S")
-	backup_name = f"{backup_dir}/fru-{product_serial}-{timestamp}.bin".replace(" ", "")
+    # create a backup directory for the existing fru binary data.
+    backup_dir = f"{g_current_dir}/fru_bin_backups"
+    if not os.path.exists(backup_dir):
+        print(f"making directory to store fru bin backups in {backup_dir}")
+        os.makedirs(backup_dir)
+    # create filename for existing fru binary data
+    date = datetime.datetime.now()
+    timestamp = date.strftime("%Y-%m-%d_%H-%M-%S")
+    backup_name = f"{backup_dir}/fru-{product_serial}-{timestamp}.bin".replace(" ", "")
 
-	# read existing fru binary data from motherboard.
-	ipmitool_fru_read_result = None
-	try:
-		ipmitool_fru_read_result = subprocess.Popen(["ipmitool", "fru", "read", "0", backup_name],stdout=subprocess.PIPE,universal_newlines=True).stdout.read()
-	except:
-		print("Error executing \"ipmitool fru read\"")
-		exit(1)
+    # read existing fru binary data from motherboard.
+    ipmitool_fru_read_result = None
+    try:
+        ipmitool_fru_read_result = subprocess.Popen(["ipmitool", "fru", "read", "0", backup_name],stdout=subprocess.PIPE,universal_newlines=True).stdout.read()
+    except:
+        print("Error executing \"ipmitool fru read\"")
+        exit(1)
 
-	# capture the size of the existing fru data (bytes)
-	match = re.search(r"(?:fru\ssize\s+):\s+(\d+)\s+([^\n]+)", ipmitool_fru_read_result, flags=re.IGNORECASE)
-	if match != None:
-		ipmitool_fru_output["FRU Size"] = match.group(1)
+    # capture the size of the existing fru data (bytes)
+    match = re.search(r"(?:fru\ssize\s+):\s+(\d+)\s+([^\n]+)", ipmitool_fru_read_result, flags=re.IGNORECASE)
+    if match != None:
+        ipmitool_fru_output["FRU Size"] = match.group(1)
 
-	# get minutes since Jan 1st 1996
-	month_lut = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
-	start_date = datetime.datetime(1996, 1, 1, 0, 0).timestamp()
-	end_date = None
+    # get minutes since Jan 1st 1996
+    month_lut = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
+    start_date = datetime.datetime(1996, 1, 1, 0, 0).timestamp()
+    end_date = None
 
-	# get board manufacturing date if present
-	if "Board Mfg Date" in ipmitool_fru_output:
-		date_match = re.search(r"(?:[A-Za-z]{3})\s+([A-Za-z]{3})\s+([0-9]{1,2})\s+([0-9]{1,2}):([0-9]{1,2}):(?:[0-9]{1,2})\s+([0-9]{4})", ipmitool_fru_output["Board Mfg Date"])
+    # get board manufacturing date if present
+    if "Board Mfg Date" in ipmitool_fru_output:
+        date_match = re.search(r"(?:[A-Za-z]{3})\s+([A-Za-z]{3})\s+([0-9]{1,2})\s+([0-9]{1,2}):([0-9]{1,2}):(?:[0-9]{1,2})\s+([0-9]{4})", ipmitool_fru_output["Board Mfg Date"])
 
-		if date_match != None:
-			month = month_lut.index(date_match.group(1).lower()) + 1
-			day = int(date_match.group(2))
-			year = int(date_match.group(5))
-			hour = int(date_match.group(3))
-			minute = int(date_match.group(3))
+        if date_match != None:
+            month = month_lut.index(date_match.group(1).lower()) + 1
+            day = int(date_match.group(2))
+            year = int(date_match.group(5))
+            hour = int(date_match.group(3))
+            minute = int(date_match.group(3))
 
-			end_date = datetime.datetime(year, month, day, hour, minute).timestamp()
+            end_date = datetime.datetime(year, month, day, hour, minute).timestamp()
 
-	if end_date == None:
-		# use current date/time as fallback in case board manufacturing date is not present/invalid
-		end_date = datetime.datetime.now().timestamp()
+    if end_date == None:
+        # use current date/time as fallback in case board manufacturing date is not present/invalid
+        end_date = datetime.datetime.now().timestamp()
 
-	# convert to required hex value for flashing.
-	minutes = int((end_date - start_date) / 60)
-	minutes_hex = hex(minutes).lstrip("0x")
+    # convert to required hex value for flashing.
+    minutes = int((end_date - start_date) / 60)
+    minutes_hex = hex(minutes).lstrip("0x")
 
-	# return board manufacture date in hex, fru size (bytes), and other plaintext values required for .ini file.
-	ipmitool_fru_output["Board Mfg Date Hex"] = minutes_hex.upper()
-	return ipmitool_fru_output
+    # return board manufacture date in hex, fru size (bytes), and other plaintext values required for .ini file.
+    ipmitool_fru_output["Board Mfg Date Hex"] = minutes_hex.upper()
+    return ipmitool_fru_output
 
 
 ##################################################################################
@@ -762,51 +784,51 @@ def get_ipmitool_information(product_serial):
 # in case we want a reference of previous fru data in human-readable format. 
 ##################################################################################
 def storePrevIpmitoolOutput():
-	print("\n")
-	print("+----------------------------------------------------------------+")
-	print("| Step {sn}: Store backup                                           |".format(sn=updateProgressStep()))
-	print("+----------------------------------------------------------------+")
-	print("\nStoring plaintext output of 'ipmitool fru' command in backup file before writing.")
-	try:
-		ipmitool_result = subprocess.Popen(
-			["ipmitool","fru"],stdout=subprocess.PIPE,universal_newlines=True)
-	except:
-		print("Error executing \"ipmitool fru\"")
-		exit(1)	
+    print("\n")
+    print("+----------------------------------------------------------------+")
+    print("| Step {sn}: Store backup                                           |".format(sn=updateProgressStep()))
+    print("+----------------------------------------------------------------+")
+    print("\nStoring plaintext output of 'ipmitool fru' command in backup file before writing.")
+    try:
+        ipmitool_result = subprocess.Popen(
+            ["ipmitool","fru"],stdout=subprocess.PIPE,universal_newlines=True)
+    except:
+        print("Error executing \"ipmitool fru\"")
+        exit(1)	
 
-	ipmitool_fru_output = []
-	for line in ipmitool_result.stdout:
-		ipmitool_fru_output.append(line)
+    ipmitool_fru_output = []
+    for line in ipmitool_result.stdout:
+        ipmitool_fru_output.append(line)
 
-	backup_dir = f"{g_current_dir}/fru_plaintext_backups"
-	if not os.path.exists(backup_dir):
-		print("making directory to store backup files {bd}".format(bd=backup_dir))
-		os.makedirs(backup_dir)
+    backup_dir = f"{g_current_dir}/fru_plaintext_backups"
+    if not os.path.exists(backup_dir):
+        print("making directory to store backup files {bd}".format(bd=backup_dir))
+        os.makedirs(backup_dir)
 
-	date = datetime.datetime.now()
-	timestamp = date.strftime("%Y-%m-%d_%H-%M-%S")
-	backup_file_name = "{bd}/ipmitool_fru_backup_{ts}".format(bd=backup_dir,ts=timestamp)
+    date = datetime.datetime.now()
+    timestamp = date.strftime("%Y-%m-%d_%H-%M-%S")
+    backup_file_name = "{bd}/ipmitool_fru_backup_{ts}".format(bd=backup_dir,ts=timestamp)
 
-	b_file = open(backup_file_name,"w")
-	for line in ipmitool_fru_output:
-		b_file.write(line)
-	b_file.write("\n")
-	b_file.close()
-	print("Output stored successfully ({bfn})".format(bfn=backup_file_name))
+    b_file = open(backup_file_name,"w")
+    for line in ipmitool_fru_output:
+        b_file.write(line)
+    b_file.write("\n")
+    b_file.close()
+    print("Output stored successfully ({bfn})".format(bfn=backup_file_name))
 
 def check_root():
-	root_test = subprocess.run(["ls","/root"],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode
-	if root_test:
-		print("serial45d must be run with root privileges.")
-		exit(root_test)
+    root_test = subprocess.run(["ls","/root"],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode
+    if root_test:
+        print("serial45d must be run with root privileges.")
+        exit(root_test)
 
 def updateProgressStep(inc=True,stepValue=1):
-	global g_progress_step
-	if inc:
-		g_progress_step = g_progress_step + 1
-	else:
-		g_progress_step = stepValue
-	return g_progress_step
+    global g_progress_step
+    if inc:
+        g_progress_step = g_progress_step + 1
+    else:
+        g_progress_step = stepValue
+    return g_progress_step
 
 
 
@@ -817,176 +839,189 @@ def updateProgressStep(inc=True,stepValue=1):
 # if all else fails it will prompt the user for the missing information.
 ##################################################################################
 def verifyIpmitoolFru(ipmitool_information):
-	print("\n")
-	print("+----------------------------------------------------------------+")
-	print("| Step {sn}: Verify FRU Data                                        |".format(sn=updateProgressStep()))
-	print("+----------------------------------------------------------------+")
-	print("\nValidating information obtained from 'ipmitool fru' command.")
+    print("\n")
+    print("+----------------------------------------------------------------+")
+    print("| Step {sn}: Verify FRU Data                                        |".format(sn=updateProgressStep()))
+    print("+----------------------------------------------------------------+")
+    print("\nValidating information obtained from 'ipmitool fru' command.")
 
 
-	required_fields = ["Board Product","Board Serial","Board Mfg"]
-	valid = True
+    required_fields = ["Board Product","Board Serial","Board Mfg"]
+    valid = True
 
-	# look through the required fields and flag any missing or empty fields as invalid
-	for field in required_fields:
-		if field not in ipmitool_information.keys():
-			valid = False
-			print("\tMissing Field: '{k}'".format(k=field))
-		elif not ipmitool_information[field]:
-			valid = False
-			print("\tEmpty Field: '{f}': '{v}'".format(f=field,v=ipmitool_information[field]))
-	
-	if valid:
-		print("FRU data is VALID.")
-		return
+    # look through the required fields and flag any missing or empty fields as invalid
+    for field in required_fields:
+        if field not in ipmitool_information.keys():
+            valid = False
+            print("\tMissing Field: '{k}'".format(k=field))
+        elif not ipmitool_information[field]:
+            valid = False
+            print("\tEmpty Field: '{f}': '{v}'".format(f=field,v=ipmitool_information[field]))
+    
+    if valid:
+        print("FRU data is VALID.")
+        return
 
-	print("\tFRU data is invalid, attempting to obtain motherboard data from dmidecode.")	
-	board_product, board_serial, board_mfg = getMotherboard()
-	ipmitool_information["Board Product"] = board_product if board_product != "unknown" else ""
-	ipmitool_information["Board Serial"] = board_serial if board_serial != "unknown" else ""
-	ipmitool_information["Board Mfg"] = board_mfg if board_mfg != "unknown" else ""
+    print("\tFRU data is invalid, attempting to obtain motherboard data from dmidecode.")	
+    board_product, board_serial, board_mfg = getMotherboard()
+    ipmitool_information["Board Product"] = board_product if board_product != "unknown" else ""
+    ipmitool_information["Board Serial"] = board_serial if board_serial != "unknown" else ""
+    ipmitool_information["Board Mfg"] = board_mfg if board_mfg != "unknown" else ""
 
-	# re-test fields after obtaining them from dmidecode
-	valid = True
+    # re-test fields after obtaining them from dmidecode
+    valid = True
 
-	# look through the required fields and flag any missing or empty fields as invalid
-	for field in required_fields:
-		if field not in ipmitool_information.keys():
-			valid = False
-			print("\tMissing Field: '{k}'".format(k=field))
-		elif not ipmitool_information[field]:
-			valid = False
-			print("\tEmpty Field: '{f}': '{v}'".format(f=field,v=ipmitool_information[field]))
-	
-	if valid:
-		print("\tValid FRU Data obtained from 'dmidecode -t 2'.")
-		return
-	
-	# neither ipmitool fru or dmidecode worked to automatically detect the board information. 
-	# Last resort is to prompt the user to input this information instead.
-	global g_config_file_content
+    # look through the required fields and flag any missing or empty fields as invalid
+    for field in required_fields:
+        if field not in ipmitool_information.keys():
+            valid = False
+            print("\tMissing Field: '{k}'".format(k=field))
+        elif not ipmitool_information[field]:
+            valid = False
+            print("\tEmpty Field: '{f}': '{v}'".format(f=field,v=ipmitool_information[field]))
+    
+    if valid:
+        print("\tValid FRU Data obtained from 'dmidecode -t 2'.")
+        return
+    
+    # neither ipmitool fru or dmidecode worked to automatically detect the board information. 
+    # Last resort is to prompt the user to input this information instead.
+    global g_config_file_content
 
-	# Get Motherboard Manufacturer
-	if not ipmitool_information.get("Board Mfg",""):
-		valid_selection = ["Supermicro","ASRockRack"]
-		done = False
-		step_number = updateProgressStep()
-		while not done:
-			print("+----------------------------------------------------------------+")
-			print("| Step {sn}: Select Motherboard Manufacturer                        |".format(sn=step_number))
-			print("+----------------------------------------------------------------+")
-			option = 0
-			for product in valid_selection:
-				option += 1
-				print("\t",option,": " + product)
-			selection = input("Select an option (1 - " + str(option) + "): ")
-			if selection.isnumeric() and int(selection) <= option and int(selection) > 0:
-				ipmitool_information["Board Mfg"] = valid_selection[int(selection)-1]
-				done = True
-			else:
-				print("Invalid selection")
+    # Get Motherboard Manufacturer
+    if not ipmitool_information.get("Board Mfg",""):
+        valid_selection = ["Supermicro","ASRockRack"]
+        done = False
+        step_number = updateProgressStep()
+        while not done:
+            print("+----------------------------------------------------------------+")
+            print("| Step {sn}: Select Motherboard Manufacturer                        |".format(sn=step_number))
+            print("+----------------------------------------------------------------+")
+            option = 0
+            for product in valid_selection:
+                option += 1
+                print("\t",option,": " + product)
+            selection = input("Select an option (1 - " + str(option) + "): ")
+            if selection.isnumeric() and int(selection) <= option and int(selection) > 0:
+                ipmitool_information["Board Mfg"] = valid_selection[int(selection)-1]
+                done = True
+            else:
+                print("Invalid selection")
 
-	# Get Motherboard Model
-	if not ipmitool_information.get("Board Product",""):
-		valid_selection = g_config_file_content.get("Motherboard",["UNKNOWN"])
-		done = False
-		step_number = updateProgressStep()
-		while not done:
-			print("+----------------------------------------------------------------+")
-			print("| Step {sn}: Select Motherboard Model                               |".format(sn=step_number))
-			print("+----------------------------------------------------------------+")
-			option = 0
-			for product in valid_selection:
-				option += 1
-				print("\t",option,": " + product)
-			selection = input("Select an option (1 - " + str(option) + "): ")
-			if selection.isnumeric() and int(selection) <= option and int(selection) > 0:
-				ipmitool_information["Board Product"] = valid_selection[int(selection)-1]
-				done = True
-			else:
-				print("Invalid selection")
+    # Get Motherboard Model
+    if not ipmitool_information.get("Board Product",""):
+        valid_selection = g_config_file_content.get("Motherboard",["UNKNOWN"])
+        done = False
+        step_number = updateProgressStep()
+        while not done:
+            print("+----------------------------------------------------------------+")
+            print("| Step {sn}: Select Motherboard Model                               |".format(sn=step_number))
+            print("+----------------------------------------------------------------+")
+            option = 0
+            for product in valid_selection:
+                option += 1
+                print("\t",option,": " + product)
+            selection = input("Select an option (1 - " + str(option) + "): ")
+            if selection.isnumeric() and int(selection) <= option and int(selection) > 0:
+                ipmitool_information["Board Product"] = valid_selection[int(selection)-1]
+                done = True
+            else:
+                print("Invalid selection")
 
-	# Get Serial Number
-	if not ipmitool_information.get("Board Serial",""):
-		done = False
-		selection = ""
-		step_number = updateProgressStep()
-		while not done:
-			print("\n")
-			print("+----------------------------------------------------------------+")
-			print("| Step {sn}: Enter Motherboard Serial Number                        |".format(sn=step_number))
-			print("+----------------------------------------------------------------+")
-			selection = input("\tEnter Motherboard Serial Number (ex:ZM228S003796): ")
-			confirm = input("\tSerial Number Entered: '{sn}' Use this serial number? (y/n): ".format(sn=selection))
-			if confirm == "y":
-				done = True
-				ipmitool_information["Board Serial"] = selection.strip()
+    # Get Serial Number
+    if not ipmitool_information.get("Board Serial",""):
+        done = False
+        selection = ""
+        step_number = updateProgressStep()
+        while not done:
+            print("\n")
+            print("+----------------------------------------------------------------+")
+            print("| Step {sn}: Enter Motherboard Serial Number                        |".format(sn=step_number))
+            print("+----------------------------------------------------------------+")
+            selection = input("\tEnter Motherboard Serial Number (ex:ZM228S003796): ")
+            confirm = input("\tSerial Number Entered: '{sn}' Use this serial number? (y/n): ".format(sn=selection))
+            if confirm == "y":
+                done = True
+                ipmitool_information["Board Serial"] = selection.strip()
+
+def load_production_module():
+    global g_production_mode
+    if os.path.exists("/opt/production-scripts/serial/serial"):
+        spec = spec_from_loader("serial", SourceFileLoader(
+        "serial", "/opt/production-scripts/serial/serial"))
+        ps_serial = module_from_spec(spec)
+        spec.loader.exec_module(ps_serial)
+        g_production_mode = True
+        return ps_serial
+    return None
+    
 
 def main():
-	check_root()
+    check_root()
+    ps_serial = load_production_module()
+    
+    # Fields used in the IPMICFG-Linux.x86_64 write operation
+    fru_fields = {
+        "manufacturer_name":"45Drives",
+        "product_name":"unknown",
+        "part_number":"unknown",
+        "version":"unknown",
+        "serial":"unknown",
+        "asset_tag":"unknown",
+        "board_manufacturing_date":"unknown",
+        "board_manufacturer":"unknown",
+        "board_model":"unknown",
+        "board_serial":"unknown",
+        "chassis_type":"unknown",
+        "chassis_part_number":"unknown",
+        "chassis_serial":"unknown"
+    }
 
-	# Fields used in the IPMICFG-Linux.x86_64 write operation
-	fru_fields = {
-		"manufacturer_name":"45Drives",
-		"product_name":"unknown",
-		"part_number":"unknown",
-		"version":"unknown",
-		"serial":"unknown",
-		"asset_tag":"unknown",
-		"board_manufacturing_date":"unknown",
-		"board_manufacturer":"unknown",
-		"board_model":"unknown",
-		"board_serial":"unknown",
-		"chassis_type":"unknown",
-		"chassis_part_number":"unknown",
-		"chassis_serial":"unknown"
-	}
+    # Fields used to attempt to automatically detect the product
+    auto_detect_fields = {
+        "product_type":"unknown",
+        "board_model":"unknown",
+        "cpu_model":"unknown",
+        "cpu_count":0,
+        "chassis_type":"unknown",
+        "unique_product_str":"unknown",
+        "hybrid_type": ""
+    }
 
-	# Fields used to attempt to automatically detect the product
-	auto_detect_fields = {
-		"product_type":"unknown",
-		"board_model":"unknown",
-		"cpu_model":"unknown",
-		"cpu_count":0,
-		"chassis_type":"unknown",
-		"unique_product_str":"unknown",
-		"hybrid_type": ""
-	}
+    outputSerialVersion()
+    
+    # load config file information and store it in g_config_file_content
+    loadSystemConfigs()
 
-	outputSerialVersion()
-	
-	# load config file information and store it in g_config_file_content
-	loadSystemConfigs()
+    # get system type, chassis size, and serial number from user.
+    getUserInput(auto_detect_fields,fru_fields)
 
-	# get system type, chassis size, and serial number from user.
-	getUserInput(auto_detect_fields,fru_fields)
+    ipmitool_information = get_ipmitool_information(fru_fields["serial"])
+    verifyIpmitoolFru(ipmitool_information)
 
-	ipmitool_information = get_ipmitool_information(fru_fields["serial"])
-	verifyIpmitoolFru(ipmitool_information)
+    if "Product Asset Tag" in ipmitool_information:
+        fru_fields["asset_tag"] = ipmitool_information["Product Asset Tag"]
 
-	if "Product Asset Tag" in ipmitool_information:
-		fru_fields["asset_tag"] = ipmitool_information["Product Asset Tag"]
+        if not fru_fields["asset_tag"].startswith('SS-'):
+            fru_fields["asset_tag"] = f'SS-{fru_fields["asset_tag"]}'
 
-		if not fru_fields["asset_tag"].startswith('SS-'):
-			fru_fields["asset_tag"] = f'SS-{fru_fields["asset_tag"]}'
+    #update automatically detected fru fields
+    fru_fields["board_model"] = ipmitool_information["Board Product"]
+    fru_fields["board_serial"] = ipmitool_information["Board Serial"]
+    fru_fields["board_manufacturer"] = ipmitool_information["Board Mfg"]
+    auto_detect_fields["board_model"] = ipmitool_information["Board Product"]
 
-	#update automatically detected fru fields
-	fru_fields["board_model"] = ipmitool_information["Board Product"]
-	fru_fields["board_serial"] = ipmitool_information["Board Serial"]
-	fru_fields["board_manufacturer"] = ipmitool_information["Board Mfg"]
-	auto_detect_fields["board_model"] = ipmitool_information["Board Product"]
+    # gather information and perform autodetection
+    auto_detect_fields["cpu_model"], auto_detect_fields["cpu_count"] = getCPU()
+    assignProductName(auto_detect_fields,fru_fields)
+    storePrevIpmitoolOutput()
 
-	# gather information and perform autodetection
-	auto_detect_fields["cpu_model"], auto_detect_fields["cpu_count"] = getCPU()
-	assignProductName(auto_detect_fields,fru_fields)
-	storePrevIpmitoolOutput()
+    # Keeping this in case we run into issues writing to supermicro boards.
+    #if "supermicro" in fru_fields["board_manufacturer"].lower():
+    #	performFRUWriteSuperMicro(fru_fields)
 
-	# Keeping this in case we run into issues writing to supermicro boards.
-	#if "supermicro" in fru_fields["board_manufacturer"].lower():
-	#	performFRUWriteSuperMicro(fru_fields)
-
-	# write fru binary data, using ipmitool or supermicro restore utility.
-	performFRUWrite(ipmitool_information,fru_fields)
+    # write fru binary data, using ipmitool or supermicro restore utility.
+    performFRUWrite(ipmitool_information,fru_fields)
 
 if __name__ == "__main__":
-	main()
+    main()
