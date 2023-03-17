@@ -1,3 +1,4 @@
-## Serial45d 1.2.0-1
+## Serial45d 2.0.0-1
 
-* Added a contingency for missing Motherboard FRU data.
+* updated serial45d for use by 45Drives Production
+* production specific functions imported into serial45d if present

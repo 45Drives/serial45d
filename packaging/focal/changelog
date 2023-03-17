@@ -1,3 +1,10 @@
+serial45d (2.0.0-1focal) focal; urgency=medium
+
+  * updated serial45d for use by 45Drives Production
+  * production specific functions imported into serial45d if present
+
+ -- Mark Hooper <mhooper@45drives.com>  Fri, 17 Mar 2023 11:44:11 -0300
+
 serial45d (1.2.0-1focal) focal; urgency=medium
 
   * Added a contingency for missing Motherboard FRU data.

@@ -18,7 +18,7 @@ import datetime
 from importlib.util import spec_from_loader, module_from_spec
 from importlib.machinery import SourceFileLoader
 
-
+g_ps_serial = None
 
 g_production_mode = False
 
@@ -334,6 +334,7 @@ def performFRUWrite(ipmitool_information,fru_fields):
         print("Error executing \"ipmitool fru\"")
         exit(1)	
 
+    ipmitool_fru_output = []
     # output the result of the write operation
     print("\n")
     print("+----------------------------------------------------------------+")
@@ -342,9 +343,11 @@ def performFRUWrite(ipmitool_information,fru_fields):
     print("\nOutput from ipmitool fru: ")
     for line in ipmitool_fru_result.stdout:
         print("\t" + line,end="")
+        ipmitool_fru_output.append(line)
     print("Setup Complete. If the results shown above appear incorrect") 
     print("run this program again, or contact 45Drives Support.")
-    input("Press Enter to end program.") 
+    input("Press Enter to end program.")
+    return ipmitool_fru_output
 
 ##################################################################################
 # performFRUWriteSuperMicro()
@@ -510,20 +513,59 @@ def getProductType():
         else:
             print("Invalid selection")
 
+def checkExistingSerial():
+    ipmitool_fru_output = {}
+
+    # Get current FRU fields in plain text
+    ipmitool_fru_result = None
+    try:
+        ipmitool_fru_result = subprocess.Popen(["ipmitool", "fru"],stdout=subprocess.PIPE,universal_newlines=True)
+    except:
+        print("Error executing \"ipmitool fru\"")
+        exit(1)
+
+    # read in all key value pairs from ipmitool fru plain text output.
+    key_value_fru_regex = r"\s([\sA-Za-z]+)(?:\s+):(?:\s+)([^\n]+)"
+    for line in ipmitool_fru_result.stdout:
+        match = re.search(key_value_fru_regex, line)
+
+        if match != None:
+            key = match.group(1).strip()
+            value = match.group(2).strip()
+            ipmitool_fru_output[key] = value
+    
+    if "Chassis Serial" in ipmitool_fru_output.keys() and "Product Serial" in ipmitool_fru_output.keys():
+        if ipmitool_fru_output["Chassis Serial"] == ipmitool_fru_output["Product Serial"]:
+            return ipmitool_fru_output["Product Serial"]
+    else:
+        return ""
+
 ##################################################################################
 # getSerial()
 # gets the serial number from the user. Performs basic check to ensure that
 # numbers and hyphens are used. Typical job number is of format XXXXXXXX-YY-ZZ
 ##################################################################################
 def getSerial():
+    global g_production_mode
     done = False
     selection = ""
     step_number = updateProgressStep()
+    if not g_production_mode:
+        selection = checkExistingSerial()
+        if selection != "":
+            print("\n")
+            print("+----------------------------------------------------------------+")
+            print("| Step {sn}: Enter Product Serial                                   |".format(sn=step_number))
+            print("+----------------------------------------------------------------+")
+            print("45Drives Serial Number '{sn}' detected automatically.".format(sn=selection))
+            done = True
+        
     while not done:
         print("\n")
         print("+----------------------------------------------------------------+")
         print("| Step {sn}: Enter Product Serial                                   |".format(sn=step_number))
         print("+----------------------------------------------------------------+")
+
         selection = input("Enter Product Serial Number (aka Job Number ex:104237-11-01): ")
         selCopy = selection
         selCopy = selCopy.split("-")
@@ -535,9 +577,16 @@ def getSerial():
         elif len(selCopy) == 2:
             #serial is of improper length
             if selCopy[0].isnumeric():
-                print("Serial number entered ("+selection+") doesn't match a full serial number format (ex. 123456-10-01).")
-            if input("Are you sure that you want to use an incomplete serial number for this system? It can make support's job harder if you do.. (y/n):") == "y":
-                done = True
+                print("Serial number entered ("+selection+") doesn't match a 45Drives serial number format (ex. 123456-10-01).")
+            
+            if not g_production_mode:
+                if input("Are you sure that you want to use an incomplete serial number for this system? It can make support's job harder if you do.. (y/n): ") == "y":
+                    done = True
+            elif input("Are you sure that you want to use an incomplete serial number for this system? It can make support's job harder if you do.. (y/n): ") == "y":
+                print("Well that's not very nice..")
+                if input("Want me to add a '-01' on the end of '{sel}' for you? (y/n): ".format(sel=selection)) == "y":
+                    selection = selection + "-01"
+                    done = True
         else:
             print("Invalid format used, try again")
     return selection
@@ -559,7 +608,7 @@ def getHybridType():
         valid_hybrid_strs = ["H32","H16","H8"]
         hybrid_str = ""
         # prompt user to see if system is a hybrid system.
-        hybrid = input("Is this a hybrid machine? (y/n): ")
+        hybrid = input("Is this a hybrid server? (y/n): ")
         if hybrid == "y":
             # we have a hybrid system, append an H to string
             hybrid_str += "H"
@@ -582,11 +631,13 @@ def getHybridType():
 # updates auto_detect_fields and fru_fields (declared in main()).
 ##################################################################################
 def getUserInput(auto_detect_fields,fru_fields):
+    global g_production_mode
+    global g_ps_serial
     product_type = getProductType()
     hybrid_type = getHybridType()
     chassis_type = getChassisType()
     serial = getSerial()
-    asset_tag = "SELFSERIALIZED"
+    asset_tag = g_ps_serial.getAssetTag(updateProgressStep()) if g_production_mode else "SELFSERIALIZED"
 
     auto_detect_fields["product_type"] = product_type
     auto_detect_fields["part_number"] = chassis_type
@@ -664,7 +715,11 @@ def assignProductName(auto_detect_fields,fru_fields):
             
         # Unable to automatically determine product version, get 
         # this information from user. 
-        versions = ["Base","Base-B","Enhanced","Enhanced-S","Turbo","Turbo-G","Enhanced-AMD"]
+        #versions = ["Base","Base-B","Enhanced","Enhanced-S","Turbo","Turbo-G","Enhanced-AMD"]
+        versions = []
+        for product in g_config_file_content["Product Name"]:
+            if unique_product_str in product:
+                versions.append(product.split(unique_product_str)[1])
         print("Select a system version:")
         option = 0
         for version in versions:
@@ -839,30 +894,31 @@ def updateProgressStep(inc=True,stepValue=1):
 # if all else fails it will prompt the user for the missing information.
 ##################################################################################
 def verifyIpmitoolFru(ipmitool_information):
+    global g_production_mode
     print("\n")
     print("+----------------------------------------------------------------+")
     print("| Step {sn}: Verify FRU Data                                        |".format(sn=updateProgressStep()))
     print("+----------------------------------------------------------------+")
     print("\nValidating information obtained from 'ipmitool fru' command.")
 
-
     required_fields = ["Board Product","Board Serial","Board Mfg"]
     valid = True
-
-    # look through the required fields and flag any missing or empty fields as invalid
-    for field in required_fields:
-        if field not in ipmitool_information.keys():
-            valid = False
-            print("\tMissing Field: '{k}'".format(k=field))
-        elif not ipmitool_information[field]:
-            valid = False
-            print("\tEmpty Field: '{f}': '{v}'".format(f=field,v=ipmitool_information[field]))
     
-    if valid:
-        print("FRU data is VALID.")
-        return
+    if not g_production_mode:
+        # look through the required fields and flag any missing or empty fields as invalid
+        for field in required_fields:
+            if field not in ipmitool_information.keys():
+                valid = False
+                print("\tMissing Field: '{k}'".format(k=field))
+            elif not ipmitool_information[field]:
+                valid = False
+                print("\tEmpty Field: '{f}': '{v}'".format(f=field,v=ipmitool_information[field]))
+        
+        if valid:
+            print("FRU data is VALID.")
+            return
 
-    print("\tFRU data is invalid, attempting to obtain motherboard data from dmidecode.")	
+    print("\tAttempting to obtain motherboard data from dmidecode.")	
     board_product, board_serial, board_mfg = getMotherboard()
     ipmitool_information["Board Product"] = board_product if board_product != "unknown" else ""
     ipmitool_information["Board Serial"] = board_serial if board_serial != "unknown" else ""
@@ -946,19 +1002,20 @@ def verifyIpmitoolFru(ipmitool_information):
 
 def load_production_module():
     global g_production_mode
-    if os.path.exists("/opt/production-scripts/serial/serial"):
+    if os.path.exists("/opt/production-scripts/serial/serial_production"):
         spec = spec_from_loader("serial", SourceFileLoader(
-        "serial", "/opt/production-scripts/serial/serial"))
+        "serial", "/opt/production-scripts/serial/serial_production"))
         ps_serial = module_from_spec(spec)
         spec.loader.exec_module(ps_serial)
         g_production_mode = True
         return ps_serial
     return None
-    
 
 def main():
+    global g_ps_serial
+    global g_production_mode
     check_root()
-    ps_serial = load_production_module()
+    g_ps_serial = load_production_module()
     
     # Fields used in the IPMICFG-Linux.x86_64 write operation
     fru_fields = {
@@ -999,11 +1056,12 @@ def main():
     ipmitool_information = get_ipmitool_information(fru_fields["serial"])
     verifyIpmitoolFru(ipmitool_information)
 
-    if "Product Asset Tag" in ipmitool_information:
-        fru_fields["asset_tag"] = ipmitool_information["Product Asset Tag"]
+    if not g_production_mode:
+        if "Product Asset Tag" in ipmitool_information and "SELFSERIALIZED" not in ipmitool_information["Product Asset Tag"]:
+            fru_fields["asset_tag"] = ipmitool_information["Product Asset Tag"]
 
-        if not fru_fields["asset_tag"].startswith('SS-'):
-            fru_fields["asset_tag"] = f'SS-{fru_fields["asset_tag"]}'
+            if not fru_fields["asset_tag"].startswith('SS-'):
+                fru_fields["asset_tag"] = f'SS-{fru_fields["asset_tag"]}'
 
     #update automatically detected fru fields
     fru_fields["board_model"] = ipmitool_information["Board Product"]
@@ -1021,7 +1079,16 @@ def main():
     #	performFRUWriteSuperMicro(fru_fields)
 
     # write fru binary data, using ipmitool or supermicro restore utility.
-    performFRUWrite(ipmitool_information,fru_fields)
+    fru_write_output = performFRUWrite(ipmitool_information,fru_fields)
+
+    if g_production_mode:
+        g_ps_serial.setFanMode(fru_fields)
+        if g_update_config:
+            g_ps_serial.updateConfigFile(g_config_file_content)
+            print("Config File has been updated.")
+            g_ps_serial.sendConfigFile(fru_fields,auto_detect_fields)
+        #send details to production database
+        g_ps_serial.sendDetails(fru_fields,auto_detect_fields,fru_write_output)
 
 if __name__ == "__main__":
     main()

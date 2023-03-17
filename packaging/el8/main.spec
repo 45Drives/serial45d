@@ -42,6 +42,9 @@ fi
 %{_bindir}/*
 
 %changelog
+* Fri Mar 17 2023 Mark Hooper <mhooper@45drives.com> 2.0.0-1
+- updated serial45d for use by 45Drives Production
+- production specific functions imported into serial45d if present
 * Thu Jan 26 2023 Mark Hooper <mhooper@45drives.com> 1.2.0-1
 - Added a contingency for missing Motherboard FRU data.
 * Mon Dec 05 2022 Mark Hooper <mhooper@45drives.com> 1.1.0-6
