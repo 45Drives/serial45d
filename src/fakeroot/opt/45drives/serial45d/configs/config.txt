@@ -7,6 +7,7 @@ Motherboard:X11SPL-F
 Motherboard:X11SPi-TF
 Motherboard:X11SSH-CTF
 Motherboard:X11SSM-F
+Motherboard:X12SPL-F
 CPU:AMD EPYC 7281 16-Core Processor
 CPU:AMD EPYC 7302 16-Core Processor
 CPU:AMD EPYC 7443P 24-Core Processor
@@ -23,13 +24,14 @@ CPU:Intel(R) Xeon(R) Silver 4110 CPU @ 2.10GHz
 CPU:Intel(R) Xeon(R) Silver 4114 CPU @ 2.20GHz
 CPU:Intel(R) Xeon(R) Silver 4210 CPU @ 2.20GHz
 CPU:Intel(R) Xeon(R) Silver 4216 CPU @ 2.10GHz
+CPU:Intel(R) Xeon(R) Silver 4310 CPU @ 2.10GHz
 Chassis Type:2U
 Chassis Type:2UGW
 Chassis Type:AV15
+Chassis Type:C8
 Chassis Type:F8X1
 Chassis Type:F8X2
 Chassis Type:F8X3
-Chassis Type:C8
 Chassis Type:MI4
 Chassis Type:Q30
 Chassis Type:S45
