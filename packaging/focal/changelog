@@ -1,3 +1,13 @@
+serial45d (2.0.1-1focal) focal; urgency=medium
+
+  * updated serial45d to be used in 45Drives production as the primary means of serialization
+  * when selecting a unique product, config file is checked before presenting options
+    for selection
+  * 45Drives production specific functionality will be imported from seperate library
+    if present on system
+
+ -- Mark Hooper <mhooper@45drives.com>  Tue, 21 Mar 2023 07:06:51 -0300
+
 serial45d (2.0.0-2focal) focal; urgency=medium
 
   * updated config file

@@ -42,6 +42,12 @@ fi
 %{_bindir}/*
 
 %changelog
+* Tue Mar 21 2023 Mark Hooper <mhooper@45drives.com> 2.0.1-1
+- updated serial45d to be used in 45Drives production as the primary means of serialization
+- when selecting a unique product, config file is checked before presenting options
+  for selection
+- 45Drives production specific functionality will be imported from seperate library
+  if present on system
 * Fri Mar 17 2023 Mark Hooper <mhooper@45drives.com> 2.0.0-2
 - updated config file
 * Fri Mar 17 2023 Mark Hooper <mhooper@45drives.com> 2.0.0-1
