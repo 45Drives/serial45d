@@ -534,11 +534,20 @@ def checkExistingSerial():
             value = match.group(2).strip()
             ipmitool_fru_output[key] = value
     
-    if "Chassis Serial" in ipmitool_fru_output.keys() and "Product Serial" in ipmitool_fru_output.keys():
-        if ipmitool_fru_output["Chassis Serial"] == ipmitool_fru_output["Product Serial"]:
-            return ipmitool_fru_output["Product Serial"]
+    if "Chassis Serial" in ipmitool_fru_output.keys() and checkSerialFormat(ipmitool_fru_output["Chassis Serial"]):
+        return ipmitool_fru_output["Chassis Serial"]
+    elif "Product Serial" in ipmitool_fru_output.keys() and checkSerialFormat(ipmitool_fru_output["Product Serial"]):
+        return ipmitool_fru_output["Product Serial"]
     else:
         return ""
+
+def checkSerialFormat(serial_str):
+    serial_format_regex = r"(\d+-\w+-?\w+)"
+    match = re.search(serial_format_regex,serial_str)
+    if match != None:
+        return True
+    else:
+        return False
 
 ##################################################################################
 # getSerial()
@@ -704,7 +713,7 @@ def assignProductName(auto_detect_fields,fru_fields):
         if final_product_str != "unknown":
             # we got valid input from user and assigned a value to final product string.
             auto_detect_fields["unique_product_str"] = final_product_str
-            confirm = input("\nAuto-Detect determined that the product is a \"{pr}\", is this correct? (y/n):".format(pr=auto_detect_fields["unique_product_str"]))
+            confirm = input("\nAuto-Detect determined that the product is a \"{pr}\", is this correct? (y/n): ".format(pr=auto_detect_fields["unique_product_str"]))
             if confirm == "y":
                 # user confirmed final product string to be correct. We're all done.
                 fru_fields["product_name"] = auto_detect_fields["unique_product_str"]
@@ -741,7 +750,7 @@ def assignProductName(auto_detect_fields,fru_fields):
         if final_product_str != "unknown":
             # we got valid input from user and assigned a value to final product string.
             auto_detect_fields["unique_product_str"] = final_product_str
-            confirm = input("\nAuto-Detect determined that the product is a \"{pr}\", is this correct? (y/n):".format(pr=auto_detect_fields["unique_product_str"]))
+            confirm = input("\nAuto-Detect determined that the product is a \"{pr}\", is this correct? (y/n): ".format(pr=auto_detect_fields["unique_product_str"]))
             if confirm == "y":
                 # user confirmed final product string to be correct. We're all done.
                 fru_fields["product_name"] = auto_detect_fields["unique_product_str"]
@@ -1057,7 +1066,7 @@ def main():
     verifyIpmitoolFru(ipmitool_information)
 
     if not g_production_mode:
-        if "Product Asset Tag" in ipmitool_information and "SELFSERIALIZED" not in ipmitool_information["Product Asset Tag"]:
+        if "Product Asset Tag" in ipmitool_information.keys() and "SELFSERIALIZED" not in ipmitool_information["Product Asset Tag"] and "N/A" not in ipmitool_information["Product Asset Tag"]:
             fru_fields["asset_tag"] = ipmitool_information["Product Asset Tag"]
 
             if not fru_fields["asset_tag"].startswith('SS-'):

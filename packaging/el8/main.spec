@@ -42,6 +42,9 @@ fi
 %{_bindir}/*
 
 %changelog
+* Mon Apr 03 2023 Mark Hooper <mhooper@45drives.com> 2.0.1-2
+- Added a check for serial number format to ensure that automatic detection works
+  on older units that had a different format
 * Tue Mar 21 2023 Mark Hooper <mhooper@45drives.com> 2.0.1-1
 - updated serial45d to be used in 45Drives production as the primary means of serialization
 - when selecting a unique product, config file is checked before presenting options
