@@ -17,6 +17,7 @@ import os
 import datetime
 from importlib.util import spec_from_loader, module_from_spec
 from importlib.machinery import SourceFileLoader
+from optparse import OptionParser
 
 g_ps_serial = None
 
@@ -197,7 +198,7 @@ def loadSystemConfigs():
 # the FRU encoded binary file. Then calls ipmitool fru write using that binary
 # file. 
 ##################################################################################
-def performFRUWrite(ipmitool_information,fru_fields):
+def performFRUWrite(ipmitool_information,fru_fields,timestamp):
     print("\n")
     print("+----------------------------------------------------------------+")
     print("| Step {sn}: Perform Final Write Operation                          |".format(sn=updateProgressStep()))
@@ -254,9 +255,6 @@ def performFRUWrite(ipmitool_information,fru_fields):
         },
     }
 
-    # get timestamp for ini filename.
-    date = datetime.datetime.now()
-    timestamp = date.strftime("%Y-%m-%d_%H-%M-%S")
     product_serial = fru_fields["serial"]
 
     # create .ini input file directory 
@@ -617,7 +615,7 @@ def getHybridType():
         valid_hybrid_strs = ["H32","H16","H8"]
         hybrid_str = ""
         # prompt user to see if system is a hybrid system.
-        hybrid = input("Is this a hybrid server? (y/n): ")
+        hybrid = input("Is this a Gen 1 Hybrid Server? note: F8X servers are not Gen 1 Hybrid Servers. (y/n): ")
         if hybrid == "y":
             # we have a hybrid system, append an H to string
             hybrid_str += "H"
@@ -767,7 +765,7 @@ def assignProductName(auto_detect_fields,fru_fields):
 #  is then used to generate the binary fru data. It also stores a backup of 
 #  the existing fru data as a binary file. 
 ##################################################################################
-def get_ipmitool_information(product_serial):
+def get_ipmitool_information(product_serial,timestamp):
     ipmitool_fru_output = {}
 
     # Get current FRU fields in plain text
@@ -793,9 +791,8 @@ def get_ipmitool_information(product_serial):
     if not os.path.exists(backup_dir):
         print(f"making directory to store fru bin backups in {backup_dir}")
         os.makedirs(backup_dir)
+
     # create filename for existing fru binary data
-    date = datetime.datetime.now()
-    timestamp = date.strftime("%Y-%m-%d_%H-%M-%S")
     backup_name = f"{backup_dir}/fru-{product_serial}-{timestamp}.bin".replace(" ", "")
 
     # read existing fru binary data from motherboard.
@@ -805,6 +802,12 @@ def get_ipmitool_information(product_serial):
     except:
         print("Error executing \"ipmitool fru read\"")
         exit(1)
+    
+    print("\n")
+    print("+----------------------------------------------------------------+")
+    print("| Step {sn}: Store backup (binary data)                             |".format(sn=updateProgressStep()))
+    print("+----------------------------------------------------------------+")
+    print(f"Storing backup of current fru data: {backup_name}")
 
     # capture the size of the existing fru data (bytes)
     match = re.search(r"(?:fru\ssize\s+):\s+(\d+)\s+([^\n]+)", ipmitool_fru_read_result, flags=re.IGNORECASE)
@@ -847,12 +850,12 @@ def get_ipmitool_information(product_serial):
 # Automatically stores a timestamped plaintext output of ipmitool fru. 
 # in case we want a reference of previous fru data in human-readable format. 
 ##################################################################################
-def storePrevIpmitoolOutput():
+def storePrevIpmitoolOutput(timestamp):
     print("\n")
     print("+----------------------------------------------------------------+")
-    print("| Step {sn}: Store backup                                           |".format(sn=updateProgressStep()))
+    print("| Step {sn}: Store backup (plaintext)                                |".format(sn=updateProgressStep()))
     print("+----------------------------------------------------------------+")
-    print("\nStoring plaintext output of 'ipmitool fru' command in backup file before writing.")
+    print("Storing plaintext output of 'ipmitool fru' command in backup file before writing.")
     try:
         ipmitool_result = subprocess.Popen(
             ["ipmitool","fru"],stdout=subprocess.PIPE,universal_newlines=True)
@@ -869,8 +872,6 @@ def storePrevIpmitoolOutput():
         print("making directory to store backup files {bd}".format(bd=backup_dir))
         os.makedirs(backup_dir)
 
-    date = datetime.datetime.now()
-    timestamp = date.strftime("%Y-%m-%d_%H-%M-%S")
     backup_file_name = "{bd}/ipmitool_fru_backup_{ts}".format(bd=backup_dir,ts=timestamp)
 
     b_file = open(backup_file_name,"w")
@@ -1020,10 +1021,248 @@ def load_production_module():
         return ps_serial
     return None
 
+def clear_fru_data(ipmitool_information,timestamp):
+    print("\n")
+    print("+----------------------------------------------------------------+")
+    print("| Step {sn}: Clear FRU Data                                         |".format(sn=updateProgressStep()))
+    print("+----------------------------------------------------------------+")
+    print("Clearing FRU Data")
+    performFRUClear(ipmitool_information,timestamp)
+
+
+def performFRUClear(ipmitool_information,timestamp):
+    fru_structure = {
+        'common': {
+            'version': 1,
+            'size': ipmitool_information.get("FRU Size","256"),
+            'internal': 0,
+            'chassis': 0,
+            'board': 1,
+            'product': 0,
+            'multirecord': 0,
+        },
+        'board': {
+            'language': 0,
+            'date': ipmitool_information.get("Board Mfg Date Hex",""),
+            'manufacturer': ipmitool_information.get("Board Mfg",""),
+            'product': ipmitool_information.get("Board Product",""),
+            'serial': ipmitool_information.get("Board Serial",""),
+            'fileid': '',
+        }
+    }
+
+    # create .ini input file directory 
+    ini_dir = f"{g_current_dir}/fru_ini"
+    if not os.path.exists(ini_dir):
+        print(f"making directory to store fru config files in {ini_dir}")
+        os.makedirs(ini_dir)
+
+    ini_name = f"{ini_dir}/fru-clear-{timestamp}.ini".replace(" ", "")
+
+    # create output directory 
+    bin_dir = f"{g_current_dir}/fru_bin"
+    if not os.path.exists(bin_dir):
+        print(f"making directory to store fru-tool generated bin files in {bin_dir}")
+        os.makedirs(bin_dir)
+
+    bin_name = f"{bin_dir}/fru-clear-{timestamp}.bin".replace(" ", "")
+
+    # .ini file creation
+    fru_ini_lines = []
+    for section in fru_structure.keys():
+        fru_ini_lines.append(f"[{section}]")
+
+        for field in fru_structure[section].keys():
+                value = fru_structure[section][field]
+                fru_ini_lines.append(f"{field} = {value}")
+        fru_ini_lines.append('')
+
+    ini_file = open(ini_name, "w")
+    for line in fru_ini_lines:
+        ini_file.write(f"{line}\n")
+    ini_file.close()
+
+    # binary file generation
+    bin_generate_result = None
+    try:
+        bin_generate_result = subprocess.run([f"{g_current_dir}/fru-tool", ini_name, bin_name],stdout=subprocess.PIPE,stderr=subprocess.STDOUT,universal_newlines=True)
+    except:
+        print(f"!!!! Error performing bin file generation ({g_current_dir}/fru-tool) !!!!")
+        print(bin_generate_result.stdout)
+        exit(1)
+
+    # write final information using fru-tool (added 2022-08-22)
+    arg_vector = ["ipmitool", "fru", "write", "0", bin_name]
+
+    if "supermicro" in ipmitool_information.get("Board Mfg","").lower():
+        arg_vector = [
+            f"{g_current_dir}/dependencies/ipmi_linux/IPMICFG-Linux.x86_64",
+            "-fru",
+            "restore",
+            bin_name
+        ]
+
+    fru_write_result = None
+    try:
+        fru_write_result = subprocess.Popen(arg_vector,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,universal_newlines=True)
+    except:
+        print("!!!! Error performing write !!!!")
+        for i in range(0,len(arg_vector)):
+            print(arg_vector[i],end=" ")
+        exit(1)
+
+    # output the result of the write operation
+    print("\n!!!!   Performing Write  !!!!\n")
+    print("\n Output from {prg}: ".format(prg=arg_vector[0]))
+    for line in fru_write_result.stdout:
+        print("\t" + line,end="")
+
+    # run ipmitool fru again and present the output to the user.
+    ipmitool_fru_result = None
+    try:
+        ipmitool_fru_result = subprocess.Popen(
+            ["ipmitool","fru"],stdout=subprocess.PIPE,universal_newlines=True)
+    except:
+        print("Error executing \"ipmitool fru\"")
+        exit(1)	
+
+    ipmitool_fru_output = []
+    # output the result of the write operation
+    print("\n")
+    print("+----------------------------------------------------------------+")
+    print("| Step {sn}: Verify Output                                          |".format(sn=updateProgressStep()))
+    print("+----------------------------------------------------------------+")
+    print("\nOutput from ipmitool fru: ")
+    for line in ipmitool_fru_result.stdout:
+        print("\t" + line,end="")
+        ipmitool_fru_output.append(line)
+    print("Setup Complete. If the results shown above appear incorrect") 
+    print("run this program again, or contact 45Drives Support.")
+    input("Press Enter to end program.")
+    return ipmitool_fru_output
+
+def fru_restore(timestamp):
+    print("\n")
+    print("+----------------------------------------------------------------+")
+    print("| Step {sn}: Select a backup file                                   |".format(sn=updateProgressStep()))
+    print("+----------------------------------------------------------------+")
+    print("Select a backup to restore from: ")
+    backup_file_dir = "/opt/45drives/serial45d/fru_bin_backups"
+    backups = os.listdir(backup_file_dir)
+    backup_file_name = ""
+    done = False
+
+    while not done:
+        option = 0
+        for backup in backups:
+            option += 1
+            print("\t",option,": " + backup)
+        selection = input("Select an option (1 - " + str(option) + "): ")
+        if selection.isnumeric() and int(selection) <= option and int(selection) > 0:
+            done = True
+            backup_file_name = backups[int(selection)-1]
+        else:
+            print("Invalid selection")
+
+    backup_file_path = f"{backup_file_dir}/{backup_file_name}"
+    
+    pt_backup_dir = "/opt/45drives/serial45d/fru_plaintext_backups"
+    pt_backups = os.listdir(pt_backup_dir)
+    pt_fn_prefix = "ipmitool_fru_backup_"
+
+    for pt in pt_backups:
+        if pt[len(pt_fn_prefix):] in backup_file_name:
+            pt_backup_path = f"{pt_backup_dir}/{pt}"
+            with open(pt_backup_path,"r") as f:
+                print(f"\nPreview from {pt_backup_path}: ")
+                print(f.read())
+            break
+    confirm = input("Restore fru data from '{bfp}'? (y/n): ".format(bfp=backup_file_path))
+    if confirm not in ["y","Y"]:
+        print("exiting..")
+        exit(0)
+
+    # get existing information and create a backup in both binary and plaintext.
+    ipmitool_information = get_ipmitool_information("restore",timestamp)
+    storePrevIpmitoolOutput(timestamp)
+    
+    arg_vector = ["ipmitool", "fru", "write", "0", backup_file_path]
+
+    if "supermicro" in ipmitool_information.get("Board Mfg","").lower():
+        arg_vector = [
+            f"{g_current_dir}/dependencies/ipmi_linux/IPMICFG-Linux.x86_64",
+            "-fru",
+            "restore",
+            backup_file_path
+        ]
+            
+    # Write the backup file contents.
+    fru_write_result = None
+    try:
+        fru_write_result = subprocess.Popen(arg_vector,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,universal_newlines=True)
+    except:
+        print("!!!! Error performing write !!!!")
+        for i in range(0,len(arg_vector)):
+            print(arg_vector[i],end=" ")
+        exit(1)
+
+    # output the result of the write operation
+    print("\n!!!!   Performing Write  !!!!\n")
+    print("\n Output from {prg}: ".format(prg=arg_vector[0]))
+    for line in fru_write_result.stdout:
+        print("\t" + line,end="")
+
+    # run ipmitool fru again and present the output to the user.
+    ipmitool_fru_result = None
+    try:
+        ipmitool_fru_result = subprocess.Popen(
+            ["ipmitool","fru"],stdout=subprocess.PIPE,universal_newlines=True)
+    except:
+        print("Error executing \"ipmitool fru\"")
+        exit(1)	
+
+    ipmitool_fru_output = []
+    # output the result of the write operation
+    print("\n")
+    print("+----------------------------------------------------------------+")
+    print("| Step {sn}: Verify Output                                          |".format(sn=updateProgressStep()))
+    print("+----------------------------------------------------------------+")
+    print("\nOutput from ipmitool fru: ")
+    for line in ipmitool_fru_result.stdout:
+        print("\t" + line,end="")
+        ipmitool_fru_output.append(line)
+    print("Setup Complete. If the results shown above appear incorrect") 
+    print("run this program again, or contact 45Drives Support.")
+    input("Press Enter to end program.")
+    return ipmitool_fru_output
+
+
 def main():
     global g_ps_serial
     global g_production_mode
+    date = datetime.datetime.now()
+    timestamp = date.strftime("%Y-%m-%d_%H-%M-%S")
     check_root()
+
+    # get command line arguments
+    parser = OptionParser()
+    parser.add_option("-c","--clear",action="store_true",dest="clear_fru",default=False,help="Clear FRU Fields on Motherboard")
+    parser.add_option("-r","--restore",action="store_true",dest="restore",default=None,help="Restore FRU data from backup file in /opt/45drives/serial45d/fru_bin_backups/")
+    (options, args) = parser.parse_args()
+
+    
+    if options.clear_fru:
+        outputSerialVersion()
+        ipmitool_information = get_ipmitool_information("clear",timestamp)
+        storePrevIpmitoolOutput(timestamp)
+        clear_fru_data(ipmitool_information,timestamp)
+        exit(0)
+
+    if options.restore:
+        outputSerialVersion()
+        fru_restore(timestamp)
+        exit(0)
+    
     g_ps_serial = load_production_module()
     
     # Fields used in the IPMICFG-Linux.x86_64 write operation
@@ -1062,7 +1301,7 @@ def main():
     # get system type, chassis size, and serial number from user.
     getUserInput(auto_detect_fields,fru_fields)
 
-    ipmitool_information = get_ipmitool_information(fru_fields["serial"])
+    ipmitool_information = get_ipmitool_information(fru_fields["serial"],timestamp)
     verifyIpmitoolFru(ipmitool_information)
 
     if not g_production_mode:
@@ -1081,14 +1320,14 @@ def main():
     # gather information and perform autodetection
     auto_detect_fields["cpu_model"], auto_detect_fields["cpu_count"] = getCPU()
     assignProductName(auto_detect_fields,fru_fields)
-    storePrevIpmitoolOutput()
+    storePrevIpmitoolOutput(timestamp)
 
     # Keeping this in case we run into issues writing to supermicro boards.
     #if "supermicro" in fru_fields["board_manufacturer"].lower():
     #	performFRUWriteSuperMicro(fru_fields)
 
     # write fru binary data, using ipmitool or supermicro restore utility.
-    fru_write_output = performFRUWrite(ipmitool_information,fru_fields)
+    fru_write_output = performFRUWrite(ipmitool_information,fru_fields,timestamp)
 
     if g_production_mode:
         g_ps_serial.setFanMode(fru_fields)
