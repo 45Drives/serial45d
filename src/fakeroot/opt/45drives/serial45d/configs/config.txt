@@ -1,30 +1,38 @@
 Motherboard:EPC621D8A
 Motherboard:H11SSL-i
 Motherboard:H12SSL-i
+Motherboard:ROMED8-2T
+Motherboard:SPC621D8
 Motherboard:X10SRL-F
 Motherboard:X11DPL-i
+Motherboard:X11DPi-NT
 Motherboard:X11SPL-F
 Motherboard:X11SPi-TF
 Motherboard:X11SSH-CTF
 Motherboard:X11SSM-F
 Motherboard:X12SPL-F
 CPU:AMD EPYC 7281 16-Core Processor
+CPU:AMD EPYC 7282 16-Core Processor
 CPU:AMD EPYC 7302 16-Core Processor
 CPU:AMD EPYC 7443P 24-Core Processor
 CPU:AMD EPYC 7502P 32-Core Processor
 CPU:AMD EPYC 7542 32-Core Processor
+CPU:AMD EPYC 7543P 32-Core Processor
 CPU:AMD EPYC 7702P 64-Core Processor
 CPU:Intel(R) Xeon(R) Bronze 3204 CPU @ 1.90GHz
 CPU:Intel(R) Xeon(R) CPU E3-1220 v5 @ 3.00GHz
 CPU:Intel(R) Xeon(R) CPU E3-1220 v6 @ 3.00GHz
 CPU:Intel(R) Xeon(R) CPU E5-2620 v3 @ 2.40GHz
 CPU:Intel(R) Xeon(R) CPU E5-2620 v4 @ 2.10GHz
+CPU:Intel(R) Xeon(R) Gold 5320 CPU @ 2.20GHz
 CPU:Intel(R) Xeon(R) Gold 6230R CPU @ 2.10GHz
+CPU:Intel(R) Xeon(R) Gold 6338 CPU @ 2.00GHz
 CPU:Intel(R) Xeon(R) Silver 4110 CPU @ 2.10GHz
 CPU:Intel(R) Xeon(R) Silver 4114 CPU @ 2.20GHz
 CPU:Intel(R) Xeon(R) Silver 4210 CPU @ 2.20GHz
 CPU:Intel(R) Xeon(R) Silver 4216 CPU @ 2.10GHz
 CPU:Intel(R) Xeon(R) Silver 4310 CPU @ 2.10GHz
+CPU:Intel(R) Xeon(R) Silver 4314 CPU @ 2.40GHz
 Chassis Type:2U
 Chassis Type:2UGW
 Chassis Type:AV15

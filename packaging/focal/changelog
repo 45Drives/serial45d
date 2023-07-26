@@ -1,3 +1,9 @@
+serial45d (2.0.1-3focal) focal; urgency=medium
+
+  * updated config file
+
+ -- Mark Hooper <mhooper@45drives.com>  Wed, 26 Jul 2023 07:11:45 -0300
+
 serial45d (2.0.1-2focal) focal; urgency=medium
 
   * Added a check for serial number format to ensure that automatic detection works

@@ -42,6 +42,8 @@ fi
 %{_bindir}/*
 
 %changelog
+* Wed Jul 26 2023 Mark Hooper <mhooper@45drives.com> 2.0.1-3
+- updated config file
 * Mon Apr 03 2023 Mark Hooper <mhooper@45drives.com> 2.0.1-2
 - Added a check for serial number format to ensure that automatic detection works
   on older units that had a different format
