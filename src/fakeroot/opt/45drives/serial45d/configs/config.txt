@@ -35,6 +35,7 @@ CPU:Intel(R) Xeon(R) Silver 4310 CPU @ 2.10GHz
 CPU:Intel(R) Xeon(R) Silver 4314 CPU @ 2.40GHz
 Chassis Type:2U
 Chassis Type:2UGW
+Chassis Type:2UTM
 Chassis Type:AV15
 Chassis Type:C8
 Chassis Type:F8X1
@@ -197,3 +198,8 @@ Product Name:Stornado-AV15-Enhanced-AMD
 Product Name:Stornado-AV15-Enhanced-S
 Product Name:Stornado-AV15-Turbo
 Product Name:Stornado-AV15-Turbo-G
+Product Name:Stornado-2UTM-Base-B
+Product Name:Stornado-2UTM-Enhanced-AMD
+Product Name:Stornado-2UTM-Enhanced-S
+Product Name:Stornado-2UTM-Turbo
+Product Name:Stornado-2UTM-Turbo-G

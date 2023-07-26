@@ -1,3 +1,9 @@
+serial45d (2.0.1-4focal) focal; urgency=medium
+
+  * added 2UTM chassis size for new stornado
+
+ -- Mark Hooper <mhooper@45drives.com>  Wed, 26 Jul 2023 09:02:20 -0300
+
 serial45d (2.0.1-3focal) focal; urgency=medium
 
   * updated config file

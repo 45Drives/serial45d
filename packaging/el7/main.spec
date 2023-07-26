@@ -42,6 +42,8 @@ fi
 %{_bindir}/*
 
 %changelog
+* Wed Jul 26 2023 Mark Hooper <mhooper@45drives.com> 2.0.1-4
+- added 2UTM chassis size for new stornado
 * Wed Jul 26 2023 Mark Hooper <mhooper@45drives.com> 2.0.1-3
 - updated config file
 * Mon Apr 03 2023 Mark Hooper <mhooper@45drives.com> 2.0.1-2

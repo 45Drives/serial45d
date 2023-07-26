@@ -1,3 +1,3 @@
-## Serial45d 2.0.1-3
+## Serial45d 2.0.1-4
 
-* updated config file
+* added 2UTM chassis size for new stornado
