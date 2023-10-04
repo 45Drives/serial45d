@@ -1,3 +1,9 @@
+serial45d (3.0.0-1focal) focal; urgency=medium
+
+  * added the ability to serialize HomeLab-HL15 Servers
+
+ -- Mark Hooper <mhooper@45drives.com>  Wed, 04 Oct 2023 07:14:41 -0300
+
 serial45d (2.0.1-4focal) focal; urgency=medium
 
   * added 2UTM chassis size for new stornado

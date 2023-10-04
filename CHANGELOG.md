@@ -1,3 +1,3 @@
-## Serial45d 2.0.1-4
+## Serial45d 3.0.0-1
 
-* added 2UTM chassis size for new stornado
+* added the ability to serialize HomeLab-HL15 Servers

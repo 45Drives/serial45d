@@ -45,11 +45,13 @@ Chassis Type:MI4
 Chassis Type:Q30
 Chassis Type:S45
 Chassis Type:XL60
+Chassis Type:HL15
 Product Type:Archivinator
 Product Type:Destroyinator
 Product Type:Gateway
 Product Type:Storinator
 Product Type:Stornado
+Product Type:HomeLab
 Product Name:Archivinator-AV15-Base
 Product Name:Archivinator-AV15-Base-B
 Product Name:Archivinator-Q30-Base
@@ -71,6 +73,7 @@ Product Name:Gateway-2UGW-Base-B
 Product Name:Gateway-2UGW-Enhanced
 Product Name:Gateway-2UGW-Enhanced-S
 Product Name:Gateway-2UGW-Turbo-G
+Product Name:HomeLab-HL15
 Product Name:Storinator-AV15-Base
 Product Name:Storinator-AV15-Base-B
 Product Name:Storinator-AV15-Enhanced

@@ -42,6 +42,8 @@ fi
 %{_bindir}/*
 
 %changelog
+* Wed Oct 04 2023 Mark Hooper <mhooper@45drives.com> 3.0.0-1
+- added the ability to serialize HomeLab-HL15 Servers
 * Wed Jul 26 2023 Mark Hooper <mhooper@45drives.com> 2.0.1-4
 - added 2UTM chassis size for new stornado
 * Wed Jul 26 2023 Mark Hooper <mhooper@45drives.com> 2.0.1-3

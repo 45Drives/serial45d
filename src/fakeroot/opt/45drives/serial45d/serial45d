@@ -680,6 +680,16 @@ def assignProductName(auto_detect_fields,fru_fields):
         final_product_str = "unknown"
         unique_product_str_tmp = None
 
+        if "HomeLab" in auto_detect_fields["product_type"]:
+            if "HL15" in auto_detect_fields["part_number"]:
+                confirm = input("\nAuto-Detect determined that the product is a \"{pr}\", is this correct? (y/n): ".format(pr="HomeLab-HL15"))
+                if confirm == "y":
+                    # user confirmed final product string to be correct. We're all done.
+                    fru_fields["product_name"] = "HomeLab-HL15"
+                    fru_fields["version"] = "HomeLab"
+                    auto_detect_fields["unique_product_str"] = "HomeLab-HL15"
+                    return
+
         # build the product string using the input provided by the user.
         unique_product_str = auto_detect_fields["product_type"] + "-"
 
