@@ -1,3 +1,3 @@
-## Serial45d 3.0.0-1
+## Serial45d 3.0.0-2
 
-* added the ability to serialize HomeLab-HL15 Servers
+* updated name of chassis used for new NVME Stornado from 2UTM to F2

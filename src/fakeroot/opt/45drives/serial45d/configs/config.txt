@@ -6,6 +6,8 @@ Motherboard:SPC621D8
 Motherboard:X10SRL-F
 Motherboard:X11DPL-i
 Motherboard:X11DPi-NT
+Motherboard:X11SPH-nCTF
+Motherboard:X11SPH-nCTPF
 Motherboard:X11SPL-F
 Motherboard:X11SPi-TF
 Motherboard:X11SSH-CTF
@@ -16,6 +18,7 @@ CPU:AMD EPYC 7282 16-Core Processor
 CPU:AMD EPYC 7302 16-Core Processor
 CPU:AMD EPYC 7443P 24-Core Processor
 CPU:AMD EPYC 7502P 32-Core Processor
+CPU:AMD EPYC 7513 32-Core Processor
 CPU:AMD EPYC 7542 32-Core Processor
 CPU:AMD EPYC 7543P 32-Core Processor
 CPU:AMD EPYC 7702P 64-Core Processor
@@ -35,23 +38,23 @@ CPU:Intel(R) Xeon(R) Silver 4310 CPU @ 2.10GHz
 CPU:Intel(R) Xeon(R) Silver 4314 CPU @ 2.40GHz
 Chassis Type:2U
 Chassis Type:2UGW
-Chassis Type:2UTM
 Chassis Type:AV15
 Chassis Type:C8
+Chassis Type:F2
 Chassis Type:F8X1
 Chassis Type:F8X2
 Chassis Type:F8X3
+Chassis Type:HL15
 Chassis Type:MI4
 Chassis Type:Q30
 Chassis Type:S45
 Chassis Type:XL60
-Chassis Type:HL15
 Product Type:Archivinator
 Product Type:Destroyinator
 Product Type:Gateway
+Product Type:HomeLab
 Product Type:Storinator
 Product Type:Stornado
-Product Type:HomeLab
 Product Name:Archivinator-AV15-Base
 Product Name:Archivinator-AV15-Base-B
 Product Name:Archivinator-Q30-Base
@@ -201,8 +204,8 @@ Product Name:Stornado-AV15-Enhanced-AMD
 Product Name:Stornado-AV15-Enhanced-S
 Product Name:Stornado-AV15-Turbo
 Product Name:Stornado-AV15-Turbo-G
-Product Name:Stornado-2UTM-Base-B
-Product Name:Stornado-2UTM-Enhanced-AMD
-Product Name:Stornado-2UTM-Enhanced-S
-Product Name:Stornado-2UTM-Turbo
-Product Name:Stornado-2UTM-Turbo-G
+Product Name:Stornado-F2-Base-B
+Product Name:Stornado-F2-Enhanced-AMD
+Product Name:Stornado-F2-Enhanced-S
+Product Name:Stornado-F2-Turbo
+Product Name:Stornado-F2-Turbo-G
