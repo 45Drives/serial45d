@@ -42,6 +42,8 @@ fi
 %{_bindir}/*
 
 %changelog
+* Thu Nov 16 2023 Mark Hooper <mhooper@45drives.com> 3.0.0-3
+- added motherboard to config.txt
 * Thu Nov 16 2023 Mark Hooper <mhooper@45drives.com> 3.0.0-2
 - updated name of chassis used for new NVME Stornado from 2UTM to F2
 * Wed Oct 04 2023 Mark Hooper <mhooper@45drives.com> 3.0.0-1

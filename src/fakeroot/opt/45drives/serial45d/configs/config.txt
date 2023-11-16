@@ -12,6 +12,7 @@ Motherboard:X11SPL-F
 Motherboard:X11SPi-TF
 Motherboard:X11SSH-CTF
 Motherboard:X11SSM-F
+Motherboard:X12DPi-N6
 Motherboard:X12SPL-F
 CPU:AMD EPYC 7281 16-Core Processor
 CPU:AMD EPYC 7282 16-Core Processor
