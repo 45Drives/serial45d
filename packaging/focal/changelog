@@ -1,3 +1,12 @@
+serial45d (3.0.1-1focal) focal; urgency=medium
+
+  * releasing to stable repo
+  * updated 45drives-tools dependency minimum version to 3.0.1
+  * HL15 serializing support added
+  * Stornado F2 serializing support added replacing 2UTM placeholder product name
+
+ -- Mark Hooper <mhooper@45drives.com>  Tue, 21 Nov 2023 05:57:09 -0400
+
 serial45d (3.0.0-3focal) focal; urgency=medium
 
   * added motherboard to config.txt
