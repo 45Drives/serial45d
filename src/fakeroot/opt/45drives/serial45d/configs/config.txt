@@ -1,5 +1,6 @@
 Motherboard:EPC621D8A
 Motherboard:H11SSL-i
+Motherboard:H12SSL-I
 Motherboard:H12SSL-i
 Motherboard:ROMED8-2T
 Motherboard:SPC621D8
@@ -23,6 +24,7 @@ CPU:AMD EPYC 7513 32-Core Processor
 CPU:AMD EPYC 7542 32-Core Processor
 CPU:AMD EPYC 7543P 32-Core Processor
 CPU:AMD EPYC 7702P 64-Core Processor
+CPU:AMD EPYC 7713P 64-Core Processor
 CPU:Intel(R) Xeon(R) Bronze 3204 CPU @ 1.90GHz
 CPU:Intel(R) Xeon(R) CPU E3-1220 v5 @ 3.00GHz
 CPU:Intel(R) Xeon(R) CPU E3-1220 v6 @ 3.00GHz
@@ -50,12 +52,16 @@ Chassis Type:MI4
 Chassis Type:Q30
 Chassis Type:S45
 Chassis Type:XL60
+Chassis Type:VM8
+Chassis Type:VM16
+Chassis Type:VM32
 Product Type:Archivinator
 Product Type:Destroyinator
 Product Type:Gateway
 Product Type:HomeLab
 Product Type:Storinator
 Product Type:Stornado
+Product Type:Proxinator
 Product Name:Archivinator-AV15-Base
 Product Name:Archivinator-AV15-Base-B
 Product Name:Archivinator-Q30-Base
@@ -115,6 +121,8 @@ Product Name:Storinator-H16-AV15-Enhanced-AMD
 Product Name:Storinator-H16-AV15-Enhanced-S
 Product Name:Storinator-H16-AV15-Turbo
 Product Name:Storinator-H16-AV15-Turbo-G
+Product Name:Storinator-H16-Q30-Base
+Product Name:Storinator-H16-Q30-Base-B
 Product Name:Storinator-H16-Q30-Enhanced
 Product Name:Storinator-H16-Q30-Enhanced-AMD
 Product Name:Storinator-H16-Q30-Enhanced-S
@@ -210,3 +218,12 @@ Product Name:Stornado-F2-Enhanced-AMD
 Product Name:Stornado-F2-Enhanced-S
 Product Name:Stornado-F2-Turbo
 Product Name:Stornado-F2-Turbo-G
+Product Name:Proxinator-VM8-Base
+Product Name:Proxinator-VM8-Enhanced
+Product Name:Proxinator-VM8-Turbo
+Product Name:Proxinator-VM16-Base
+Product Name:Proxinator-VM16-Enhanced
+Product Name:Proxinator-VM16-Turbo
+Product Name:Proxinator-VM32-Base
+Product Name:Proxinator-VM32-Enhanced
+Product Name:Proxinator-VM32-Turbo
