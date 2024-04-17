@@ -42,6 +42,8 @@ fi
 %{_bindir}/*
 
 %changelog
+* Wed Apr 17 2024 Brett Kelly <bkelly@45drives.com> 3.0.2-1
+- added support for proxinator servers
 * Tue Nov 21 2023 Mark Hooper <mhooper@45drives.com> 3.0.1-1
 - releasing to stable repo
 - updated 45drives-tools dependency minimum version to 3.0.1

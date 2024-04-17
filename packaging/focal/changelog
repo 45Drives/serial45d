@@ -1,3 +1,9 @@
+serial45d (3.0.2-1focal) focal; urgency=medium
+
+  * added support for proxinator servers
+
+ -- Brett Kelly <bkelly@45drives.com>  Wed, 17 Apr 2024 06:29:46 -0300
+
 serial45d (3.0.1-1focal) focal; urgency=medium
 
   * releasing to stable repo
