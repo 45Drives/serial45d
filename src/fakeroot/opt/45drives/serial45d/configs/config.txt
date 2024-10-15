@@ -15,6 +15,11 @@ Motherboard:X11SSH-CTF
 Motherboard:X11SSM-F
 Motherboard:X12DPi-N6
 Motherboard:X12SPL-F
+Motherboard:ME03-CE0-000
+Motherboard:MS03-6L0-000
+Motherboard:MS73-HB0-000
+Motherboard:MZ73-LM0-000
+Motherboard:MC13-LE1-000
 CPU:AMD EPYC 7281 16-Core Processor
 CPU:AMD EPYC 7282 16-Core Processor
 CPU:AMD EPYC 7302 16-Core Processor
@@ -25,6 +30,9 @@ CPU:AMD EPYC 7542 32-Core Processor
 CPU:AMD EPYC 7543P 32-Core Processor
 CPU:AMD EPYC 7702P 64-Core Processor
 CPU:AMD EPYC 7713P 64-Core Processor
+CPU:AMD EPYC 8324P 32-Core Processor
+CPU:AMD EPYC 9454 48-Core Processor
+CPU:AMD Ryzen 9 7950X 16-Core Processor
 CPU:Intel(R) Xeon(R) Bronze 3204 CPU @ 1.90GHz
 CPU:Intel(R) Xeon(R) CPU E3-1220 v5 @ 3.00GHz
 CPU:Intel(R) Xeon(R) CPU E3-1220 v6 @ 3.00GHz
@@ -39,6 +47,9 @@ CPU:Intel(R) Xeon(R) Silver 4210 CPU @ 2.20GHz
 CPU:Intel(R) Xeon(R) Silver 4216 CPU @ 2.10GHz
 CPU:Intel(R) Xeon(R) Silver 4310 CPU @ 2.10GHz
 CPU:Intel(R) Xeon(R) Silver 4314 CPU @ 2.40GHz
+CPU:Intel(R) Xeon(R) Silver 4410Y
+CPU:Intel(R) Xeon(R) Gold 6430
+Chassis Type:1UGW
 Chassis Type:2U
 Chassis Type:2UGW
 Chassis Type:AV15
@@ -83,6 +94,11 @@ Product Name:Gateway-2UGW-Base-B
 Product Name:Gateway-2UGW-Enhanced
 Product Name:Gateway-2UGW-Enhanced-S
 Product Name:Gateway-2UGW-Turbo-G
+Product Name:Gateway-1UGW-Base
+Product Name:Gateway-1UGW-Base-B
+Product Name:Gateway-1UGW-Enhanced
+Product Name:Gateway-1UGW-Enhanced-S
+Product Name:Gateway-1UGW-Turbo-G
 Product Name:HomeLab-HL15
 Product Name:Storinator-AV15-Base
 Product Name:Storinator-AV15-Base-B
