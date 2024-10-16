@@ -31,7 +31,10 @@ CPU:AMD EPYC 7543P 32-Core Processor
 CPU:AMD EPYC 7702P 64-Core Processor
 CPU:AMD EPYC 7713P 64-Core Processor
 CPU:AMD EPYC 8324P 32-Core Processor
+CPU:AMD EPYC 9254 24-Core Processor
+CPU:AMD EPYC 9334 32-Core Processor
 CPU:AMD EPYC 9454 48-Core Processor
+CPU:AMD EPYC 9534 64-Core Processor
 CPU:AMD Ryzen 9 7950X 16-Core Processor
 CPU:Intel(R) Xeon(R) Bronze 3204 CPU @ 1.90GHz
 CPU:Intel(R) Xeon(R) CPU E3-1220 v5 @ 3.00GHz
@@ -69,6 +72,7 @@ Chassis Type:VM32
 Product Type:Archivinator
 Product Type:Destroyinator
 Product Type:Gateway
+Product Type:Compute
 Product Type:HomeLab
 Product Type:Storinator
 Product Type:Stornado
@@ -99,6 +103,10 @@ Product Name:Gateway-1UGW-Base-B
 Product Name:Gateway-1UGW-Enhanced
 Product Name:Gateway-1UGW-Enhanced-S
 Product Name:Gateway-1UGW-Turbo-G
+Prodcut Name:Compute-1UGW-Base
+Prodcut Name:Compute-1UGW-Enhanced
+Prodcut Name:Compute-1UGW-Turbo
+Prodcut Name:Compute-1UGW-Super
 Product Name:HomeLab-HL15
 Product Name:Storinator-AV15-Base
 Product Name:Storinator-AV15-Base-B
