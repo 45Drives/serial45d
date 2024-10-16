@@ -1,3 +1,3 @@
-## Serial45d 3.0.2-1
+## Serial45d 3.0.3-1
 
-* added support for proxinator servers
+* Adds Gigabyte motherboards, Compute Node + 1U Gateway

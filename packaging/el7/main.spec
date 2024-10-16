@@ -42,6 +42,8 @@ fi
 %{_bindir}/*
 
 %changelog
+* Wed Oct 16 2024 Jordan Keough <jkeough@45drives.com> 3.0.3-1
+- Adds Gigabyte motherboards, Compute Node + 1U Gateway
 * Wed Apr 17 2024 Brett Kelly <bkelly@45drives.com> 3.0.2-1
 - added support for proxinator servers
 * Tue Nov 21 2023 Mark Hooper <mhooper@45drives.com> 3.0.1-1
