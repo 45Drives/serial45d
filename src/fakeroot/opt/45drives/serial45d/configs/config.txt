@@ -20,6 +20,7 @@ Motherboard:MS03-6L0-000
 Motherboard:MS73-HB0-000
 Motherboard:MZ73-LM0-000
 Motherboard:MC13-LE1-000
+Motherboard:B550I AORUS PRO AX
 CPU:AMD EPYC 7281 16-Core Processor
 CPU:AMD EPYC 7282 16-Core Processor
 CPU:AMD EPYC 7302 16-Core Processor
@@ -36,6 +37,8 @@ CPU:AMD EPYC 9334 32-Core Processor
 CPU:AMD EPYC 9454 48-Core Processor
 CPU:AMD EPYC 9534 64-Core Processor
 CPU:AMD Ryzen 9 7950X 16-Core Processor
+CPU:AMD Ryzen 5 5500GT with Radeon Graphics 
+CPU:AMD Ryzen 7 5700G with Radeon Graphics
 CPU:Intel(R) Xeon(R) Bronze 3204 CPU @ 1.90GHz
 CPU:Intel(R) Xeon(R) CPU E3-1220 v5 @ 3.00GHz
 CPU:Intel(R) Xeon(R) CPU E3-1220 v6 @ 3.00GHz
@@ -61,6 +64,8 @@ Chassis Type:F2
 Chassis Type:F8X1
 Chassis Type:F8X2
 Chassis Type:F8X3
+Chassis Type:HL4
+Chassis Type:HL8
 Chassis Type:HL15
 Chassis Type:MI4
 Chassis Type:Q30
@@ -107,6 +112,8 @@ Prodcut Name:Compute-1UGW-Base
 Prodcut Name:Compute-1UGW-Enhanced
 Prodcut Name:Compute-1UGW-Turbo
 Prodcut Name:Compute-1UGW-Super
+Product Name:HomeLab-HL4
+Product Name:HomeLab-HL8
 Product Name:HomeLab-HL15
 Product Name:Storinator-AV15-Base
 Product Name:Storinator-AV15-Base-B
