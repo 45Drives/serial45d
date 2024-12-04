@@ -42,6 +42,8 @@ fi
 %{_bindir}/*
 
 %changelog
+* Wed Dec 04 2024 Jordan Keough <jkeough@45drives.com> 3.0.4-1
+- Adds support for HL4/HL8 and 45Professional line
 * Wed Oct 16 2024 Jordan Keough <jkeough@45drives.com> 3.0.3-1
 - Adds Gigabyte motherboards, Compute Node + 1U Gateway
 * Wed Apr 17 2024 Brett Kelly <bkelly@45drives.com> 3.0.2-1

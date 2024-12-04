@@ -1,3 +1,9 @@
+serial45d (3.0.4-1focal) focal; urgency=medium
+
+  * Adds support for HL4/HL8 and 45Professional line
+
+ -- Jordan Keough <jkeough@45drives.com>  Wed, 04 Dec 2024 10:38:27 -0400
+
 serial45d (3.0.3-1focal) focal; urgency=medium
 
   * Adds Gigabyte motherboards, Compute Node + 1U Gateway
