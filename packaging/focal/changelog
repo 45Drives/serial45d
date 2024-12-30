@@ -1,3 +1,9 @@
+serial45d (3.0.5-1focal) focal; urgency=medium
+
+  * Allow changing serial number
+
+ -- Joshua Boudreau <jboudreau@45drives.com>  Mon, 30 Dec 2024 13:57:45 -0400
+
 serial45d (3.0.4-1focal) focal; urgency=medium
 
   * Adds support for HL4/HL8 and 45Professional line

@@ -565,7 +565,8 @@ def getSerial():
             print("| Step {sn}: Enter Product Serial                                   |".format(sn=step_number))
             print("+----------------------------------------------------------------+")
             print("45Drives Serial Number '{sn}' detected automatically.".format(sn=selection))
-            done = True
+            resp = input("Change serial number? (y/N): ")
+            done = not re.match(r'^[Yy][Ee]?[Ss]?$', resp.strip())
         
     while not done:
         print("\n")

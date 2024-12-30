@@ -42,6 +42,8 @@ fi
 %{_bindir}/*
 
 %changelog
+* Mon Dec 30 2024 Joshua Boudreau <jboudreau@45drives.com> 3.0.5-1
+- Allow changing serial number
 * Wed Dec 04 2024 Jordan Keough <jkeough@45drives.com> 3.0.4-1
 - Adds support for HL4/HL8 and 45Professional line
 * Wed Oct 16 2024 Jordan Keough <jkeough@45drives.com> 3.0.3-1
