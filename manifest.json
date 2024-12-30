@@ -2,7 +2,7 @@
     "__version": "45D-R1",
     "name": "serial45d",
     "title": "Serial45d",
-    "prerelease": true,
+    "prerelease": false,
     "version": "3.0.5",
     "buildVersion": "1",
     "author": "Mark Hooper <mhooper@45drives.com>",
