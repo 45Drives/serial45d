@@ -42,6 +42,8 @@ fi
 %{_bindir}/*
 
 %changelog
+* Wed Jan 22 2025 Mark Hooper <mhooper@45drives.com> 3.0.6-1
+- added support for VM8-15mm products
 * Mon Dec 30 2024 Joshua Boudreau <jboudreau@45drives.com> 3.0.5-1
 - Allow changing serial number
 * Wed Dec 04 2024 Jordan Keough <jkeough@45drives.com> 3.0.4-1

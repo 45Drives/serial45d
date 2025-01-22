@@ -267,3 +267,6 @@ Product Name:Proxinator-VM16-Turbo
 Product Name:Proxinator-VM32-Base
 Product Name:Proxinator-VM32-Enhanced
 Product Name:Proxinator-VM32-Turbo
+Product Name:Proxinator-VM8-15mm-Base
+Product Name:Proxinator-VM8-15mm-Enhanced
+Product Name:Proxinator-VM8-15mm-Turbo

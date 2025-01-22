@@ -1,3 +1,3 @@
-## Serial45d 3.0.5-1
+## Serial45d 3.0.6-1
 
-* Allow changing serial number
+* added support for VM8-15mm products
