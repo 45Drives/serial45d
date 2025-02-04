@@ -79,6 +79,7 @@ Chassis Type:XL60
 Chassis Type:VM8
 Chassis Type:VM16
 Chassis Type:VM32
+Chassis Type:VM4
 Product Type:Archivinator
 Product Type:Destroyinator
 Product Type:Gateway
@@ -270,3 +271,6 @@ Product Name:Proxinator-VM32-Turbo
 Product Name:Proxinator-VM8-15mm-Base
 Product Name:Proxinator-VM8-15mm-Enhanced
 Product Name:Proxinator-VM8-15mm-Turbo
+Product Name:Proxinator-VM4-15mm-Base
+Product Name:Proxinator-VM4-15mm-Enhanced
+Product Name:Proxinator-VM4-15mm-Turbo
