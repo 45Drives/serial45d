@@ -1,3 +1,9 @@
+serial45d (3.0.7-1focal) focal; urgency=medium
+
+  * added support for Proxinator-VM4-15mm
+
+ -- Brett Kelly <bkelly@45drives.com>  Tue, 04 Feb 2025 08:53:59 -0400
+
 serial45d (3.0.6-1focal) focal; urgency=medium
 
   * added support for VM8-15mm products

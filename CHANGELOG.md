@@ -1,3 +1,3 @@
-## Serial45d 3.0.6-1
+## Serial45d 3.0.7-1
 
-* added support for VM8-15mm products
+* added support for Proxinator-VM4-15mm
