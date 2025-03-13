@@ -1,3 +1,9 @@
+serial45d (3.0.8-1focal) focal; urgency=medium
+
+  * Add support for Stornado F16
+
+ -- Mark Hooper <mhooper@45drives.com>  Thu, 13 Mar 2025 12:39:47 -0300
+
 serial45d (3.0.7-1focal) focal; urgency=medium
 
   * added support for Proxinator-VM4-15mm

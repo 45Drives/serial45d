@@ -42,6 +42,8 @@ fi
 %{_bindir}/*
 
 %changelog
+* Thu Mar 13 2025 Mark Hooper <mhooper@45drives.com> 3.0.8-1
+- Add support for Stornado F16
 * Tue Feb 04 2025 Brett Kelly <bkelly@45drives.com> 3.0.7-1
 - added support for Proxinator-VM4-15mm
 * Wed Jan 22 2025 Mark Hooper <mhooper@45drives.com> 3.0.6-1

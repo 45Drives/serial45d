@@ -1,3 +1,3 @@
-## Serial45d 3.0.7-1
+## Serial45d 3.0.8-1
 
-* added support for Proxinator-VM4-15mm
+* Add support for Stornado F16
