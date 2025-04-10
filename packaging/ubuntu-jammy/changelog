@@ -1,3 +1,9 @@
+serial45d (3.0.9-1jammy) jammy; urgency=medium
+
+  * update production mode
+
+ -- Mark Hooper <mhooper@45drives.com>  Thu, 10 Apr 2025 08:03:20 -0300
+
 serial45d (3.0.8-1jammy) jammy; urgency=medium
 
   * First build for jammy
