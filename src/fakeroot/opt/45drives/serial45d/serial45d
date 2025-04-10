@@ -1385,12 +1385,6 @@ def main():
 
     if g_production_mode:
         g_ps_serial.setFanMode(fru_fields)
-        if g_update_config:
-            g_ps_serial.updateConfigFile(g_config_file_content)
-            print("Config File has been updated.")
-            g_ps_serial.sendConfigFile(fru_fields,auto_detect_fields)
-        #send details to production database
-        g_ps_serial.sendDetails(fru_fields,auto_detect_fields,fru_write_output)
 
 if __name__ == "__main__":
     main()
