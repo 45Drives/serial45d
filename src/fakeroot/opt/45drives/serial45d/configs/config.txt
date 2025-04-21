@@ -62,6 +62,7 @@ Chassis Type:2U
 Chassis Type:2UGW
 Chassis Type:AV15
 Chassis Type:C8
+Chassis Type:C8_UBM
 Chassis Type:F2
 Chassis Type:F8X1
 Chassis Type:F8X2
@@ -135,11 +136,14 @@ Product Name:Storinator-AV15-Turbo
 Product Name:Storinator-AV15-Turbo-G
 Product Name:Storinator-C8-Base
 Product Name:Storinator-C8-Base-B
+Product Name:Storinator-C8_UBM-Base
 Product Name:Storinator-C8-Enhanced
 Product Name:Storinator-C8-Enhanced-AMD
 Product Name:Storinator-C8-Enhanced-S
+Product Name:Storinator-C8_UBM-Enhanced
 Product Name:Storinator-C8-Turbo
 Product Name:Storinator-C8-Turbo-G
+Product Name:Storinator-C8_UBM-Turbo
 Product Name:Storinator-F8X1-Base-B
 Product Name:Storinator-F8X1-Enhanced
 Product Name:Storinator-F8X1-Enhanced-AMD
