@@ -1,3 +1,9 @@
+serial45d (3.0.10-1focal) focal; urgency=medium
+
+  * add support for C8 UBM chassis
+
+ -- Mark Hooper <mhooper@45drives.com>  Mon, 21 Apr 2025 13:38:17 -0300
+
 serial45d (3.0.9-1focal) focal; urgency=medium
 
   * update production mode

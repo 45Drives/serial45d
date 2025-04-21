@@ -1,3 +1,3 @@
-## Serial45d 3.0.9-1
+## Serial45d 3.0.10-1
 
-* update production mode
+* add support for C8 UBM chassis
