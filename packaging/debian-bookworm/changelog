@@ -1,0 +1,5 @@
+serial45d (3.0.10-1bookworm) bookworm; urgency=medium
+
+  * add build for bookworm
+
+ -- Brett Kelly <bkelly@45drives.com>  Wed, 28 May 2025 13:38:17 -0300
