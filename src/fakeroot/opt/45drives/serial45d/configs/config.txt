@@ -74,6 +74,7 @@ Chassis Type:PRO4
 Chassis Type:PRO8
 Chassis Type:PRO15
 Chassis Type:MI4
+Chassis Type:MI4_UBM
 Chassis Type:Q30
 Chassis Type:S45
 Chassis Type:XL60
@@ -224,11 +225,14 @@ Product Name:Storinator-H8-XL60-Enhanced-S
 Product Name:Storinator-H8-XL60-Turbo
 Product Name:Storinator-H8-XL60-Turbo-G
 Product Name:Storinator-MI4-Base
+Product Name:Storinator-MI4_UBM-Base
 Product Name:Storinator-MI4-Base-B
 Product Name:Storinator-MI4-Enhanced
+Product Name:Storinator-MI4_UBM-Enhanced
 Product Name:Storinator-MI4-Enhanced-AMD
 Product Name:Storinator-MI4-Enhanced-S
 Product Name:Storinator-MI4-Turbo
+Product Name:Storinator-MI4_UBM-Turbo
 Product Name:Storinator-MI4-Turbo-G
 Product Name:Storinator-Q30-Base
 Product Name:Storinator-Q30-Base-B
