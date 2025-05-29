@@ -1,3 +1,9 @@
+serial45d (3.0.11-1bookworm) bookworm; urgency=medium
+
+  * add support for mi4 ubm
+
+ -- Mark Hooper <mhooper@45drives.com>  Thu, 29 May 2025 10:54:08 -0300
+
 serial45d (3.0.10-1bookworm) bookworm; urgency=medium
 
   * add build for bookworm
