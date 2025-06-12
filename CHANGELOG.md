@@ -1,3 +1,3 @@
-## Serial45d 3.0.10-1
+## Serial45d 3.0.12-1
 
-* add support for C8 UBM chassis
+* Adds support for ASROCKRACK ROMED8-25/BMC board

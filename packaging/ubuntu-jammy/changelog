@@ -1,3 +1,9 @@
+serial45d (3.0.12-1jammy) jammy; urgency=medium
+
+  * Adds support for ASROCKRACK ROMED8-25/BMC board
+
+ -- Jordan Keough <jkeough@45drives.com>  Thu, 12 Jun 2025 12:57:07 -0300
+
 serial45d (3.0.10-1jammy) jammy; urgency=medium
 
   * add support for C8 UBM chassis
