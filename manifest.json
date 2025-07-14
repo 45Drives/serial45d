@@ -3,11 +3,7 @@
     "name": "serial45d",
     "title": "Serial45d",
     "description": "A package for re-serializing 45Drives server products",
-<<<<<<< HEAD
-    "version": "3.0.11",
-=======
     "version": "3.0.12",
->>>>>>> main
     "build_number": "1",
     "stable": true,
     "author": "Mark Hooper <mhooper@45drives.com>",
