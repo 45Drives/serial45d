@@ -1,3 +1,3 @@
-## Serial45d 3.0.12-1
+## Serial45d 3.0.13-1
 
-* Adds support for ASROCKRACK ROMED8-25/BMC board
+* update compute product string
