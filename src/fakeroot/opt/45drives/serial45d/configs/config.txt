@@ -120,10 +120,10 @@ Product Name:Gateway-1UGW-Base-B
 Product Name:Gateway-1UGW-Enhanced
 Product Name:Gateway-1UGW-Enhanced-S
 Product Name:Gateway-1UGW-Turbo-G
-Prodcut Name:Compute-1UGW-Base
-Prodcut Name:Compute-1UGW-Enhanced
-Prodcut Name:Compute-1UGW-Turbo
-Prodcut Name:Compute-1UGW-Super
+Product Name:Compute-1UGW-Base
+Product Name:Compute-1UGW-Enhanced
+Product Name:Compute-1UGW-Turbo
+Product Name:Compute-1UGW-Super
 Product Name:HomeLab-HL4
 Product Name:HomeLab-HL8
 Product Name:HomeLab-HL15
