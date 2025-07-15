@@ -110,6 +110,7 @@ Product Name:Destroyinator-S45-Enhanced
 Product Name:Destroyinator-S45-Enhanced-S
 Product Name:Destroyinator-XL60-Enhanced
 Product Name:Destroyinator-XL60-Enhanced-S
+Product Name:Destroyinator-F16-Enhanced
 Product Name:Gateway-2UGW-Base
 Product Name:Gateway-2UGW-Base-B
 Product Name:Gateway-2UGW-Enhanced

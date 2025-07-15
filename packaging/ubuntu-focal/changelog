@@ -1,3 +1,9 @@
+serial45d (3.0.13-1focal) focal; urgency=medium
+
+  * Add Destroyinator F16 support
+
+ -- Joshua Boudreau <jboudreau@45drives.com>  Tue, 15 Jul 2025 14:12:26 -0300
+
 serial45d (3.0.12-1focal) focal; urgency=medium
 
   * Adds support for ASROCKRACK ROMED8-25/BMC board
