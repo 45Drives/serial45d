@@ -732,6 +732,15 @@ def assignProductName(auto_detect_fields,fru_fields):
                     fru_fields["version"] = "Professional"
                     auto_detect_fields["unique_product_str"] = "Professional-PRO15"
                     return
+        if "Studio" in auto_detect_fields["product_type"]:
+            if "STUDIO8" in auto_detect_fields["part_number"]:
+                confirm = input("\nAuto-Detect determined that the product is a \"{pr}\", is this correct? (y/n): ".format(pr="Studio-STUDIO8"))
+                if confirm == "y":
+                    # user confirmed final product string to be correct. We're all done.
+                    fru_fields["product_name"] = "Studio-STUDIO8"
+                    fru_fields["version"] = "Studio"
+                    auto_detect_fields["unique_product_str"] = "Studio-STUDIO8"
+                    return
 
 
         # build the product string using the input provided by the user.

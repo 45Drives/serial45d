@@ -59,6 +59,7 @@ CPU:Intel(R) Xeon(R) Silver 4314 CPU @ 2.40GHz
 CPU:Intel(R) Xeon(R) Silver 4410Y
 CPU:Intel(R) Xeon(R) Gold 6430
 CPU:Intel(R) Xeon(R) E E-2434
+CPI:Intel(R) Xeon(R) E E-2478
 Chassis Type:1UGW
 Chassis Type:2U
 Chassis Type:2UGW
@@ -85,6 +86,7 @@ Chassis Type:VM16
 Chassis Type:VM32
 Chassis Type:VM4
 Chassis Type:F16
+Chassis Type:STUDIO8
 Product Type:Archivinator
 Product Type:Destroyinator
 Product Type:Gateway
@@ -94,6 +96,7 @@ Product Type:Professional
 Product Type:Storinator
 Product Type:Stornado
 Product Type:Proxinator
+Product Type:Studio
 Product Name:Archivinator-AV15-Base
 Product Name:Archivinator-AV15-Base-B
 Product Name:Archivinator-Q30-Base
@@ -110,6 +113,8 @@ Product Name:Destroyinator-S45-Enhanced
 Product Name:Destroyinator-S45-Enhanced-S
 Product Name:Destroyinator-XL60-Enhanced
 Product Name:Destroyinator-XL60-Enhanced-S
+Product Name:Destroyinator-F16-Enhanced
+Product Name:Destroyinator-F16-Enhanced-S
 Product Name:Gateway-2UGW-Base
 Product Name:Gateway-2UGW-Base-B
 Product Name:Gateway-2UGW-Enhanced
@@ -288,3 +293,4 @@ Product Name:Proxinator-VM4-15mm-Turbo
 Product Name:Stornado-F16-Base
 Product Name:Stornado-F16-Enhanced
 Product Name:Stornado-F16-Turbo
+Product Name:Studio-STUDIO8
