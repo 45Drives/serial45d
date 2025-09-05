@@ -1,3 +1,9 @@
+serial45d (3.0.14-1bookworm) bookworm; urgency=medium
+
+  * Adds 45Studio Support
+
+ -- Jordan Keough <jkeough@45drives.com>  Fri, 05 Sep 2025 05:10:22 -0300
+
 serial45d (3.0.13-1bookworm) bookworm; urgency=medium
 
   * update compute product string

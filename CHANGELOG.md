@@ -1,3 +1,3 @@
-## Serial45d 3.0.13-1
+## Serial45d 3.0.14-1
 
-* update compute product string
+* Adds 45Studio Support
