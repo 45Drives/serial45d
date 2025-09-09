@@ -698,7 +698,15 @@ def assignProductName(auto_detect_fields,fru_fields):
                     fru_fields["version"] = "HomeLab"
                     auto_detect_fields["unique_product_str"] = "HomeLab-HL8"
                     return
-            if "HL15" in auto_detect_fields["part_number"]:
+            if "HL15_Beast" in auto_detect_fields["part_number"]:
+                confirm = input("\nAuto-Detect determined that the product is a \"{pr}\", is this correct? (y/n): ".format(pr="Homelab-HL15_Beast"))
+                if confirm == "y":
+                    # user confirmed final product string to be correct. We're all done.
+                    fru_fields["product_name"] = "Homelab-HL15_Beast"
+                    fru_fields["version"] = "HomeLab"
+                    auto_detect_fields["unique_product_str"] = "Homelab-HL15_Beast"
+                    return
+            elif "HL15" in auto_detect_fields["part_number"]:
                 confirm = input("\nAuto-Detect determined that the product is a \"{pr}\", is this correct? (y/n): ".format(pr="HomeLab-HL15"))
                 if confirm == "y":
                     # user confirmed final product string to be correct. We're all done.
@@ -754,6 +762,7 @@ def assignProductName(auto_detect_fields,fru_fields):
         #see if we can determine base, enhanced, turbo or enhanced-AMD type
         if auto_detect_fields["board_model"] in mobo_to_version_lut.keys():
             unique_product_str_tmp = unique_product_str + mobo_to_version_lut[auto_detect_fields["board_model"]]
+            print("[DEBUG] 1:", unique_product_str_tmp)
 
         else:
             # determine model based on cpu present
@@ -767,10 +776,13 @@ def assignProductName(auto_detect_fields,fru_fields):
 
             if cpu_substr_present:
                 unique_product_str_tmp = unique_product_str + cpu_substr_version
+                print("[DEBUG] 2:", unique_product_str_tmp)
 
+        print("[DEBUG] 3:", unique_product_str_tmp)
         if unique_product_str_tmp in g_config_file_content["Product Name"]:
             final_product_str = unique_product_str_tmp
         
+        print("[DEBUG] 4:", final_product_str)
         if final_product_str != "unknown":
             # we got valid input from user and assigned a value to final product string.
             auto_detect_fields["unique_product_str"] = final_product_str
@@ -1311,6 +1323,8 @@ def main():
     parser = OptionParser()
     parser.add_option("-c","--clear",action="store_true",dest="clear_fru",default=False,help="Clear FRU Fields on Motherboard")
     parser.add_option("-r","--restore",action="store_true",dest="restore",default=None,help="Restore FRU data from backup file in /opt/45drives/serial45d/fru_bin_backups/")
+    parser.add_option("--no-prod", action="store_true", dest="no_prod", default=False,
+                  help="Ignore production overlay module even if present")
     (options, args) = parser.parse_args()
 
     
@@ -1326,7 +1340,12 @@ def main():
         fru_restore(timestamp)
         exit(0)
     
-    g_ps_serial = load_production_module()
+    # g_ps_serial = load_production_module()
+    if options.no_prod or os.environ.get("SERIAL45D_NO_PROD") == "1":
+        g_ps_serial = None
+        g_production_mode = False
+    else:
+        g_ps_serial = load_production_module()
     
     # Fields used in the IPMICFG-Linux.x86_64 write operation
     fru_fields = {
