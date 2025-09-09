@@ -134,7 +134,7 @@ Product Name:Compute-1UGW-Super
 Product Name:HomeLab-HL4
 Product Name:HomeLab-HL8
 Product Name:HomeLab-HL15
-Product Name:Homelab-HL15_BEAST
+Product Name:HomeLab-HL15_BEAST
 Product Name:Professional-PRO4
 Product Name:Professional-PRO8
 Product Name:Professional-PRO15
