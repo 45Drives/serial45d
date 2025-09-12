@@ -762,7 +762,7 @@ def assignProductName(auto_detect_fields,fru_fields):
         #see if we can determine base, enhanced, turbo or enhanced-AMD type
         if auto_detect_fields["board_model"] in mobo_to_version_lut.keys():
             unique_product_str_tmp = unique_product_str + mobo_to_version_lut[auto_detect_fields["board_model"]]
-            print("[DEBUG] 1:", unique_product_str_tmp)
+            # print("[DEBUG] 1:", unique_product_str_tmp)
 
         else:
             # determine model based on cpu present
@@ -776,13 +776,13 @@ def assignProductName(auto_detect_fields,fru_fields):
 
             if cpu_substr_present:
                 unique_product_str_tmp = unique_product_str + cpu_substr_version
-                print("[DEBUG] 2:", unique_product_str_tmp)
+                # print("[DEBUG] 2:", unique_product_str_tmp)
 
-        print("[DEBUG] 3:", unique_product_str_tmp)
+        # print("[DEBUG] 3:", unique_product_str_tmp)
         if unique_product_str_tmp in g_config_file_content["Product Name"]:
             final_product_str = unique_product_str_tmp
         
-        print("[DEBUG] 4:", final_product_str)
+        # print("[DEBUG] 4:", final_product_str)
         if final_product_str != "unknown":
             # we got valid input from user and assigned a value to final product string.
             auto_detect_fields["unique_product_str"] = final_product_str
