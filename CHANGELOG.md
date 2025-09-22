@@ -1,3 +1,3 @@
-## Serial45d 3.0.14-1
+## Serial45d 3.0.15-1
 
-* Adds 45Studio Support
+* Adds HL15_BEAST support
