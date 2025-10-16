@@ -632,6 +632,51 @@ def getHybridType():
         else:
             print("Invalid Selection")
 
+def enforce_homelab_blocks(fru_fields):
+    """
+    Block serialization paths that must use the 'serial.bat' flow.
+
+    Rules:
+      - HL4 and HL8: always block here (must use serial.bat).
+      - HL15: only block when it's the HL15_BEAST variant AND the motherboard
+        is ProArt X870E-CREATOR WIFI.
+    """
+    product_name = (fru_fields.get("product_name") or "").strip()
+    board_model = (fru_fields.get("board_model") or "").strip()
+
+    # Normalize for safe comparisons
+    pn = product_name
+    bm = board_model.lower()
+
+    def _blocked(reason_lines):
+        print("\n")
+        print("+----------------------------------------------------------------+")
+        print("|                          OPERATION BLOCKED                     |")
+        print("+----------------------------------------------------------------+")
+        for l in reason_lines:
+            print(l)
+        print("")
+        print("This configuration must be serialized using the serial.bat script from a bootable USB.")
+        print("")
+        exit(2)
+
+    # Always block HL4 / HL8
+    if pn in ("HomeLab-HL4", "HomeLab-HL8"):
+        _blocked([
+            f"Detected product: {pn}",
+            "Policy: HomeLab HL4/HL8 units are serialized via serial.bat script."
+        ])
+
+    # For HL15, only block the BEAST variant with this specific board
+    if pn == "HomeLab-HL15_BEAST" and bm == "proart x870e-creator wifi":
+        _blocked([
+            "Detected product: HomeLab-HL15_BEAST",
+            "Detected motherboard: ProArt X870E-CREATOR WIFI",
+            "Policy: HL15_BEAST + ProArt board requires serial.bat script serialization."
+        ])
+
+    # Otherwise: allowed to proceed
+
 
 ##################################################################################
 # getUserInput()
@@ -689,7 +734,11 @@ def assignProductName(auto_detect_fields,fru_fields):
                     fru_fields["product_name"] = "HomeLab-HL4"
                     fru_fields["version"] = "HomeLab"
                     auto_detect_fields["unique_product_str"] = "HomeLab-HL4"
+
+                    # Enforce serial.bat-only serialization for HL4
+                    enforce_homelab_blocks(fru_fields)
                     return
+
             if "HL8" in auto_detect_fields["part_number"]:
                 confirm = input("\nAuto-Detect determined that the product is a \"{pr}\", is this correct? (y/n): ".format(pr="HomeLab-HL8"))
                 if confirm == "y":
@@ -697,7 +746,11 @@ def assignProductName(auto_detect_fields,fru_fields):
                     fru_fields["product_name"] = "HomeLab-HL8"
                     fru_fields["version"] = "HomeLab"
                     auto_detect_fields["unique_product_str"] = "HomeLab-HL8"
+
+                    # Enforce serial.bat-only serialization for HL8
+                    enforce_homelab_blocks(fru_fields)
                     return
+
             if "HL15_BEAST" in auto_detect_fields["part_number"]:
                 confirm = input("\nAuto-Detect determined that the product is a \"{pr}\", is this correct? (y/n): ".format(pr="HomeLab-HL15_BEAST"))
                 if confirm == "y":
@@ -705,6 +758,9 @@ def assignProductName(auto_detect_fields,fru_fields):
                     fru_fields["product_name"] = "HomeLab-HL15_BEAST"
                     fru_fields["version"] = "HomeLab"
                     auto_detect_fields["unique_product_str"] = "HomeLab-HL15_BEAST"
+
+                    # Enforce serial.bat conditional block (only for ProArt X870E-CREATOR WIFI)
+                    enforce_homelab_blocks(fru_fields)
                     return
             elif "HL15" in auto_detect_fields["part_number"]:
                 confirm = input("\nAuto-Detect determined that the product is a \"{pr}\", is this correct? (y/n): ".format(pr="HomeLab-HL15"))
@@ -1402,6 +1458,10 @@ def main():
     # gather information and perform autodetection
     auto_detect_fields["cpu_model"], auto_detect_fields["cpu_count"] = getCPU()
     assignProductName(auto_detect_fields,fru_fields)
+    
+    # Safety net: block disallowed HomeLab paths even if product_name was set elsewhere
+    enforce_homelab_blocks(fru_fields)
+
     storePrevIpmitoolOutput(timestamp)
 
     # Keeping this in case we run into issues writing to supermicro boards.
