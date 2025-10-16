@@ -677,6 +677,38 @@ def enforce_homelab_blocks(fru_fields):
 
     # Otherwise: allowed to proceed
 
+def maybe_fail_fast_after_chassis(auto_detect_fields, fru_fields):
+    """
+    Fail fast for HomeLab SKUs immediately after chassis selection, before asking for serial.
+    Uses dmidecode to grab the board model when needed (HL15_BEAST rule).
+    """
+    # Tentative product_name guess purely from the user's selections
+    pn = None
+    pt = auto_detect_fields.get("product_type", "") or ""
+    ch = auto_detect_fields.get("part_number", "") or ""
+
+    if "HomeLab" in pt:
+        if "HL4" in ch:
+            pn = "HomeLab-HL4"
+        elif "HL8" in ch:
+            pn = "HomeLab-HL8"
+        elif "HL15_BEAST" in ch:
+            pn = "HomeLab-HL15_BEAST"
+        # Plain HL15 is allowed; don't set pn for that case.
+
+    if pn:
+        fru_fields["product_name"] = pn
+
+        # For HL15_BEAST we need the board model for the conditional rule.
+        # For HL4/HL8 it's a straight block with no board dependency,
+        # but grabbing the board here is cheap and harmless.
+        board_model, board_serial, board_mfg = getMotherboard()
+        fru_fields["board_model"] = board_model
+        fru_fields["board_manufacturer"] = board_mfg
+
+        # This will exit(2) if blocked.
+        enforce_homelab_blocks(fru_fields)
+
 
 ##################################################################################
 # getUserInput()
@@ -689,13 +721,17 @@ def getUserInput(auto_detect_fields,fru_fields):
     product_type = getProductType()
     hybrid_type = getHybridType()
     chassis_type = getChassisType()
-    serial = getSerial()
-    asset_tag = g_ps_serial.getAssetTag(updateProgressStep()) if g_production_mode else "SELFSERIALIZED"
 
     auto_detect_fields["product_type"] = product_type
     auto_detect_fields["part_number"] = chassis_type
     auto_detect_fields["hybrid_type"] = hybrid_type
     fru_fields["part_number"] = chassis_type
+    fru_fields["product_name"] = product_type
+
+    maybe_fail_fast_after_chassis(auto_detect_fields, fru_fields)
+
+    serial = getSerial()
+    asset_tag = g_ps_serial.getAssetTag(updateProgressStep()) if g_production_mode else "SELFSERIALIZED"
     fru_fields["serial"] = serial
     fru_fields["asset_tag"] = asset_tag
     fru_fields["product_name"] = product_type
