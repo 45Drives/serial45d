@@ -1,3 +1,17 @@
+serial45d (3.0.16-1jammy) jammy; urgency=medium
+
+  * Adds fast failure to script when using HL4/8 or HL15_BEAST with the ProArt board,
+    due to those units not having ipmi and therefore need to be serialized with serial.bat
+    USB
+
+ -- Jordan Keough <jkeough@45drives.com>  Thu, 16 Oct 2025 12:06:12 -0300
+
+serial45d (3.0.15-1jammy) jammy; urgency=medium
+
+  * Adds HL15_BEAST support
+
+ -- Jordan Keough <jkeough@45drives.com>  Mon, 22 Sep 2025 05:51:49 -0300
+
 serial45d (3.0.14-1jammy) jammy; urgency=medium
 
   * Adds 45Studio Support
