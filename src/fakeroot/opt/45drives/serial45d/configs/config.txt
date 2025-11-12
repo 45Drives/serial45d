@@ -90,6 +90,7 @@ Chassis Type:VM32
 Chassis Type:VM4
 Chassis Type:F16
 Chassis Type:STUDIO8
+Chassis Type:VM2
 Product Type:Archivinator
 Product Type:Destroyinator
 Product Type:Gateway
@@ -294,6 +295,9 @@ Product Name:Proxinator-VM8-15mm-Turbo
 Product Name:Proxinator-VM4-15mm-Base
 Product Name:Proxinator-VM4-15mm-Enhanced
 Product Name:Proxinator-VM4-15mm-Turbo
+Product Name:Proxinator-VM2-Base
+Product Name:Proxinator-VM2-Enhanced
+Product Name:Proxinator-VM2-Turbo
 Product Name:Stornado-F16-Base
 Product Name:Stornado-F16-Enhanced
 Product Name:Stornado-F16-Turbo
