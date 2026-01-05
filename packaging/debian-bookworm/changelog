@@ -1,3 +1,9 @@
+serial45d (3.0.18-1bookworm) bookworm; urgency=medium
+
+  * Adds Turbo option into config.txt for Destroyinator F16
+
+ -- Jordan Keough <jkeough@45drives.com>  Mon, 05 Jan 2026 05:42:18 -0400
+
 serial45d (3.0.16-1bookworm) bookworm; urgency=medium
 
   * Adds fast failure to script when using HL4/8 or HL15_BEAST with the ProArt board,
