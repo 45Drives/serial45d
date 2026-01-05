@@ -118,6 +118,8 @@ Product Name:Destroyinator-XL60-Enhanced
 Product Name:Destroyinator-XL60-Enhanced-S
 Product Name:Destroyinator-F16-Enhanced
 Product Name:Destroyinator-F16-Enhanced-S
+Product Name:Destroyinator-F16-Turbo
+Product Name:Destroyinator-F16-Turbo-G
 Product Name:Gateway-2UGW-Base
 Product Name:Gateway-2UGW-Base-B
 Product Name:Gateway-2UGW-Enhanced
