@@ -1,3 +1,3 @@
-## Serial45d 3.0.18-1
+## Serial45d 3.0.19-1
 
-* Adds Turbo option into config.txt for Destroyinator F16
+* Fixes missing VM2 in config after merge conflict
