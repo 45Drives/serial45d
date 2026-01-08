@@ -4,6 +4,12 @@ serial45d (3.0.18-1bookworm) bookworm; urgency=medium
 
  -- Jordan Keough <jkeough@45drives.com>  Mon, 05 Jan 2026 05:42:18 -0400
 
+serial45d (3.0.17-1bookworm) bookworm; urgency=medium
+
+  * Add Proxinator VM2 support
+
+ -- Joshua Boudreau <jboudreau@45drives.com>  Wed, 12 Nov 2025 13:04:33 -0400
+
 serial45d (3.0.16-1bookworm) bookworm; urgency=medium
 
   * Adds fast failure to script when using HL4/8 or HL15_BEAST with the ProArt board,
