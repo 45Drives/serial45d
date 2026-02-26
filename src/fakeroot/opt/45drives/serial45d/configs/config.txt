@@ -90,6 +90,7 @@ Chassis Type:VM32
 Chassis Type:VM4
 Chassis Type:F16
 Chassis Type:STUDIO8
+Chassis Type:STUDIO15
 Chassis Type:VM2
 Product Type:Archivinator
 Product Type:Destroyinator
