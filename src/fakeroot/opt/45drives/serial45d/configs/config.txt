@@ -304,3 +304,4 @@ Product Name:Stornado-F16-Base
 Product Name:Stornado-F16-Enhanced
 Product Name:Stornado-F16-Turbo
 Product Name:Studio-STUDIO8
+Product Name:Studio-STUDIO15
