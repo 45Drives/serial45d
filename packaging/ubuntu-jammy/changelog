@@ -1,3 +1,9 @@
+serial45d (3.0.20-3jammy) jammy; urgency=medium
+
+  * Adds Studio 15 unit to config file
+
+ -- Jordan Keough <jkeough@45drives.com>  Thu, 26 Feb 2026 08:48:01 -0400
+
 serial45d (3.0.20-2jammy) jammy; urgency=medium
 
   * Adds Studio 15 unit to config file - had to add write permission to build-packages.yml
