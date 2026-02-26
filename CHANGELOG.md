@@ -1,3 +1,3 @@
-## Serial45d 3.0.20-3
+## Serial45d 3.0.20-4
 
-* Adds Studio 15 unit to config file
+* Adds Studio 15 handling in script, missed a section earlier

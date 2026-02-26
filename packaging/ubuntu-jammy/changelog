@@ -1,3 +1,9 @@
+serial45d (3.0.20-4jammy) jammy; urgency=medium
+
+  * Adds Studio 15 handling in script, missed a section earlier
+
+ -- Jordan Keough <jkeough@45drives.com>  Thu, 26 Feb 2026 09:03:26 -0400
+
 serial45d (3.0.20-3jammy) jammy; urgency=medium
 
   * Adds Studio 15 unit to config file
