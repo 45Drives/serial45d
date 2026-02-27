@@ -25,6 +25,7 @@ Motherboard:EC266D2I-2T/AQC
 Motherboard:ROMED8-2T/BCM
 Motherboard:ROMED8-2T
 Motherboard:ProArt X870E-CREATOR WIFI
+Motherboard:MH53-G40-000
 CPU:AMD EPYC 7252 8-Core Processor
 CPU:AMD EPYC 7281 16-Core Processor
 CPU:AMD EPYC 7282 16-Core Processor
@@ -61,10 +62,12 @@ CPU:Intel(R) Xeon(R) Silver 4314 CPU @ 2.40GHz
 CPU:Intel(R) Xeon(R) Silver 4410Y
 CPU:Intel(R) Xeon(R) Gold 6430
 CPU:Intel(R) Xeon(R) E E-2434
-CPI:Intel(R) Xeon(R) E E-2478
+CPU:Intel(R) Xeon(R) E E-2478
+CPU:AMD Ryzen Threadripper PRO 9955WX 16-Cores
 Chassis Type:1UGW
 Chassis Type:2U
 Chassis Type:2UGW
+Chassis Type:2UGW-REV2
 Chassis Type:AV15
 Chassis Type:C8
 Chassis Type:C8_UBM
@@ -126,6 +129,11 @@ Product Name:Gateway-2UGW-Base-B
 Product Name:Gateway-2UGW-Enhanced
 Product Name:Gateway-2UGW-Enhanced-S
 Product Name:Gateway-2UGW-Turbo-G
+Product Name:Gateway-2UGW-REV2-Base
+Product Name:Gateway-2UGW-REV2-Base-B
+Product Name:Gateway-2UGW-REV2-Enhanced
+Product Name:Gateway-2UGW-REV2-Enhanced-S
+Product Name:Gateway-2UGW-REV2-Turbo-G
 Product Name:Gateway-1UGW-Base
 Product Name:Gateway-1UGW-Base-B
 Product Name:Gateway-1UGW-Enhanced
