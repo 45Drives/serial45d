@@ -38,6 +38,7 @@ CPU:AMD EPYC 7543P 32-Core Processor
 CPU:AMD EPYC 7702P 64-Core Processor
 CPU:AMD EPYC 7713P 64-Core Processor
 CPU:AMD EPYC 8324P 32-Core Processor
+CPU:AMD EPYC 8534 64-Core Processor
 CPU:AMD EPYC 9254 24-Core Processor
 CPU:AMD EPYC 9334 32-Core Processor
 CPU:AMD EPYC 9454 48-Core Processor
@@ -75,6 +76,7 @@ Chassis Type:F2
 Chassis Type:F8X1
 Chassis Type:F8X2
 Chassis Type:F8X3
+Chassis Type:F8X3-2.0
 Chassis Type:HL4
 Chassis Type:HL8
 Chassis Type:HL15
@@ -185,6 +187,12 @@ Product Name:Storinator-F8X3-Enhanced-AMD
 Product Name:Storinator-F8X3-Enhanced-S
 Product Name:Storinator-F8X3-Turbo
 Product Name:Storinator-F8X3-Turbo-G
+Product Name:Storinator-F8X3-2.0-Base-B
+Product Name:Storinator-F8X3-2.0-Enhanced
+Product Name:Storinator-F8X3-2.0-Enhanced-AMD
+Product Name:Storinator-F8X3-2.0-Enhanced-S
+Product Name:Storinator-F8X3-2.0-Turbo
+Product Name:Storinator-F8X3-2.0-Turbo-G
 Product Name:Storinator-H16-AV15-Enhanced
 Product Name:Storinator-H16-AV15-Enhanced-AMD
 Product Name:Storinator-H16-AV15-Enhanced-S
