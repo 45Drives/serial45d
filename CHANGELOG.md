@@ -1,3 +1,4 @@
-## Serial45d 3.0.20-4
+## Serial45d 3.0.21-1
 
-* Adds Studio 15 handling in script, missed a section earlier
+* Adds support for new NVME-F8X3 and HomeLab 
+X15 (Unraid Collab unit)

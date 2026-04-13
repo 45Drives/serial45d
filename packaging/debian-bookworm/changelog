@@ -1,3 +1,10 @@
+serial45d (3.0.21-1bookworm) bookworm; urgency=medium
+
+  * Adds support for new NVME-F8X3 and HomeLab 
+X15 (Unraid Collab unit)
+
+ -- Jordan Keough <jkeough@45drives.com>  Mon, 13 Apr 2026 07:59:42 -0300
+
 serial45d (3.0.20-4bookworm) bookworm; urgency=medium
 
   * Adds Studio 15 handling in script, missed a section earlier
