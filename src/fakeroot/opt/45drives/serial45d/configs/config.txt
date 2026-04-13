@@ -76,7 +76,7 @@ Chassis Type:F2
 Chassis Type:F8X1
 Chassis Type:F8X2
 Chassis Type:F8X3
-Chassis Type:F8X3-2.0
+Chassis Type:NVME-F8X3
 Chassis Type:HL4
 Chassis Type:HL8
 Chassis Type:HL15
@@ -187,12 +187,12 @@ Product Name:Storinator-F8X3-Enhanced-AMD
 Product Name:Storinator-F8X3-Enhanced-S
 Product Name:Storinator-F8X3-Turbo
 Product Name:Storinator-F8X3-Turbo-G
-Product Name:Storinator-F8X3-2.0-Base-B
-Product Name:Storinator-F8X3-2.0-Enhanced
-Product Name:Storinator-F8X3-2.0-Enhanced-AMD
-Product Name:Storinator-F8X3-2.0-Enhanced-S
-Product Name:Storinator-F8X3-2.0-Turbo
-Product Name:Storinator-F8X3-2.0-Turbo-G
+Product Name:Storinator-NVME-F8X3-Base-B
+Product Name:Storinator-NVME-F8X3-Enhanced
+Product Name:Storinator-NVME-F8X3-Enhanced-AMD
+Product Name:Storinator-NVME-F8X3-Enhanced-S
+Product Name:Storinator-NVME-F8X3-Turbo
+Product Name:Storinator-NVME-F8X3-Turbo-G
 Product Name:Storinator-H16-AV15-Enhanced
 Product Name:Storinator-H16-AV15-Enhanced-AMD
 Product Name:Storinator-H16-AV15-Enhanced-S
