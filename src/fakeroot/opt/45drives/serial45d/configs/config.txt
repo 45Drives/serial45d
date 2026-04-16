@@ -23,7 +23,7 @@ Motherboard:MS73-HB0-000
 Motherboard:MZ73-LM0-000
 Motherboard:MC13-LE1-000
 Motherboard:MH53-G40-000
-Motherboard:MW34-SP0-000
+Motherboard:MW34-SP0-00
 Motherboard:B550I AORUS PRO AX
 Motherboard:ProArt X870E-CREATOR WIFI
 CPU:AMD EPYC 7252 8-Core Processor
