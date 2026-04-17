@@ -1,4 +1,3 @@
-## Serial45d 3.0.21-1
+## Serial45d 3.0.21-2
 
-* Adds support for new NVME-F8X3 and HomeLab 
-X15 (Unraid Collab unit)
+* updates mw34 suffix (had 000 like other Giga boards but this one is 00)
