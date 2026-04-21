@@ -1,3 +1,3 @@
-## Serial45d 3.0.21-2
+## Serial45d 3.0.22-1
 
-* updates mw34 suffix (had 000 like other Giga boards but this one is 00)
+* Adds full config support for remaining NVME-F8X* units

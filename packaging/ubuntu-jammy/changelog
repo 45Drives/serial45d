@@ -1,3 +1,9 @@
+serial45d (3.0.22-1jammy) jammy; urgency=medium
+
+  * Adds full config support for remaining NVME-F8X* units
+
+ -- Jordan Keough <jkeough@45drives.com>  Tue, 21 Apr 2026 12:56:05 -0300
+
 serial45d (3.0.21-2jammy) jammy; urgency=medium
 
   * updates mw34 suffix (had 000 like other Giga boards but this one is 00)
