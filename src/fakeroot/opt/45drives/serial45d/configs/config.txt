@@ -17,6 +17,7 @@ Motherboard:X11SSH-CTF
 Motherboard:X11SSM-F
 Motherboard:X12DPi-N6
 Motherboard:X12SPL-F
+Motherboard:X13SAE-F
 Motherboard:ME03-CE0-000
 Motherboard:MS03-6L0-000
 Motherboard:MS73-HB0-000
@@ -66,6 +67,7 @@ CPU:Intel(R) Xeon(R) Gold 6430
 CPU:Intel(R) Xeon(R) E E-2434
 CPU:Intel(R) Xeon(R) E E-2478
 CPU:Intel(R) Core(TM) i7-14700
+CPU:12th Gen Intel(R) Core(TM) i7-12700K
 Chassis Type:1UGW
 Chassis Type:2U
 Chassis Type:2UGW
