@@ -27,6 +27,7 @@ Motherboard:MH53-G40-000
 Motherboard:MW34-SP0-00
 Motherboard:B550I AORUS PRO AX
 Motherboard:ProArt X870E-CREATOR WIFI
+Motherboard:GENOAD8X-2T/BCM
 CPU:AMD EPYC 7252 8-Core Processor
 CPU:AMD EPYC 7281 16-Core Processor
 CPU:AMD EPYC 7282 16-Core Processor
@@ -44,6 +45,7 @@ CPU:AMD EPYC 9254 24-Core Processor
 CPU:AMD EPYC 9334 32-Core Processor
 CPU:AMD EPYC 9454 48-Core Processor
 CPU:AMD EPYC 9534 64-Core Processor
+CPU:AMD EPYC 9334 32-Core Processor
 CPU:AMD Ryzen 9 7950X 16-Core Processor
 CPU:AMD Ryzen 5 5500GT with Radeon Graphics 
 CPU:AMD Ryzen 7 5700G with Radeon Graphics
@@ -79,6 +81,8 @@ Chassis Type:F2
 Chassis Type:F8X1
 Chassis Type:F8X2
 Chassis Type:F8X3
+Chassis Type:NVME-F8X1
+Chassis Type:NVME-F8X2
 Chassis Type:NVME-F8X3
 Chassis Type:HL4
 Chassis Type:HL8
