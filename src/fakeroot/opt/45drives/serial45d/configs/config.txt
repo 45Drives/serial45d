@@ -323,6 +323,9 @@ Product Name:Stornado-F2-Turbo-G
 Product Name:Proxinator-VM8-Base
 Product Name:Proxinator-VM8-Enhanced
 Product Name:Proxinator-VM8-Turbo
+Product Name:Proxinator-VM8-2G-Base
+Product Name:Proxinator-VM8-2G-Enhanced
+Product Name:Proxinator-VM8-2G-Turbo
 Product Name:Proxinator-VM16-Base
 Product Name:Proxinator-VM16-Enhanced
 Product Name:Proxinator-VM16-Turbo
