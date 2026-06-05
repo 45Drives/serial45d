@@ -1,3 +1,3 @@
-## Serial45d 3.0.33-1
+## Serial45d 3.0.34-1
 
-* Adds support for VM8-2G unit
+* Adds new GENOAD8UD-2TX550 mobo to config.txt

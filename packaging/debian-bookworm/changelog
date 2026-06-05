@@ -1,3 +1,9 @@
+serial45d (3.0.34-1bookworm) bookworm; urgency=medium
+
+  * Adds new GENOAD8UD-2TX550 mobo to config.txt
+
+ -- Jordan Keough <jkeough@45drives.com>  Fri, 05 Jun 2026 08:38:34 -0300
+
 serial45d (3.0.33-1bookworm) bookworm; urgency=medium
 
   * Adds support for VM8-2G unit
