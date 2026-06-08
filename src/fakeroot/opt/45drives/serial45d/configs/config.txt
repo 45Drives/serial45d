@@ -106,6 +106,7 @@ Chassis Type:F16
 Chassis Type:STUDIO8
 Chassis Type:STUDIO15
 Chassis Type:VM2
+Chassis Type:E16
 Product Type:Archivinator
 Product Type:Destroyinator
 Product Type:Gateway
@@ -347,3 +348,6 @@ Product Name:Stornado-F16-Enhanced
 Product Name:Stornado-F16-Turbo
 Product Name:Studio-STUDIO8
 Product Name:Studio-STUDIO15
+Product Name:Stornado-E16-Base
+Product Name:Stornado-E16-Enhanced
+Product Name:Stornado-E16-Turbo
