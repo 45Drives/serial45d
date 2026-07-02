@@ -1,0 +1,5 @@
+serial45d (3.0.22-1trixie) trixie; urgency=medium
+
+  * Adds full config support for remaining NVME-F8X* units
+
+ -- Jordan Keough <jkeough@45drives.com>  Tue, 21 Apr 2026 12:56:05 -0300
