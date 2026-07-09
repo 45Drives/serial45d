@@ -1,3 +1,3 @@
-## Serial45d 3.0.34-1
+## Serial45d 3.0.35-1
 
-* Adds new GENOAD8UD-2TX550 mobo to config.txt
+* fix: add source format 1.0 for debian packaging

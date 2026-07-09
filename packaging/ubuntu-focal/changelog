@@ -1,3 +1,9 @@
+serial45d (3.0.35-1focal) focal; urgency=medium
+
+  * fix: add source format 1.0 for debian packaging
+
+ -- Rachit Hans <rhans@45drives.com>  Wed, 08 Jul 2026 20:51:42 -0300
+
 serial45d (3.0.34-1focal) focal; urgency=medium
 
   * Adds new GENOAD8UD-2TX550 mobo to config.txt
