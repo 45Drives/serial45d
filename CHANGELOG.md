@@ -1,3 +1,3 @@
-## Serial45d 3.0.22-1
+## Serial45d 3.0.35-1
 
-* Adds full config support for remaining NVME-F8X* units
+* fix: add source format 1.0 for debian packaging

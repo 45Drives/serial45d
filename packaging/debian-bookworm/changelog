@@ -1,3 +1,28 @@
+serial45d (3.0.35-1bookworm) bookworm; urgency=medium
+
+  * fix: add source format 1.0 for debian packaging
+
+ -- Rachit Hans <rhans@45drives.com>  Wed, 08 Jul 2026 20:51:42 -0300
+
+serial45d (3.0.34-1bookworm) bookworm; urgency=medium
+
+  * Adds new GENOAD8UD-2TX550 mobo to config.txt
+
+ -- Jordan Keough <jkeough@45drives.com>  Fri, 05 Jun 2026 08:38:34 -0300
+
+serial45d (3.0.33-1bookworm) bookworm; urgency=medium
+
+  * Adds support for VM8-2G unit
+
+ -- Jordan Keough <jkeough@45drives.com>  Tue, 12 May 2026 08:29:26 -0300
+
+serial45d (3.0.23-1bookworm) bookworm; urgency=medium
+
+  * adds GENOAD8X-2T/BCM mobo, adds EPYC 9334 cpu, adds missing chassis type for
+    NVME-F8X1,NVME-F8X2
+
+ -- Jordan Keough <jkeough@45drives.com>  Tue, 05 May 2026 06:26:50 -0300
+
 serial45d (3.0.22-1bookworm) bookworm; urgency=medium
 
   * Adds full config support for remaining NVME-F8X* units

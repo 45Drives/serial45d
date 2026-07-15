@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ "$1" == "remove" ] || [ "$1" == "purge" ]; then
+    rm -rf /opt/45drives/serial45d
+	rm -f /usr/bin/serial45d
+    rmdir /opt/45drives --ignore-fail-on-non-empty
+fi

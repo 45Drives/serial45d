@@ -3,7 +3,7 @@
     "name": "serial45d",
     "title": "Serial45d",
     "description": "A package for re-serializing 45Drives server products",
-    "version": "3.0.22",
+    "version": "3.0.35",
     "build_number": "1",
     "stable": true,
     "author": "Mark Hooper <mhooper@45drives.com>",
@@ -53,7 +53,12 @@
         {
             "group": "debian",
             "os_name": "debian-bookworm",
-            "image": "ci.cr.45d.io/ci/simple/ubuntu-jammy:1"
+            "image": "ci.cr.45d.io/ci/simple/debian-bookworm:1"
+        },
+        {
+            "group": "debian",
+            "os_name": "debian-trixie",
+            "image": "ci.cr.45d.io/ci/simple/debian-trixie:1"
         }
     ],
     "repos": [
@@ -62,7 +67,7 @@
     ],
     "changelog": {
         "urgency": "medium",
-        "version": "3.0.22",
+        "version": "3.0.35",
         "build_number": "1",
         "date": null,
         "packager": "Mark Hooper <mhooper@45drives.com>",
