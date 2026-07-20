@@ -55,14 +55,14 @@ def outputSerialVersion():
     if g_production_mode:
         print("{g}                     *** 45Drives PRODUCTION MODE ***              {e}".format(g=ANSI_colors["GREEN"],e=ANSI_colors["END"]))
     print("                                                                                   ")
-    print("                                $$\           $$\ $$\   $$\ $$$$$$$\  $$$$$$$\     ")
-    print("                                \__|          $$ |$$ |  $$ |$$  ____| $$  __$$\    ")
-    print("   $$$$$$$\  $$$$$$\   $$$$$$\  $$\  $$$$$$\  $$ |$$ |  $$ |$$ |      $$ |  $$ |   ")
-    print("  $$  _____|$$  __$$\ $$  __$$\ $$ | \____$$\ $$ |$$$$$$$$ |$$$$$$$\  $$ |  $$ |   ")
-    print("  \$$$$$$\  $$$$$$$$ |$$ |  \__|$$ | $$$$$$$ |$$ |\_____$$ |\_____$$\ $$ |  $$ |   ")
-    print("   \____$$\ $$   ____|$$ |      $$ |$$  __$$ |$$ |      $$ |$$\   $$ |$$ |  $$ |   ")
-    print("  $$$$$$$  |\$$$$$$$\ $$ |      $$ |\$$$$$$$ |$$ |      $$ |\$$$$$$  |$$$$$$$  |   ")
-    print("  \_______/  \_______|\__|      \__| \_______|\__|      \__| \______/ \_______/    ")
+    print(r"                                $$\           $$\ $$\   $$\ $$$$$$$\  $$$$$$$\     ")
+    print(r"                                \__|          $$ |$$ |  $$ |$$  ____| $$  __$$\    ")
+    print(r"   $$$$$$$\  $$$$$$\   $$$$$$\  $$\  $$$$$$\  $$ |$$ |  $$ |$$ |      $$ |  $$ |   ")
+    print(r"  $$  _____|$$  __$$\ $$  __$$\ $$ | \____$$\ $$ |$$$$$$$$ |$$$$$$$\  $$ |  $$ |   ")
+    print(r"  \$$$$$$\  $$$$$$$$ |$$ |  \__|$$ | $$$$$$$ |$$ |\_____$$ |\_____$$\ $$ |  $$ |   ")
+    print(r"   \____$$\ $$   ____|$$ |      $$ |$$  __$$ |$$ |      $$ |$$\   $$ |$$ |  $$ |   ")
+    print(r"  $$$$$$$  |\$$$$$$$\ $$ |      $$ |\$$$$$$$ |$$ |      $$ |\$$$$$$  |$$$$$$$  |   ")
+    print(r"  \_______/  \_______|\__|      \__| \_______|\__|      \__| \______/ \_______/    ")
     ver_file_path = f"{g_current_dir}/configs/version"
     if(os.path.exists(ver_file_path) and os.path.isfile(ver_file_path)):
         ver_file = open(ver_file_path,"r")
@@ -96,9 +96,9 @@ def getMotherboard():
         print("Error Executing dmidecode")
         exit(1)
     for line in dmi_result:
-            regex_board_model = re.search("^\sProduct Name:\s+(.*)",line)
-            regex_board_serial = re.search("^\sSerial Number:\s+(.*)",line)
-            regex_board_manufacturer = re.search("^\sManufacturer:\s+(.*)",line)
+            regex_board_model = re.search(r"^\sProduct Name:\s+(.*)",line)
+            regex_board_serial = re.search(r"^\sSerial Number:\s+(.*)",line)
+            regex_board_manufacturer = re.search(r"^\sManufacturer:\s+(.*)",line)
             if regex_board_model != None:
                 if regex_board_model.group(1) not in g_config_file_content["Motherboard"]:
                     # board was not found in the config file, add it and set the 
@@ -133,7 +133,7 @@ def getCPU():
         print("Error Executing dmidecode")
         exit(1)
     for line in dmi_result:
-        regex_cpu = re.search("^\sVersion:\s+(.*)$",line)
+        regex_cpu = re.search(r"^\sVersion:\s+(.*)$",line)
         if regex_cpu != None:
             regex_cpu_version = str(regex_cpu.group(1)).rstrip()
             if regex_cpu_version not in g_config_file_content["CPU"]:
@@ -170,7 +170,7 @@ def getHBA():
     for line in storcli64_result.stdout:
         for model in hba_models.keys():
             # Model AdapterType VendId DevId SubVendId SubDevId PCIAddress 	
-            regex = re.search("({mdl}).*00:\w\w:\w\w:\w\w\s+$".format(mdl=model),line)
+            regex = re.search(r"({mdl}).*00:\w\w:\w\w:\w\w\s+$".format(mdl=model),line)
             if regex != None:
                 hba_models[model] += 1
                 
