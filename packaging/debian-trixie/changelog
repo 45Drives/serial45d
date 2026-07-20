@@ -1,3 +1,9 @@
+serial45d (3.0.36-1trixie) trixie; urgency=medium
+
+  * Fixes python script regex escape character issues showing on Python 3.12+
+
+ -- Jordan Keough <jkeough@45drives.com>  Mon, 20 Jul 2026 07:01:08 -0300
+
 serial45d (3.0.35-1trixie) trixie; urgency=medium
 
   * fix: add source format 1.0 for debian packaging
