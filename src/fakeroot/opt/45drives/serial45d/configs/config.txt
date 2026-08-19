@@ -29,6 +29,7 @@ Motherboard:B550I AORUS PRO AX
 Motherboard:ProArt X870E-CREATOR WIFI
 Motherboard:GENOAD8X-2T/BCM
 Motherboard:GENOAD8UD-2T/X550
+Motherboard:TURIND8X-2T/500W
 CPU:AMD EPYC 7252 8-Core Processor
 CPU:AMD EPYC 7281 16-Core Processor
 CPU:AMD EPYC 7282 16-Core Processor
@@ -85,6 +86,12 @@ Chassis Type:F8X3
 Chassis Type:NVME-F8X1
 Chassis Type:NVME-F8X2
 Chassis Type:NVME-F8X3
+Chassis Type:NVME-F8X1-U2
+Chassis Type:NVME-F8X2-U2
+Chassis Type:NVME-F8X3-U2
+Chassis Type:NVME-F8X1-EDSFF
+Chassis Type:NVME-F8X2-EDSFF
+Chassis Type:NVME-F8X3-EDSFF
 Chassis Type:HL4
 Chassis Type:HL8
 Chassis Type:HL15
@@ -217,6 +224,42 @@ Product Name:Storinator-NVME-F8X3-Enhanced-AMD
 Product Name:Storinator-NVME-F8X3-Enhanced-S
 Product Name:Storinator-NVME-F8X3-Turbo
 Product Name:Storinator-NVME-F8X3-Turbo-G
+Product Name:Storinator-NVME-F8X1-U2-Base-B
+Product Name:Storinator-NVME-F8X1-U2-Enhanced
+Product Name:Storinator-NVME-F8X1-U2-Enhanced-AMD
+Product Name:Storinator-NVME-F8X1-U2-Enhanced-S
+Product Name:Storinator-NVME-F8X1-U2-Turbo
+Product Name:Storinator-NVME-F8X1-U2-Turbo-G
+Product Name:Storinator-NVME-F8X2-U2-Base-B
+Product Name:Storinator-NVME-F8X2-U2-Enhanced
+Product Name:Storinator-NVME-F8X2-U2-Enhanced-AMD
+Product Name:Storinator-NVME-F8X2-U2-Enhanced-S
+Product Name:Storinator-NVME-F8X2-U2-Turbo
+Product Name:Storinator-NVME-F8X2-U2-Turbo-G
+Product Name:Storinator-NVME-F8X3-U2-Base-B
+Product Name:Storinator-NVME-F8X3-U2-Enhanced
+Product Name:Storinator-NVME-F8X3-U2-Enhanced-AMD
+Product Name:Storinator-NVME-F8X3-U2-Enhanced-S
+Product Name:Storinator-NVME-F8X3-U2-Turbo
+Product Name:Storinator-NVME-F8X3-U2-Turbo-G
+Product Name:Storinator-NVME-F8X1-EDSFF-Base-B
+Product Name:Storinator-NVME-F8X1-EDSFF-Enhanced
+Product Name:Storinator-NVME-F8X1-EDSFF-Enhanced-AMD
+Product Name:Storinator-NVME-F8X1-EDSFF-Enhanced-S
+Product Name:Storinator-NVME-F8X1-EDSFF-Turbo
+Product Name:Storinator-NVME-F8X1-EDSFF-Turbo-G
+Product Name:Storinator-NVME-F8X2-EDSFF-Base-B
+Product Name:Storinator-NVME-F8X2-EDSFF-Enhanced
+Product Name:Storinator-NVME-F8X2-EDSFF-Enhanced-AMD
+Product Name:Storinator-NVME-F8X2-EDSFF-Enhanced-S
+Product Name:Storinator-NVME-F8X2-EDSFF-Turbo
+Product Name:Storinator-NVME-F8X2-EDSFF-Turbo-G
+Product Name:Storinator-NVME-F8X3-EDSFF-Base-B
+Product Name:Storinator-NVME-F8X3-EDSFF-Enhanced
+Product Name:Storinator-NVME-F8X3-EDSFF-Enhanced-AMD
+Product Name:Storinator-NVME-F8X3-EDSFF-Enhanced-S
+Product Name:Storinator-NVME-F8X3-EDSFF-Turbo
+Product Name:Storinator-NVME-F8X3-EDSFF-Turbo-G
 Product Name:Storinator-H16-AV15-Enhanced
 Product Name:Storinator-H16-AV15-Enhanced-AMD
 Product Name:Storinator-H16-AV15-Enhanced-S
