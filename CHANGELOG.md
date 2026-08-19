@@ -1,3 +1,3 @@
-## Serial45d 3.0.36-1
+## Serial45d 3.0.37-1
 
-* Fixes python script regex escape character issues showing on Python 3.12+
+* Adds ASRockRack TURIN mobo and explicit NVME-F8X* chassis types
