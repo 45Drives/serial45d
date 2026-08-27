@@ -26,6 +26,7 @@ Motherboard:MC13-LE1-000
 Motherboard:MH53-G40-000
 Motherboard:MW34-SP0-00
 Motherboard:B550I AORUS PRO AX
+Motherboard:B860I WiFi
 Motherboard:ProArt X870E-CREATOR WIFI
 Motherboard:GENOAD8X-2T/BCM
 Motherboard:GENOAD8UD-2T/X550
@@ -97,6 +98,7 @@ Chassis Type:HL8
 Chassis Type:HL15
 Chassis Type:HL15_BEAST
 Chassis Type:X15
+Chassis Type:X4
 Chassis Type:PRO4
 Chassis Type:PRO8
 Chassis Type:PRO15
@@ -168,6 +170,7 @@ Product Name:HomeLab-HL8
 Product Name:HomeLab-HL15
 Product Name:HomeLab-HL15_BEAST
 Product Name:HomeLab-X15
+Product Name:HomeLab-X4
 Product Name:Professional-PRO4
 Product Name:Professional-PRO8
 Product Name:Professional-PRO15
