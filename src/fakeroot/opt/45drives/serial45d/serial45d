@@ -660,11 +660,11 @@ def enforce_homelab_blocks(fru_fields):
         print("")
         exit(2)
 
-    # Always block HL4 / HL8
-    if pn in ("HomeLab-HL4", "HomeLab-HL8"):
+    # Always block HL4 / HL8 / X4 (no BMC/IPMI on these boards)
+    if pn in ("HomeLab-HL4", "HomeLab-HL8", "HomeLab-X4"):
         _blocked([
             f"Detected product: {pn}",
-            "Policy: HomeLab HL4/HL8 units are serialized via serial.bat script."
+            "Policy: HomeLab HL4/HL8/X4 units are serialized via serial.bat script."
         ])
 
     # For HL15, only block the BEAST variant with this specific board
@@ -694,6 +694,8 @@ def maybe_fail_fast_after_chassis(auto_detect_fields, fru_fields):
             pn = "HomeLab-HL8"
         elif "HL15_BEAST" in ch:
             pn = "HomeLab-HL15_BEAST"
+        elif ch == "X4":
+            pn = "HomeLab-X4"
         # Plain HL15 is allowed; don't set pn for that case.
 
     if pn:
@@ -814,6 +816,8 @@ def assignProductName(auto_detect_fields,fru_fields):
                     fru_fields["version"] = "HomeLab"
                     auto_detect_fields["unique_product_str"] = "HomeLab-X15"
                     return
+
+
         
         if "Professional" in auto_detect_fields["product_type"]:
             if "PRO4" in auto_detect_fields["part_number"]:
