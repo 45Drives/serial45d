@@ -77,6 +77,7 @@ Chassis Type:2U
 Chassis Type:2UGW
 Chassis Type:2UGW-REV2
 Chassis Type:AV15
+Chassis Type:AV15_UBM
 Chassis Type:C8
 Chassis Type:C8_UBM
 Chassis Type:F2
@@ -103,8 +104,11 @@ Chassis Type:PRO15
 Chassis Type:MI4
 Chassis Type:MI4_UBM
 Chassis Type:Q30
+Chassis Type:Q30_UBM
 Chassis Type:S45
+Chassis Type:S45_UBM
 Chassis Type:XL60
+Chassis Type:XL60_UBM
 Chassis Type:VM8
 Chassis Type:VM16
 Chassis Type:VM32
@@ -178,6 +182,9 @@ Product Name:Storinator-AV15-Enhanced-AMD
 Product Name:Storinator-AV15-Enhanced-S
 Product Name:Storinator-AV15-Turbo
 Product Name:Storinator-AV15-Turbo-G
+Product Name:Storinator-AV15_UBM-Base
+Product Name:Storinator-AV15_UBM-Enhanced
+Product Name:Storinator-AV15_UBM-Turbo
 Product Name:Storinator-C8-Base
 Product Name:Storinator-C8-Base-B
 Product Name:Storinator-C8_UBM-Base
@@ -338,6 +345,9 @@ Product Name:Storinator-Q30-Enhanced-AMD
 Product Name:Storinator-Q30-Enhanced-S
 Product Name:Storinator-Q30-Turbo
 Product Name:Storinator-Q30-Turbo-G
+Product Name:Storinator-Q30_UBM-Base
+Product Name:Storinator-Q30_UBM-Enhanced
+Product Name:Storinator-Q30_UBM-Turbo
 Product Name:Storinator-S45-Base
 Product Name:Storinator-S45-Base-B
 Product Name:Storinator-S45-Enhanced
@@ -345,11 +355,16 @@ Product Name:Storinator-S45-Enhanced-AMD
 Product Name:Storinator-S45-Enhanced-S
 Product Name:Storinator-S45-Turbo
 Product Name:Storinator-S45-Turbo-G
+Product Name:Storinator-S45_UBM-Base
+Product Name:Storinator-S45_UBM-Enhanced
+Product Name:Storinator-S45_UBM-Turbo
 Product Name:Storinator-XL60-Enhanced
 Product Name:Storinator-XL60-Enhanced-AMD
 Product Name:Storinator-XL60-Enhanced-S
 Product Name:Storinator-XL60-Turbo
 Product Name:Storinator-XL60-Turbo-G
+Product Name:Storinator-XL60_UBM-Enhanced
+Product Name:Storinator-XL60_UBM-Turbo
 Product Name:Stornado-2U-Base-B
 Product Name:Stornado-2U-Enhanced-AMD
 Product Name:Stornado-2U-Enhanced-S
