@@ -914,6 +914,17 @@ def assignProductName(auto_detect_fields,fru_fields):
         for product in g_config_file_content["Product Name"]:
             if unique_product_str in product:
                 versions.append(product.split(unique_product_str)[1])
+
+        if not versions:
+            # No config entry matches this product/hybrid/chassis combination, so
+            # there is nothing to pick from and retrying would loop forever.
+            print("Product Configuration of \"{ps}\" is INVALID. \nRun Program again or contact 45Drives Support if issue persists.".format(ps=unique_product_str.rstrip("-")))
+            print("Valid Product Configurations: ")
+            for valid_product in g_config_file_content["Product Name"]:
+                print("\t{vp}".format(vp=valid_product))
+            input("Press ENTER to End Program.")
+            exit(0)
+
         print("Select a system version:")
         option = 0
         for version in versions:

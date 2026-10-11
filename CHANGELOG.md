@@ -1,3 +1,3 @@
-## Serial45d 3.0.35-1
+## Serial45d 3.0.37-1
 
-* fix: add source format 1.0 for debian packaging
+* Adds ASRockRack TURIN mobo and explicit NVME-F8X* chassis types
