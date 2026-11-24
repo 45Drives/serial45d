@@ -1,3 +1,10 @@
+serial45d (3.1.0-1focal) focal; urgency=medium
+
+  * Add support for storinator refresh models
+  * Add support for TURIND8UD-2T/X550 motherboard
+
+ -- Joshua Boudreau <jboudreau@45drives.com>  Tue, 24 Nov 2026 10:10:19 -0400
+
 serial45d (3.0.38-1focal) focal; urgency=medium
 
   * added support for X4
